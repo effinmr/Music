@@ -18,31 +18,31 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.contains
 import androidx.navigation.ui.setupWithNavController
-import code.name.monkey.retromusic.BuildConfig
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.activities.base.AbsCastActivity
 import code.name.monkey.retromusic.extensions.*
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.helper.SearchQueryHelper.getSongs
 import code.name.monkey.retromusic.interfaces.IScrollHelper
+import code.name.monkey.retromusic.interfaces.IMiniPlayerExpanded
 import code.name.monkey.retromusic.model.CategoryInfo
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.repository.PlaylistSongsLoader
 import code.name.monkey.retromusic.service.MusicService
 import code.name.monkey.retromusic.util.AppRater
 import code.name.monkey.retromusic.util.PreferenceUtil
-import code.name.monkey.retromusic.util.UpdateCheckerUtil
 import code.name.monkey.retromusic.util.logE
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
-import androidx.core.view.isVisible
-import code.name.monkey.retromusic.interfaces.IMiniPlayerExpanded
 
 class MainActivity : AbsCastActivity(), IMiniPlayerExpanded {
+
     companion object {
         const val TAG = "MainActivity"
         const val EXPAND_PANEL = "expand_panel"
@@ -54,15 +54,12 @@ class MainActivity : AbsCastActivity(), IMiniPlayerExpanded {
         hideStatusBar()
         updateTabs()
         AppRater.appLaunched(this)
-        //UpdateCheckerUtil.checkUpdate(this, lifecycleScope, this)
 
         setupNavigationController()
 
-        // Restore the navigation controller state if available
-        if (savedInstanceState != null) {
-            savedInstanceState.getBundle("nav_state")?.let {
-                findNavController(R.id.fragment_container).restoreState(it)
-            }
+        // Restore navigation state if present
+        savedInstanceState?.getBundle("nav_state")?.let {
+            findNavController(R.id.fragment_container).restoreState(it)
         }
 
         WhatsNewFragment.showChangeLog(this)
@@ -70,61 +67,58 @@ class MainActivity : AbsCastActivity(), IMiniPlayerExpanded {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        // Save the navigation controller state
         outState.putBundle("nav_state", findNavController(R.id.fragment_container).saveState())
     }
 
     private fun setupNavigationController() {
         val navController = findNavController(R.id.fragment_container)
-        val navInflater = navController.navInflater
-        val navGraph = navInflater.inflate(R.navigation.main_graph)
+        val navGraph = navController.navInflater.inflate(R.navigation.main_graph)
 
-        val categoryInfo: CategoryInfo = PreferenceUtil.libraryCategory.first { it.visible }
-        if (categoryInfo.visible) {
-            if (!navGraph.contains(PreferenceUtil.lastTab)) PreferenceUtil.lastTab =
-                categoryInfo.category.id
-            navGraph.setStartDestination(
-                if (PreferenceUtil.rememberLastTab) {
-                    PreferenceUtil.lastTab.let {
-                        if (it == 0) {
-                            categoryInfo.category.id
-                        } else {
-                            it
-                        }
-                    }
-                } else categoryInfo.category.id
-            )
+        val categoryInfo = PreferenceUtil.libraryCategory.firstOrNull { it.visible } ?: return
+
+        if (!navGraph.contains(PreferenceUtil.lastTab)) {
+            PreferenceUtil.lastTab = categoryInfo.category.id
         }
+
+        navGraph.setStartDestination(
+            if (PreferenceUtil.rememberLastTab) {
+                PreferenceUtil.lastTab.takeIf { it != 0 } ?: categoryInfo.category.id
+            } else categoryInfo.category.id
+        )
+
         navController.graph = navGraph
+        val startDestinationId = navGraph.startDestinationId
+
         navigationView.setupWithNavController(navController)
-        // Scroll Fragment to top
         navigationView.setOnItemReselectedListener {
             currentFragment(R.id.fragment_container).apply {
-                if (this is IScrollHelper) {
-                    scrollToTop()
-                }
+                if (this is IScrollHelper) scrollToTop()
             }
         }
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == navGraph.startDestinationId) {
+            if (destination.id == startDestinationId) {
                 currentFragment(R.id.fragment_container)?.enterTransition = null
             }
+
             when (destination.id) {
-                R.id.action_home, R.id.action_song, R.id.action_album, R.id.action_artist, R.id.action_folder, R.id.action_playlist, R.id.action_genre, R.id.action_search -> {
-                    // Save the last tab
-                    if (PreferenceUtil.rememberLastTab) {
-                        saveTab(destination.id)
-                    }
-                    // Show Bottom Navigation Bar
+                R.id.action_home,
+                R.id.action_song,
+                R.id.action_album,
+                R.id.action_artist,
+                R.id.action_folder,
+                R.id.action_playlist,
+                R.id.action_genre,
+                R.id.action_search -> {
+                    if (PreferenceUtil.rememberLastTab) saveTab(destination.id)
                     setBottomNavVisibility(visible = true, animate = true)
                 }
+
                 R.id.playing_queue_fragment -> {
                     setBottomNavVisibility(visible = false, hideBottomSheet = true)
                 }
-                else -> setBottomNavVisibility(
-                    visible = false,
-                    animate = true
-                ) // Hide Bottom Navigation Bar
+
+                else -> setBottomNavVisibility(visible = false, animate = true)
             }
         }
     }
@@ -134,6 +128,9 @@ class MainActivity : AbsCastActivity(), IMiniPlayerExpanded {
             PreferenceUtil.lastTab = id
         }
     }
+
+    override fun onSupportNavigateUp(): Boolean =
+        findNavController(R.id.fragment_container).navigateUp()
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
@@ -148,79 +145,89 @@ class MainActivity : AbsCastActivity(), IMiniPlayerExpanded {
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        intent ?: return
-        handlePlaybackIntent(intent)
+        intent?.let { handlePlaybackIntent(it) }
     }
 
     private fun handlePlaybackIntent(intent: Intent) {
         lifecycleScope.launch(IO) {
-            val uri: Uri? = intent.data
-            val mimeType: String? = intent.type
-            var handled = false
-            if (intent.action != null &&
-                intent.action == MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH
-            ) {
-                val songs: List<Song> = getSongs(intent.extras!!)
-                if (MusicPlayerRemote.shuffleMode == MusicService.SHUFFLE_MODE_SHUFFLE) {
-                    MusicPlayerRemote.openAndShuffleQueue(songs, true)
-                } else {
-                    MusicPlayerRemote.openQueue(songs, 0, true)
-                }
-                handled = true
+            val handled = when {
+                intent.action == MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH ->
+                    handleSearchIntent(intent)
+
+                intent.data?.toString()?.isNotEmpty() == true ->
+                    handleUriIntent(intent.data!!)
+
+                MediaStore.Audio.Playlists.CONTENT_TYPE == intent.type ->
+                    handlePlaylistIntent(intent)
+
+                MediaStore.Audio.Albums.CONTENT_TYPE == intent.type ->
+                    handleAlbumIntent(intent)
+
+                MediaStore.Audio.Artists.CONTENT_TYPE == intent.type ->
+                    handleArtistIntent(intent)
+
+                else -> false
             }
-            if (uri != null && uri.toString().isNotEmpty()) {
-                MusicPlayerRemote.playFromUri(this@MainActivity, uri)
-                handled = true
-            } else if (MediaStore.Audio.Playlists.CONTENT_TYPE == mimeType) {
-                val id = parseLongFromIntent(intent, "playlistId", "playlist")
-                if (id >= 0L) {
-                    val position: Int = intent.getIntExtra("position", 0)
-                    val songs: List<Song> = PlaylistSongsLoader.getPlaylistSongList(get(), id)
-                    MusicPlayerRemote.openQueue(songs, position, true)
-                    handled = true
-                }
-            } else if (MediaStore.Audio.Albums.CONTENT_TYPE == mimeType) {
-                val id = parseLongFromIntent(intent, "albumId", "album")
-                if (id >= 0L) {
-                    val position: Int = intent.getIntExtra("position", 0)
-                    val songs = libraryViewModel.albumById(id).songs
-                    MusicPlayerRemote.openQueue(
-                        songs,
-                        position,
-                        true
-                    )
-                    handled = true
-                }
-            } else if (MediaStore.Audio.Artists.CONTENT_TYPE == mimeType) {
-                val id = parseLongFromIntent(intent, "artistId", "artist")
-                if (id >= 0L) {
-                    val position: Int = intent.getIntExtra("position", 0)
-                    val songs: List<Song> = libraryViewModel.artistById(id).songs
-                    MusicPlayerRemote.openQueue(
-                        songs,
-                        position,
-                        true
-                    )
-                    handled = true
-                }
-            }
-            if (handled) {
-                setIntent(Intent())
-            }
+
+            if (handled) setIntent(Intent())
         }
     }
 
-    private fun parseLongFromIntent(
-        intent: Intent,
-        longKey: String,
-        stringKey: String,
-    ): Long {
+    private suspend fun handleSearchIntent(intent: Intent): Boolean {
+        val extras = intent.extras ?: return false
+        val songs = getSongs(extras)
+        if (MusicPlayerRemote.shuffleMode == MusicService.SHUFFLE_MODE_SHUFFLE) {
+            MusicPlayerRemote.openAndShuffleQueue(songs, true)
+        } else {
+            MusicPlayerRemote.openQueue(songs, 0, true)
+        }
+        return true
+    }
+
+    private suspend fun handleUriIntent(uri: Uri): Boolean {
+        MusicPlayerRemote.playFromUri(this, uri)
+        return true
+    }
+
+    private suspend fun handlePlaylistIntent(intent: Intent): Boolean {
+        val id = parseLongFromIntent(intent, "playlistId", "playlist")
+        if (id >= 0L) {
+            val position = intent.getIntExtra("position", 0)
+            val songs = PlaylistSongsLoader.getPlaylistSongList(get(), id)
+            MusicPlayerRemote.openQueue(songs, position, true)
+            return true
+        }
+        return false
+    }
+
+    private suspend fun handleAlbumIntent(intent: Intent): Boolean {
+        val id = parseLongFromIntent(intent, "albumId", "album")
+        if (id >= 0L) {
+            val position = intent.getIntExtra("position", 0)
+            val songs = withContext(IO) { libraryViewModel.albumById(id).songs }
+            MusicPlayerRemote.openQueue(songs, position, true)
+            return true
+        }
+        return false
+    }
+
+    private suspend fun handleArtistIntent(intent: Intent): Boolean {
+        val id = parseLongFromIntent(intent, "artistId", "artist")
+        if (id >= 0L) {
+            val position = intent.getIntExtra("position", 0)
+            val songs = withContext(IO) { libraryViewModel.artistById(id).songs }
+            MusicPlayerRemote.openQueue(songs, position, true)
+            return true
+        }
+        return false
+    }
+
+    private fun parseLongFromIntent(intent: Intent, longKey: String, stringKey: String): Long {
         var id = intent.getLongExtra(longKey, -1)
         if (id < 0) {
-            val idString = intent.getStringExtra(stringKey)
-            if (idString != null) {
+            intent.getStringExtra(stringKey)?.let {
                 try {
-                    id = idString.toLong()
+                    id = it.toLong()
                 } catch (e: NumberFormatException) {
                     logE(e)
                 }
