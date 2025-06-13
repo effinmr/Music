@@ -1,11 +1,11 @@
 <p align="center">
-  <a href="https://github.com/Sergey842248/Music/">
+  <a href="https://github.com/effinmr/Music/">
     <img src="app\src\main\ic_launcher.svg" height="256">
     <h1 align="center">Music Player</h1>
   </a>
 </p>
 <p align="center">
-  <a href="https://github.com/Sergey842248/Music/" style="text-decoration:none" area-label="Android">
+  <a href="https://github.com/effinmr/Music/" style="text-decoration:none" area-label="Android">
     <img src="https://img.shields.io/badge/Platform-Android-green.svg">
   </a>
 
@@ -16,9 +16,9 @@
 ## 🆕 Material You Design Music Player for Android music lovers 
 
 ## Download
-[<img src="https://raw.githubusercontent.com/Sergey842248/Music/refs/heads/main/app/src/main/assets/get-it-on-github.png"
+[<img src="https://raw.githubusercontent.com/effinmr/Music/refs/heads/main/app/src/main/assets/get-it-on-github.png"
       alt='Get it on GitHub'
-      height="80">](https://github.com/Sergey842248/Music/releases/latest)
+      height="80">](https://github.com/effinmr/Music/releases/latest)
 
 ## 📦 Included Features
 -  Base 3 themes (Clearly White, Kinda Dark and AMOLED)
@@ -44,7 +44,7 @@
 -  Create, edit and import playlists
 -  Playing queue with reorder
 -  User profile
--  30+ languages support (help translate the project: [Translate](https://github.com/Sergey842248/Music/blob/main/CONTRIBUTING.md)
+-  30+ languages support (help translate the project: [Translate](https://github.com/effinmr/Music/blob/main/CONTRIBUTING.md)
 -  Browse and play your music by songs, albums, artists, playlists and
   genres
 -  Smart Playlists - Recently played, most played and history
@@ -58,10 +58,10 @@ ___
 
 
 ## ❓ FAQ
-Please read the FAQ [here](https://github.com/Sergey842248/Music/blob/main/FAQ.md)
+Please read the FAQ [here](https://github.com/effinmr/Music/blob/main/FAQ.md)
 
-In any case, if you find or notice any bugs please report them by creating an issue or by contacting us in the [Report a Bug](https://github.com/Sergey842248/Music/issues/new?template=bug_report.md).
-If you have any feature suggestions, please create an issue with detailed information or by contacting us in the [Request a new feature](https://github.com/Sergey842248/Music/issues/new?template=feature_request.md).
+In any case, if you find or notice any bugs please report them by creating an issue or by contacting us in the [Report a Bug](https://github.com/effinmr/Music/issues/new?template=bug_report.md).
+If you have any feature suggestions, please create an issue with detailed information or by contacting us in the [Request a new feature](https://github.com/effinmr/Music/issues/new?template=feature_request.md).
 
 
 ## 🗂️ License
