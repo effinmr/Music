@@ -644,10 +644,10 @@
     <string name="pref_title_show_fab_on_scroll">Show FAB on Scroll</string>
     <string name="pref_summary_show_fab_on_scroll">Keep the Floating Action Button visible when scrolling</string>
 
-    <string name="pref_title_online_mode">Online Mode</string>
+    <string name="pref_title_offline_mode">Offline Mode</string>
     <string name="pref_title_auto_hide_mini_player">Auto-hide Mini Player</string>
     <string name="pref_summary_auto_hide_mini_player">Automatically hide the mini player when scrolling down and show it when scrolling up.</string>
-    <string name="pref_summary_online_mode">Fetch artist images and biographies from the internet</string>
+    <string name="pref_summary_offline_mode">Complete Offline Mode</string>
 
     <string name="pref_title_swap_shuffle_repeat">Swap Shuffle and Repeat Buttons</string>
     <string name="pref_summary_swap_shuffle_repeat">Swap the positions of the shuffle and repeat buttons on the now playing screen.</string>

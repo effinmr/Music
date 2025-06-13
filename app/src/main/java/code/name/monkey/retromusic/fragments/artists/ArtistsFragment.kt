@@ -63,7 +63,7 @@ class ArtistsFragment : AbsRecyclerViewCustomGridSizeFragment<ArtistAdapter, Gri
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            PreferenceUtil.ONLINE_MODE -> {
+            PreferenceUtil.OFFLINE_MODE -> {
                 libraryViewModel.forceReload(ReloadType.Artists)
             }
         }

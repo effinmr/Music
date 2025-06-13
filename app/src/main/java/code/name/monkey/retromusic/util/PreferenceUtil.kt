@@ -834,7 +834,7 @@ object PreferenceUtil {
     const val NOW_PLAYING_ACTION_BUTTONS_ORDER = "now_playing_action_buttons_order"
     const val NOW_PLAYING_ACTION_BUTTONS_VISIBILITY = "now_playing_action_buttons_visibility"
 
-    const val ONLINE_MODE = "online_mode"
+    const val OFFLINE_MODE = "offline_mode"
 
     var playerActionButtonsOrder: String
         get() = sharedPreferences.getStringOrDefault(PLAYER_ACTION_BUTTONS_ORDER, "")
@@ -870,9 +870,9 @@ object PreferenceUtil {
             sharedPreferences.edit { putString(NOW_PLAYING_ACTION_BUTTONS_VISIBILITY, json) }
         }
 
-    var isOnlineMode: Boolean
-        get() = sharedPreferences.getBoolean(ONLINE_MODE, true)
-        set(value) = sharedPreferences.edit { putBoolean(ONLINE_MODE, value) }
+    var isOfflineMode: Boolean
+        get() = sharedPreferences.getBoolean(OFFLINE_MODE, false)
+        set(value) = sharedPreferences.edit { putBoolean(OFFLINE_MODE, value) }
 
     const val SHOW_NOW_PLAYING_QUEUE_BUTTON = "show_now_playing_queue_button"
     const val SHOW_OPTIONS_MENU = "show_options_menu"

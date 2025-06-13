@@ -138,7 +138,7 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            PreferenceUtil.ONLINE_MODE -> {
+            PreferenceUtil.OFFLINE_MODE -> {
                 if (::artist.isInitialized) {
                     // Clear the current artist image to force a reload
                     Glide.with(this).clear(binding.image)
@@ -166,7 +166,7 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
     private fun showArtist(artist: Artist) {
         this.artist = artist
         loadArtistImage(artist)
-        if (PreferenceUtil.isOnlineMode && PreferenceUtil.isAllowedToDownloadMetadata(requireContext())) {
+        if ((!PreferenceUtil.isOfflineMode) && PreferenceUtil.isAllowedToDownloadMetadata(requireContext())) {
             loadBiography(artist.name)
             binding.fragmentArtistContent.biographyText.isVisible = true
             binding.fragmentArtistContent.biographyTitle.isVisible = true
@@ -253,7 +253,7 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
             .error(R.drawable.ic_artist) // Use existing ic_artist as a default error image
             .placeholder(R.drawable.ic_artist) // Use existing ic_artist as a placeholder image
 
-        if (!PreferenceUtil.isOnlineMode) {
+        if PreferenceUtil.isOfflineMode {
             glideRequest.load(RetroGlideExtension.getArtistModel(artist))
                 .dontAnimate()
                 .skipMemoryCache(false) // Allow caching of missing images/placeholders
