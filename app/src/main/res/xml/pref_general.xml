@@ -41,7 +41,6 @@
             android:layout="@layout/list_item_view_seekbar"
             android:defaultValue="14"
             android:max="24"
-            android:min="12"
             app:showSeekBarValue="true" />
 
     </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
