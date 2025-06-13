@@ -916,7 +916,7 @@ object PreferenceUtil {
 
     val enableSongTitleMarquee: Boolean
         get() = sharedPreferences.getBoolean(
-            ENABLE_SONG_TITLE_MARQUEE, true // Default to true
+            ENABLE_SONG_TITLE_MARQUEE, false // Default to true
         )
 
     val showFabOnScroll: Boolean
