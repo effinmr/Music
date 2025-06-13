@@ -80,10 +80,10 @@
 
         <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
             android:defaultValue="true"
-            android:key="online_mode"
+            android:key="offline_mode"
             android:layout="@layout/list_item_view_switch"
-            android:summary="@string/pref_summary_online_mode"
-            android:title="@string/pref_title_online_mode" />
+            android:summary="@string/pref_summary_offline_mode"
+            android:title="@string/pref_title_offline_mode" />
 
     </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
     <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
