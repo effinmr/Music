@@ -39,4 +39,7 @@
     <color name="widget_circle_button_color">@color/md_indigo_A400</color>
     <color name="widget_md3_button_bg_color">@color/lighterColorSurface</color>
     <color name="highlight_yellow">#FFFF00</color>
+	
+	<color name="search_bar_color">#10000000</color>
+	
 </resources>

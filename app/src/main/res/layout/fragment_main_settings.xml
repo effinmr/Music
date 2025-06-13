@@ -16,15 +16,20 @@
 
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
+	    android:id="@+id/search_view"
+	    android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:background="?attr/colorSurface"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_search_view"
+            android:iconifiedByDefault="false"
+            android:queryHint="@string/search_settings_hint"
+            android:elevation="4dp"
+            android:padding="4dp"
+            android:focusable="true"
             app:iconifiedByDefault="false"
-            app:queryHint="@string/search_settings_hint" />
+            app:queryBackground="@android:color/transparent"
+		/>
+
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/buyProContainer"

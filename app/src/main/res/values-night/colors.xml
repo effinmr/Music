@@ -5,4 +5,7 @@
 
     <color name="bottomSheetColor">#202020</color>
     <color name="widget_md3_bg_color">@color/darkerColorSurface</color>
+	
+	<color name="search_bar_color">#1AFFFFFF</color>
+	
 </resources>
