@@ -947,7 +947,7 @@ object PreferenceUtil {
 
     var songTextSize: Int
         get() = sharedPreferences.getInt(
-            SONG_TEXT_SIZE, 16 // Default font size
+            SONG_TEXT_SIZE, 14 // Default font size
         )
         set(value) = sharedPreferences.edit { putInt(SONG_TEXT_SIZE, value) }
 

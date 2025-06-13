@@ -39,7 +39,7 @@
             android:key="song_text_size"
             android:title="@string/pref_title_song_text_size"
             android:layout="@layout/list_item_view_seekbar"
-            android:defaultValue="16"
+            android:defaultValue="14"
             android:max="24"
             android:min="12"
             app:showSeekBarValue="true" />
