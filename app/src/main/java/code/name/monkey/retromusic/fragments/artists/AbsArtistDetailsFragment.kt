@@ -253,7 +253,7 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
             .error(R.drawable.ic_artist) // Use existing ic_artist as a default error image
             .placeholder(R.drawable.ic_artist) // Use existing ic_artist as a placeholder image
 
-        if PreferenceUtil.isOfflineMode {
+        if (PreferenceUtil.isOfflineMode) {
             glideRequest.load(RetroGlideExtension.getArtistModel(artist))
                 .dontAnimate()
                 .skipMemoryCache(false) // Allow caching of missing images/placeholders
