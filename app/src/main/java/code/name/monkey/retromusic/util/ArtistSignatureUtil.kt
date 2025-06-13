@@ -33,7 +33,7 @@ class ArtistSignatureUtil private constructor(context: Context) {
     }
 
     fun getArtistSignature(artistName: String?): ObjectKey {
-        return ObjectKey(getArtistSignatureRaw(artistName).toString() + PreferenceUtil.isOnlineMode.toString())
+        return ObjectKey(getArtistSignatureRaw(artistName).toString() + (!PreferenceUtil.isOfflineMode).toString())
     }
 
     companion object {
