@@ -35,12 +35,14 @@
             android:layout="@layout/list_item_view_switch_no_title"
             android:title="@string/pref_title_custom_font" />
 
-        <SeekBarPreference
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESeekBarPreference
             android:key="song_text_size"
             android:title="@string/pref_title_song_text_size"
+            android:layout="@layout/list_item_view_seekbar"
             android:defaultValue="16"
             android:max="24"
-            android:min="12" />
+            android:min="12"
+            app:showSeekBarValue="true" />
 
     </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
 
