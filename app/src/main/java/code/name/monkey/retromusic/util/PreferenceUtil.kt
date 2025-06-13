@@ -1040,14 +1040,14 @@ object PreferenceUtil {
             return try {
                 val set = Gson().fromJson<Set<Int>>(json, object : TypeToken<Set<Int>>() {}.type)
                 if (set.isEmpty()) {
-                    MetadataField.values().map { it.id }.toSet()
+                    emptySet()
                 } else {
                     set
                 }
             } catch (e: JsonSyntaxException) {
                 e.printStackTrace()
-                // Default visibility: all fields visible
-                MetadataField.values().map { it.id }.toSet()
+                // Default visibility: all fields invisible
+                emptySet()
             }
         }
         set(value) {
