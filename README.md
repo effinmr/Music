@@ -1,9 +1,3 @@
-# NOT DEVELOPED
-## Due to less time this one is no longer actively developed.
-### Please copy the code and rework it on your own.
-
-
-
 <p align="center">
   <a href="https://github.com/Sergey842248/Music/">
     <img src="app\src\main\ic_launcher.svg" height="256">
