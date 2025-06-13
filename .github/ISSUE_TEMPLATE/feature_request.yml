@@ -1,0 +1,32 @@
+name: Feature request
+description: Suggest an idea for Music
+labels: [enhancement]
+assignees: "Sergey842248"
+body:
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature description
+      description: What feature you want the app to have?
+      placeholder: |
+        A clear and concise desription of the feature.
+    validations:
+      required: true
+
+  - type: textarea
+    id: why-is-the-feature-requested
+    attributes:
+      label: Why do you want this feature?
+      description: Describe the problem or limitation that motivates you to want this feature to be added.
+      placeholder: |
+        Why dou you want this feature, where it helps or improves the app/user experience.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-information
+    attributes:
+      label: Additional information
+      description: Add any other context or attachments about the feature request here.
+      placeholder: |
+        Additional details and attachments.

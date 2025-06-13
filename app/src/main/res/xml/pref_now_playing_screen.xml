@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<code.name.monkey.retromusic.preferences.NowPlayingScreenPreference
+    android:key="now_playing_screen_id"
+    android:layout="@layout/list_item_view"
+    android:title="Now Playing Screen Appearance"
+    app:icon="@drawable/ic_play_circle_filled" />
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+    android:defaultValue="0"
+    android:entries="@array/artwork_click_options_entries"
+    android:entryValues="@array/artwork_click_options_values"
+    android:key="artwork_click_action"
+    android:layout="@layout/list_item_view"
+    android:title="Artwork Click Action" />
+
+
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+    android:defaultValue="false"
+    android:key="snowfall"
+    android:layout="@layout/list_item_view_switch_no_title"
+    android:title="Snowfall" />
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+    android:defaultValue="0"
+    android:entries="@array/pref_lyrics_type_entries"
+    android:entryValues="@array/pref_lyrics_type_values"
+    android:key="lyrics_type"
+    android:layout="@layout/list_item_view"
+    android:title="Lyrics Type" />
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+    android:defaultValue="false"
+    android:key="screen_on_lyrics"
+    android:layout="@layout/list_item_view_switch"
+    android:summary="@string/pref_keep_screen_on_summary"
+    android:title="Keep Screen On for Lyrics" />
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+    android:defaultValue="false"
+    android:key="circle_play_button"
+    android:layout="@layout/list_item_view_switch_no_title"
+    android:title="Circle Play Button" />
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+    android:defaultValue="true"
+    android:key="swipe_anywhere_now_playing"
+    android:layout="@layout/list_item_view_switch"
+    android:summary="@string/pref_summary_swipe_anywhere_now_playing"
+    android:title="Swipe Anywhere to Control" />
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
+    android:layout="@layout/preference_category_title"
+    android:title="General">
+
+        <code.name.monkey.retromusic.preferences.AlbumCoverStylePreference
+            android:key="album_cover_style_id"
+            android:layout="@layout/list_item_view"
+            android:title="@string/pref_title_album_cover_style"
+            app:icon="@drawable/ic_image" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+            android:defaultValue="0"
+            android:entries="@array/pref_album_cover_transform_entries"
+            android:entryValues="@array/pref_album_cover_transform_values"
+            android:key="album_cover_transform"
+            android:layout="@layout/list_item_view"
+            android:title="@string/pref_title_album_cover_transform" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:layout="@layout/list_item_view_switch"
+            app:defaultValue="false"
+            app:icon="@drawable/ic_view_carousel"
+            app:key="carousel_effect"
+            app:summary="@string/pref_summary_carousel_effect"
+            app:title="@string/pref_title_toggle_carousel_effect" />
+    </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
+    android:layout="@layout/preference_category_title"
+    android:title="Controls">
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+    android:layout="@layout/list_item_view_switch"
+    app:defaultValue="false"
+    app:key="swipe_to_dismiss"
+    app:summary="@string/pref_summary_swipe_to_dismiss"
+    app:title="Swipe to Dismiss" />
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+    android:layout="@layout/list_item_view_switch"
+    app:defaultValue="false"
+    app:key="disable_swipe_down_to_dismiss"
+    app:summary="Disable the swipe down gesture to close the expanded player. The back button will be required to close."
+    app:title="Disable Swipe Down to Close" />
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+    android:layout="@layout/list_item_view_switch"
+    app:defaultValue="false"
+    app:icon="@drawable/ic_play_arrow"
+    app:key="toggle_add_controls"
+    app:summary="@string/pref_summary_extra_controls"
+    app:title="Extra Controls" />
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+    android:layout="@layout/list_item_view_switch"
+    app:defaultValue="false"
+    app:icon="@drawable/ic_volume_up"
+    app:key="toggle_volume"
+    app:summary="@string/pref_summary_toggle_volume"
+    app:title="Toggle Volume" />
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+    android:layout="@layout/list_item_view_switch"
+    app:defaultValue="false"
+    app:icon="@drawable/ic_expand_less"
+    app:key="expand_now_playing_panel"
+    app:summary="@string/pref_summary_expand_now_playing_panel"
+    app:title="Expand Now Playing Panel" />
+
+<code.name.monkey.appthemehelper.common.prefs.supportv7.ATESeekBarPreference
+    android:defaultValue="12"
+    android:key="new_blur_amount"
+    android:layout="@layout/list_item_view_seekbar"
+    android:max="25"
+    android:summary="@string/pref_blur_amount_summary"
+    android:title="Blur Amount"
+    app:ateKey_pref_unit="px"
+    app:icon="@drawable/ic_blur_on"
+    app:showSeekBarValue="true" />
+    </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Action Buttons">
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:key="swap_shuffle_repeat_buttons"
+            android:layout="@layout/list_item_view_switch"
+            android:title="@string/pref_title_swap_shuffle_repeat"
+            android:summary="@string/pref_summary_swap_shuffle_repeat" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="show_sleep_timer_button"
+            android:layout="@layout/list_item_view_switch"
+            android:title="Show 'Sleep timer' Button" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="show_lyrics_button"
+            android:layout="@layout/list_item_view_switch"
+            android:title="Show 'Lyrics' Button" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="show_favorite_button"
+            android:layout="@layout/list_item_view_switch"
+            android:title="Show 'Add to favorites' Button" />
+
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="show_now_playing_queue_button"
+            android:layout="@layout/list_item_view_switch"
+            android:title="Show 'Now playing queue' Button" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="show_options_menu"
+            android:layout="@layout/list_item_view_switch"
+            android:title="Show 'More options' Menu" />
+
+    </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,66 @@
+name: Bug report
+description: Create a bug report to help us improve
+labels: [ bug ]
+body:
+  - type: textarea
+    id: bug
+    attributes:
+      label: A clear description of the Bug 
+      description: Which bugg occurs?
+      placeholder: |
+        Example: If I open the app it crashes
+    validations:
+      required: true
+    
+  - type: textarea
+    id: reproduce-steps
+    attributes:
+      label: Steps to reproduce the bug
+      description: What did you do for the bug to show up?
+      placeholder: |
+        Example:
+          1. Go to '...'
+          2. Click on '....'
+          3. Scroll down to '....'
+          4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      placeholder: |
+        Example:
+          "This should happen..."
+    validations:
+      required: false
+
+  - type: input
+    id: app-version
+    attributes:
+      label: Music version
+      description: |
+        You can find your Music version in: 3-dots at the top right > "Settings" > "About" > "Version".
+      placeholder: |
+        Example: "6.3.8"
+    validations:
+      required: true
+
+  - type: input
+    id: android-version
+    attributes:
+      label: Android version
+      description: |
+        You can find this somewhere in your Android settings.
+      placeholder: |
+        Example: "Android 15"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-information
+    attributes:
+      label: Additional information
+      placeholder: |
+        Additional details and attachments.

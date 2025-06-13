@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+        android:defaultValue="@string/fab_action_shuffle"
+        android:entries="@array/pref_songs_fab_action_titles"
+        android:entryValues="@array/pref_songs_fab_action_values"
+        android:key="songs_fab_action"
+        android:layout="@layout/list_item_view"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_songs_fab_action"
+        android:summary="@string/pref_summary_songs_fab_action" />
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+        android:defaultValue="@string/fab_action_shuffle"
+        android:entries="@array/pref_songs_fab_action_titles"
+        android:entryValues="@array/pref_songs_fab_action_values"
+        android:key="artists_fab_action"
+        android:layout="@layout/list_item_view"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_artists_fab_action"
+        android:summary="@string/pref_summary_artists_fab_action" />
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+        android:defaultValue="@string/fab_action_shuffle"
+        android:entries="@array/pref_songs_fab_action_titles"
+        android:entryValues="@array/pref_songs_fab_action_values"
+        android:key="albums_fab_action"
+        android:layout="@layout/list_item_view"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_albums_fab_action"
+        android:summary="@string/pref_summary_albums_fab_action" />
+
+</androidx.preference.PreferenceScreen>

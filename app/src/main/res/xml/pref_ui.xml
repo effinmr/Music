@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
+        android:layout="@layout/preference_category_title"
+        app:title="@string/home">
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+            android:defaultValue="0"
+            android:entries="@array/pref_home_grid_style_list_titles"
+            android:entryValues="@array/pref_home_grid_style_list_values"
+            android:key="home_artist_grid_style"
+            android:layout="@layout/list_item_view"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_home_artist_grid_style"
+            app:icon="@drawable/ic_home" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+            android:defaultValue="4"
+            android:entries="@array/pref_home_grid_style_list_titles"
+            android:entryValues="@array/pref_home_grid_style_list_values"
+            android:key="home_album_grid_style"
+            android:layout="@layout/list_item_view"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_home_album_grid_style" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:key="toggle_home_banner"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_home_banner"
+            android:title="@string/pref_title_home_banner" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="toggle_suggestions"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_suggestions"
+            android:title="@string/pref_title_suggestions" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:key="pause_history"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_pause_history"
+            android:title="@string/pref_title_pause_history" />
+
+    </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="@string/pref_header_library">
+
+        <code.name.monkey.retromusic.preferences.LibraryPreference
+            android:key="library_categories"
+            android:layout="@layout/list_item_view"
+            android:summary="@string/pref_summary_library_categories"
+            android:title="@string/library_categories"
+            app:icon="@drawable/ic_library_music" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="remember_last_tab"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_remember_tab"
+            android:title="@string/pref_title_remember_tab" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="enable_search_playlist"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_enable_search_playlist"
+            android:title="@string/pref_title_enable_search_playlist" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+            android:defaultValue="0"
+            android:entries="@array/pref_tab_text_mode_titles"
+            android:entryValues="@array/pref_tab_text_mode_values"
+            android:key="tab_text_mode"
+            android:layout="@layout/list_item_view"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_tab_text_mode" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+            android:defaultValue="1"
+            android:entries="@array/pref_appbar_mode_titles"
+            android:entryValues="@array/pref_appbar_mode_values"
+            android:key="appbar_mode"
+            android:layout="@layout/list_item_view"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_appbar_mode" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="show_song_menu_grid"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_show_song_menu_grid"
+            android:title="@string/pref_title_show_song_menu_grid" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="enable_song_title_marquee"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_enable_song_title_marquee"
+            android:title="@string/pref_title_enable_song_title_marquee" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="show_covers_in_songs_tab"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_show_covers_in_list_views"
+            android:title="@string/pref_title_show_covers_in_list_views"
+            app:icon="@drawable/ic_image" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:key="show_artist_in_songs"
+            android:defaultValue="true"
+            android:layout="@layout/list_item_view_switch"
+            android:title="@string/pref_title_show_artist_in_songs"
+            android:summary="@string/pref_summary_show_artist_in_songs" />
+
+        <Preference
+            android:key="custom_fallback_artwork"
+            android:layout="@layout/list_item_view"
+            android:title="@string/pref_title_custom_fallback_artwork"
+            android:summary="@string/pref_summary_custom_fallback_artwork"
+            app:icon="@drawable/ic_image" />
+
+        <Preference
+            android:key="reset_custom_fallback_artwork"
+            android:layout="@layout/list_item_view"
+            android:title="@string/pref_title_reset_custom_fallback_artwork" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:key="hide_duplicate_songs"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_hide_duplicate_songs"
+            android:title="@string/pref_title_hide_duplicate_songs" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:key="prefer_higher_bitrate_songs"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_prefer_higher_bitrate_songs"
+            android:title="@string/pref_title_prefer_higher_bitrate_songs" />
+
+    </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
+
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Floating Action Button">
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+        android:defaultValue="@string/fab_action_shuffle"
+        android:entries="@array/pref_songs_fab_action_titles"
+        android:entryValues="@array/pref_songs_fab_action_values"
+        android:key="songs_fab_action"
+        android:layout="@layout/list_item_view"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_songs_fab_action"
+        android:summary="@string/pref_summary_songs_fab_action" />
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+        android:defaultValue="@string/fab_action_shuffle"
+        android:entries="@array/pref_songs_fab_action_titles"
+        android:entryValues="@array/pref_songs_fab_action_values"
+        android:key="artists_fab_action"
+        android:layout="@layout/list_item_view"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_artists_fab_action"
+        android:summary="@string/pref_summary_artists_fab_action" />
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+        android:defaultValue="@string/fab_action_shuffle"
+        android:entries="@array/pref_songs_fab_action_titles"
+        android:entryValues="@array/pref_songs_fab_action_values"
+        android:key="albums_fab_action"
+        android:layout="@layout/list_item_view"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_albums_fab_action"
+        android:summary="@string/pref_summary_albums_fab_action" />
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+        android:defaultValue="false"
+        android:key="show_fab_on_scroll"
+        android:layout="@layout/list_item_view_switch"
+        android:summary="@string/pref_summary_show_fab_on_scroll"
+        android:title="@string/pref_title_show_fab_on_scroll" />
+
+    </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
+
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="@string/window">
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:key="toggle_full_screen"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_toggle_full_screen"
+            android:title="@string/pref_title_toggle_full_screen"
+            app:icon="@drawable/ic_fullscreen" />
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="show_songs_search_button"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_show_songs_search_button"
+            android:title="@string/pref_title_show_songs_search_button" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="show_cast_button"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_show_cast_button"
+            android:title="@string/pref_title_show_cast_button" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:key="keep_header_visible"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/keep_header_visible_summary"
+            android:title="@string/keep_header_visible_title" />
+    </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="@string/pref_header_now_playing">
+
+        <androidx.preference.Preference
+            android:key="now_playing_metadata"
+            android:layout="@layout/list_item_view"
+            android:title="@string/pref_header_now_playing_metadata"
+            android:summary="@string/pref_summary_extra_song_info" />
+
+        <MultiSelectListPreference
+            android:key="disabled_now_playing_taps"
+            android:title="@string/pref_title_disabled_now_playing_taps"
+            android:summary="@string/pref_summary_disabled_now_playing_taps"
+            android:entries="@array/pref_disabled_now_playing_taps_titles"
+            android:entryValues="@array/pref_disabled_now_playing_taps_values"
+            android:defaultValue="@array/pref_disabled_now_playing_taps_default_value"
+            android:layout="@layout/list_item_view" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="mini_player_scrolling"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_mini_player_scrolling"
+            android:title="@string/pref_title_mini_player_scrolling" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+            android:defaultValue="2"
+            android:entries="@array/mini_player_time_entries"
+            android:entryValues="@array/mini_player_time_values"
+            android:key="mini_player_time"
+            android:layout="@layout/list_item_view"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_mini_player_time"
+            android:summary="@string/pref_summary_mini_player_time" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:key="auto_hide_mini_player"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_auto_hide_mini_player"
+            android:title="@string/pref_title_auto_hide_mini_player" />
+    </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
+
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="@string/pref_header_lockscreen">
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="true"
+            android:key="album_art_on_lock_screen"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_album_art_on_lockscreen"
+            android:title="@string/pref_title_album_art_on_lockscreen" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:dependency="album_art_on_lock_screen"
+            android:key="blurred_album_art"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_blurred_album_art"
+            android:title="@string/pref_title_blurred_album_art" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:key="lock_screen"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_lock_screen"
+            android:title="@string/pref_title_lock_screen" />
+    </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

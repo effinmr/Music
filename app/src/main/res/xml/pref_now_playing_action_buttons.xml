@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <code.name.monkey.retromusic.preferences.NowPlayingActionButtonsPreference
+        android:key="now_playing_action_buttons"
+        android:title="Now Playing Action Buttons Order and Visibility"
+        android:summary="Select and reorder action buttons on the Now Playing screen"
+        app:icon="@drawable/ic_settings"
+        android:fragment="code.name.monkey.retromusic.preferences.NowPlayingActionButtonsPreferenceDialog"/>
+
+</androidx.preference.PreferenceScreen>
