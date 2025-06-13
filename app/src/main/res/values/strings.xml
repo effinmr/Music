@@ -76,7 +76,7 @@
         <item quantity="other">Albums</item>
     </plurals>
     <string name="always">Always</string>
-    <string name="app_name" translatable="false">Music</string>
+    <string name="app_name" translatable="false">Effin Music</string>
     <string name="app_share">Hey check out this cool music player at: https://play.google.com/store/apps/details?id=%s</string>
     <string name="app_shortcut_shuffle_all_short">Shuffle</string>
     <string name="app_shortcut_top_tracks_short">Top Tracks</string>

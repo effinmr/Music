@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object UpdateCheckerUtil {
 
-    private const val GITHUB_OWNER = "Sergey842248"
+    private const val GITHUB_OWNER = "effinmr"
     private const val GITHUB_REPO = "Music"
     private const val GITHUB_BASE_URL = "https://api.github.com/"
 

@@ -1,7 +1,7 @@
 # Contributing
 
 ## Using the issue tracker
-The [issue tracker](https://github.com/Sergey842248/Music/issues) is the preferred channel for bug reports, feature requests and [Pull Requests](https://github.com/Sergey842248/Music/pulls) for submitting pull requests, but please follow these rules:
+The [issue tracker](https://github.com/effinmr/Music/issues) is the preferred channel for bug reports, feature requests and [Pull Requests](https://github.com/effinmr/Music/pulls) for submitting pull requests, but please follow these rules:
 
 * Please **do not** derail or troll issues. Keep the discussion on topic and respect the opinions of others.
 

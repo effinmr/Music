@@ -1,7 +1,7 @@
 name: Feature request
 description: Suggest an idea for Music
 labels: [enhancement]
-assignees: "Sergey842248"
+assignees: "effinmr"
 body:
   - type: textarea
     id: feature-description

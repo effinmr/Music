@@ -19,13 +19,13 @@ import android.provider.MediaStore
 
 object Constants {
     const val PRO_VERSION_PRODUCT_ID = "pro_version"
-    const val WEBSITE = "https://github.com/Sergey842248/Music"
-    const val GITHUB_PROJECT = "https://github.com/Sergey842248/Music"
+    const val WEBSITE = "https://github.com/effinmr/Music"
+    const val GITHUB_PROJECT = "https://github.com/effinmr/Music"
     const val USER_PROFILE = "profile.jpg"
     const val USER_BANNER = "banner.jpg"
-    const val FAQ_LINK = "https://github.com/Sergey842248/Music/blob/master/FAQ.md"
-    const val BUG = "https://github.com/Sergey842248/Music/issues/new?template=bug_report.md"
-    const val CHANGELOG = "https://github.com/Sergey842248/Music/releases"
+    const val FAQ_LINK = "https://github.com/effinmr/Music/blob/master/FAQ.md"
+    const val BUG = "https://github.com/effinmr/Music/issues/new?template=bug_report.md"
+    const val CHANGELOG = "https://github.com/effinmr/Music/releases"
 
 
     const val IS_MUSIC =
