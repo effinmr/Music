@@ -42,7 +42,7 @@ class ArtistImageFetcher(
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
         try {
             if (!MusicUtil.isArtistNameUnknown(model.artist.name) &&
-                PreferenceUtil.isOnlineMode &&
+                (!PreferenceUtil.isOfflineMode) &&
                 PreferenceUtil.isAllowedToDownloadMetadata(context)
             ) {
                 val artists = model.artist.name.split(",", "&")
