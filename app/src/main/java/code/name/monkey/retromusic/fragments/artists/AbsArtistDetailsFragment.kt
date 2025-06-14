@@ -3,10 +3,12 @@ package code.name.monkey.retromusic.fragments.artists
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Spanned
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.PopupMenu
@@ -48,9 +50,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import java.util.*
+import android.content.SharedPreferences
 
 abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_artist_details),
-    IAlbumClickListener {
+    IAlbumClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
     private var _binding: FragmentArtistDetailsBinding? = null
     private val binding get() = _binding!!
 
@@ -76,11 +79,20 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(surfaceColor())
         }
+        PreferenceUtil.registerOnSharedPreferenceChangedListener(this)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentArtistDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentArtistDetailsBinding.bind(view)
         mainActivity.addMusicServiceEventListener(detailsViewModel)
         mainActivity.setSupportActionBar(binding.toolbar)
         binding.toolbar.title = null
@@ -114,8 +126,30 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
             MaterialShapeDrawable.createWithElevationOverlay(requireContext())
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        PreferenceUtil.unregisterOnSharedPreferenceChangedListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            PreferenceUtil.OFFLINE_MODE -> {
+                if (::artist.isInitialized) {
+                    // Clear the current artist image to force a reload
+                    Glide.with(this).clear(binding.image)
+                    showArtist(artist)
+                }
+            }
+        }
+    }
+
     private fun setupRecyclerView() {
-        albumAdapter = HorizontalAlbumAdapter(requireActivity(), ArrayList(), this)
+        albumAdapter = HorizontalAlbumAdapter(requireActivity(), ArrayList(), this, true)
         binding.fragmentArtistContent.albumRecyclerView.apply {
             itemAnimator = DefaultItemAnimator()
             layoutManager = GridLayoutManager(this.context, 1, GridLayoutManager.HORIZONTAL, false)
@@ -130,14 +164,24 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
     }
 
     private fun showArtist(artist: Artist) {
-        if (artist.songCount == 0) {
-            findNavController().navigateUp()
-            return
-        }
         this.artist = artist
         loadArtistImage(artist)
-        if (PreferenceUtil.isAllowedToDownloadMetadata(requireContext())) {
+        if ((!PreferenceUtil.isOfflineMode) && PreferenceUtil.isAllowedToDownloadMetadata(requireContext())) {
             loadBiography(artist.name)
+            binding.fragmentArtistContent.biographyText.isVisible = true
+            binding.fragmentArtistContent.biographyTitle.isVisible = true
+            binding.fragmentArtistContent.listeners.isVisible = true
+            binding.fragmentArtistContent.listenersLabel.isVisible = true
+            binding.fragmentArtistContent.scrobbles.isVisible = true
+            binding.fragmentArtistContent.scrobblesLabel.isVisible = true
+
+        } else {
+            binding.fragmentArtistContent.biographyText.isVisible = false
+            binding.fragmentArtistContent.biographyTitle.isVisible = false
+             binding.fragmentArtistContent.listeners.isVisible = false
+             binding.fragmentArtistContent.listenersLabel.isVisible = false
+             binding.fragmentArtistContent.scrobbles.isVisible = false
+             binding.fragmentArtistContent.scrobblesLabel.isVisible = false
         }
         binding.artistTitle.text = artist.name
         binding.text.text = String.format(
@@ -201,14 +245,28 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
         }
     }
 
+
     private fun loadArtistImage(artist: Artist) {
-        Glide.with(requireContext()).asBitmapPalette().artistImageOptions(artist)
-            .load(RetroGlideExtension.getArtistModel(artist)).dontAnimate()
-            .into(object : SingleColorTarget(binding.image) {
-                override fun onColorReady(color: Int) {
-                    setColors(color)
-                }
-            })
+        val glideRequest = Glide.with(requireContext())
+            .asBitmapPalette()
+            .artistImageOptions(artist)
+            .error(R.drawable.ic_artist) // Use existing ic_artist as a default error image
+            .placeholder(R.drawable.ic_artist) // Use existing ic_artist as a placeholder image
+
+        if (PreferenceUtil.isOfflineMode) {
+            glideRequest.load(RetroGlideExtension.getArtistModel(artist))
+                .dontAnimate()
+                .skipMemoryCache(false) // Allow caching of missing images/placeholders
+                .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.AUTOMATIC) // Use default caching strategy
+        } else {
+            glideRequest.load(RetroGlideExtension.getArtistModel(artist))
+                .dontAnimate()
+        }
+        glideRequest.into(object : SingleColorTarget(binding.image) {
+            override fun onColorReady(color: Int) {
+                setColors(color)
+            }
+        })
     }
 
     private fun setColors(color: Int) {
@@ -392,10 +450,5 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
 
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_artist_detail, menu)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
