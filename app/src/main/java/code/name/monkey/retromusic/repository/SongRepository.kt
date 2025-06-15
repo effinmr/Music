@@ -164,6 +164,7 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val id = cursor.getLong(AudioColumns._ID)
         val title = cursor.getString(AudioColumns.TITLE)
         val trackNumber = cursor.getInt(AudioColumns.TRACK)
+        val year = cursor.getInt(AudioColumns.YEAR)
         val duration = cursor.getLong(AudioColumns.DURATION)
         val data = cursor.getString(Constants.DATA)
         val dateModified = cursor.getLong(AudioColumns.DATE_MODIFIED)
@@ -173,49 +174,13 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val artistName = cursor.getStringOrNull(AudioColumns.ARTIST)
         val composer = cursor.getStringOrNull(AudioColumns.COMPOSER)
         val albumArtist = cursor.getStringOrNull("album_artist")
-
-        var finalYear: String? = null
-        val file = File(data)
         val extension = file.extension.lowercase()
-
-        // Only attempt to read tags for supported audio formats
-        val supportedFormats = listOf("mp3", "flac", "ogg", "wav", "aac") // Removed "m4a" due to frequent metadata issues and NullPointerExceptions
-        if (data.isNotEmpty() && extension in supportedFormats) {
-            try {
-                val audioFile = AudioFileIO.read(file)
-                val tag = audioFile.tagOrCreateDefault
-                var yearFromTag = tag.getFirst(FieldKey.YEAR)
-
-                if (yearFromTag.isNotEmpty()) {
-                    // Extract only the year part if it's a date string (e.g., "YYYY-MM-DD")
-                    if (yearFromTag.contains("-") && yearFromTag.length >= 4) {
-                        yearFromTag = yearFromTag.substring(0, 4)
-                    }
-                    finalYear = yearFromTag
-                }
-            } catch (e: org.jaudiotagger.audio.exceptions.CannotReadException) {
-                // Log as debug, as it's expected for some formats or corrupted files
-                Log.d("SongRepository", "Skipping tag reading for unsupported format or corrupted file: $data")
-            } catch (e: NullPointerException) {
-                // Catch NullPointerException specifically for jaudiotagger issues
-                Log.d("SongRepository", "NullPointerException during tag reading for file: $data. Falling back to MediaStore.", e)
-            } catch (e: Exception) {
-                Log.e("SongRepository", "Error reading audio file tags for year: $data", e)
-            }
-        } else if (data.isNotEmpty()) {
-            Log.d("SongRepository", "Skipping tag reading for unsupported format: $extension for file: $data")
-        }
-
-        // Fallback to MediaStore year if tag reading didn't provide a valid year
-        if (finalYear.isNullOrEmpty()) {
-            finalYear = cursor.getStringOrNull(AudioColumns.YEAR)
-        }
 
         return Song(
             id,
             title,
             trackNumber,
-            finalYear,
+            year,
             duration,
             data,
             dateModified,
