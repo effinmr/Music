@@ -52,7 +52,6 @@ class RealArtistRepository(
             // Get Various Artists
             val songs = songRepository
                 .songs(hideDuplicates = PreferenceUtil.hideDuplicateSongs)
-                .filter { it.artistId == artistId }
 
             val albums = albumRepository.splitIntoAlbums(songs)
                 .filter { it.albumArtist == Artist.VARIOUS_ARTISTS_DISPLAY_NAME }
