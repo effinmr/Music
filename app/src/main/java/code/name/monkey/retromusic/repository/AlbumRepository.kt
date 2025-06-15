@@ -39,7 +39,6 @@ class RealAlbumRepository(private val songRepository: RealSongRepository) :
     override fun albums(): List<Album> {
         val songs = songRepository
             .songs(hideDuplicates = PreferenceUtil.hideDuplicateSongs)
-            .filter { it.artistId == artistId }
         return splitIntoAlbums(songs)
     }
 
