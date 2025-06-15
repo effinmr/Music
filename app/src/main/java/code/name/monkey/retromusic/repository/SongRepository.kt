@@ -159,7 +159,7 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val id = cursor.getLong(AudioColumns._ID)
         val title = cursor.getString(AudioColumns.TITLE)
         val trackNumber = cursor.getInt(AudioColumns.TRACK)
-        val year = cursor.getInt(AudioColumns.YEAR)
+        val year = cursor.getStringOrNull(AudioColumns.YEAR)
         val duration = cursor.getLong(AudioColumns.DURATION)
         val data = cursor.getString(Constants.DATA)
         val dateModified = cursor.getLong(AudioColumns.DATE_MODIFIED)
