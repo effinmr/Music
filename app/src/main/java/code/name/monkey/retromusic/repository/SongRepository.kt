@@ -186,7 +186,7 @@ class RealSongRepository(private val context: Context) : SongRepository {
             retriever.release()
             date?.takeIf { it.isNotBlank() }
         } catch (e: Exception) {
-            cursor.getInt(AudioColumns.YEAR).toString()
+            cursor.getStringOrNull(AudioColumns.YEAR).toString()
         }
 
         return Song(
