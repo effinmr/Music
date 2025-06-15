@@ -82,7 +82,7 @@ class RealSongRepository(private val context: Context) : SongRepository {
     val Song.dedupKey: String
         get() {
             val extension = data.substringAfterLast('.', "").lowercase()
-            return "$title|$artistName|.$extension"
+            return "$title|$artistName"
         }
 
     override fun songs(cursor: Cursor?): List<Song> {
@@ -169,7 +169,6 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val artistName = cursor.getStringOrNull(AudioColumns.ARTIST)
         val composer = cursor.getStringOrNull(AudioColumns.COMPOSER)
         val albumArtist = cursor.getStringOrNull("album_artist")
-        val extension = file.extension.lowercase()
 
         return Song(
             id,
