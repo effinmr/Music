@@ -65,11 +65,30 @@ class RealSongRepository(private val context: Context) : SongRepository {
     override fun songs(hideDuplicates: Boolean): List<Song> {
         val allSongs = sortedSongs(makeSongCursor(null, null))
         return if (hideDuplicates) {
-            allSongs.distinctBy { it.title + it.artistName }
+            allSongs.deduplicateByKey()
         } else {
             allSongs
         }
     }
+
+    fun List<Song>.deduplicateByKey(): List<Song> {
+        val seen = HashSet<String>()
+        val uniqueSongs = mutableListOf<Song>()
+
+        for (song in this) {
+            if (seen.add(song.dedupKey)) {
+                uniqueSongs.add(song)
+            }
+        }
+
+        return uniqueSongs
+    }
+
+    val Song.dedupKey: String
+        get() {
+            val extension = data.substringAfterLast('.', "").lowercase()
+            return "$title|$artistName|.$extension"
+        }
 
     override fun songs(cursor: Cursor?): List<Song> {
         val songs = arrayListOf<Song>()
