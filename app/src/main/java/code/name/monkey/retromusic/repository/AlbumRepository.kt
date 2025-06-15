@@ -37,8 +37,14 @@ class RealAlbumRepository(private val songRepository: RealSongRepository) :
     AlbumRepository {
 
     override fun albums(): List<Album> {
-        val songs = songRepository
-            .songs(hideDuplicates = PreferenceUtil.hideDuplicateSongs)
+        val songs = songRepository.songs(
+            songRepository.makeSongCursor(
+                null,
+                null,
+                getSongLoaderSortOrder()
+            ),
+            hideDuplicates = PreferenceUtil.hideDuplicateSongs
+        )
         return splitIntoAlbums(songs)
     }
 
@@ -55,11 +61,11 @@ class RealAlbumRepository(private val songRepository: RealSongRepository) :
 
     override fun album(albumId: Long): Album {
         val cursor = songRepository.makeSongCursor(
-            AudioColumns.ALBUM_ID + "=?",
+            "${AudioColumns.ALBUM_ID} = ?",
             arrayOf(albumId.toString()),
             getSongLoaderSortOrder()
         )
-        val songs = songRepository.songs(cursor)
+        val songs = songRepository.songs(cursor, hideDuplicates = PreferenceUtil.hideDuplicateSongs)
         val album = Album(albumId, songs)
         return sortAlbumSongs(album)
     }
