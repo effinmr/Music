@@ -157,7 +157,7 @@
         android:title="Floating Action Button">
 
     <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
-        android:defaultValue="@string/fab_action_shuffle"
+        android:defaultValue="@string/shuffle"
         android:entries="@array/pref_songs_fab_action_titles"
         android:entryValues="@array/pref_songs_fab_action_values"
         android:key="songs_fab_action"
@@ -168,7 +168,7 @@
         android:summary="@string/pref_summary_songs_fab_action" />
 
     <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
-        android:defaultValue="@string/fab_action_shuffle"
+        android:defaultValue="@string/shuffle"
         android:entries="@array/pref_songs_fab_action_titles"
         android:entryValues="@array/pref_songs_fab_action_values"
         android:key="artists_fab_action"
@@ -179,7 +179,7 @@
         android:summary="@string/pref_summary_artists_fab_action" />
 
     <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
-        android:defaultValue="@string/fab_action_shuffle"
+        android:defaultValue="@string/shuffle"
         android:entries="@array/pref_songs_fab_action_titles"
         android:entryValues="@array/pref_songs_fab_action_values"
         android:key="albums_fab_action"
