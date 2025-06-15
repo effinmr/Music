@@ -173,9 +173,9 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val year = try {
             val retriever = MediaMetadataRetriever()
             retriever.setDataSource(data)
-            val y = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR)
+            val date = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE)
             retriever.release()
-            y?.takeIf { it.isNotBlank() && it != "0" }
+            date?.takeIf { it.isNotBlank() }
         } catch (e: Exception) {
             null
         }
