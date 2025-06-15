@@ -34,6 +34,7 @@ import code.name.monkey.retromusic.providers.BlacklistStore
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.getExternalStoragePublicDirectory
 import java.text.Collator
+import android.media.MediaMetadataRetriever
 
 /**
  * Created by hemanths on 10/08/17.
@@ -159,7 +160,6 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val id = cursor.getLong(AudioColumns._ID)
         val title = cursor.getString(AudioColumns.TITLE)
         val trackNumber = cursor.getInt(AudioColumns.TRACK)
-        val year = cursor.getStringOrNull(AudioColumns.YEAR)
         val duration = cursor.getLong(AudioColumns.DURATION)
         val data = cursor.getString(Constants.DATA)
         val dateModified = cursor.getLong(AudioColumns.DATE_MODIFIED)
@@ -169,6 +169,16 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val artistName = cursor.getStringOrNull(AudioColumns.ARTIST)
         val composer = cursor.getStringOrNull(AudioColumns.COMPOSER)
         val albumArtist = cursor.getStringOrNull("album_artist")
+
+        val year = try {
+            val retriever = MediaMetadataRetriever()
+            retriever.setDataSource(data)
+            val y = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR)
+            retriever.release()
+            y?.takeIf { it.isNotBlank() && it != "0" }
+        } catch (e: Exception) {
+            null
+        }
 
         return Song(
             id,
