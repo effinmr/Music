@@ -170,7 +170,7 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val composer = cursor.getStringOrNull(AudioColumns.COMPOSER)
         val albumArtist = cursor.getStringOrNull("album_artist")
 
-        val year = cursor.getInt(AudioColumns.YEAR)
+        val year = cursor.getStringOrNull(AudioColumns.YEAR)
 
         return Song(
             id,
