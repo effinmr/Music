@@ -1,7 +1,7 @@
 <p align="center">
   <a href="https://github.com/effinmr/Music/">
     <img src="app\src\main\ic_launcher.svg" height="256">
-    <h1 align="center">Music Player</h1>
+    <h1 align="center">Effin Music Player</h1>
   </a>
 </p>
 <p align="center">
