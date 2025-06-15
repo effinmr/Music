@@ -58,7 +58,7 @@ interface SongRepository {
 
 class RealSongRepository(private val context: Context) : SongRepository {
 
-    override fun songs(hideDuplicates: Boolean): List<Song> {Add commentMore actions
+    override fun songs(hideDuplicates: Boolean): List<Song> {
         val allSongs = sortedSongs(makeSongCursor(null, null))
         return if (hideDuplicates) {
             allSongs.deduplicateByKey()
