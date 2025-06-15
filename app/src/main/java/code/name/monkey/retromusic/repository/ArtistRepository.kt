@@ -50,17 +50,28 @@ class RealArtistRepository(
     override fun artist(artistId: Long): Artist {
         if (artistId == Artist.VARIOUS_ARTISTS_ID) {
             // Get Various Artists
-            val songs = songRepository
-                .songs(hideDuplicates = PreferenceUtil.hideDuplicateSongs)
+            val songs = songRepository.songs(
+                songRepository.makeSongCursor(
+                    null,
+                    null,
+                    getSongLoaderSortOrder()
+                ),
+                hideDuplicates = PreferenceUtil.hideDuplicateSongs
+            )
 
             val albums = albumRepository.splitIntoAlbums(songs)
                 .filter { it.albumArtist == Artist.VARIOUS_ARTISTS_DISPLAY_NAME }
             return Artist(Artist.VARIOUS_ARTISTS_ID, albums)
         }
 
-        val songs = songRepository
-            .songs(hideDuplicates = PreferenceUtil.hideDuplicateSongs)
-            .filter { it.artistId == artistId }
+        val songs = songRepository.songs(
+            songRepository.makeSongCursor(
+                AudioColumns.ARTIST_ID + "=?",
+                arrayOf(artistId.toString()),
+                getSongLoaderSortOrder()
+            ),
+            hideDuplicates = PreferenceUtil.hideDuplicateSongs
+        )
         return Artist(artistId, albumRepository.splitIntoAlbums(songs))
     }
 
