@@ -33,12 +33,7 @@ import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.providers.BlacklistStore
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.getExternalStoragePublicDirectory
-import org.jaudiotagger.audio.AudioFileIO
-import org.jaudiotagger.tag.FieldKey
-import java.io.File
 import java.text.Collator
-import java.lang.NumberFormatException
-import android.util.Log
 
 /**
  * Created by hemanths on 10/08/17.
