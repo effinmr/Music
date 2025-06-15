@@ -803,22 +803,28 @@ object PreferenceUtil {
         )
 
     var songsFabAction: String
-        get() = sharedPreferences.getStringOrDefault(
-            SONGS_FAB_ACTION, FAB_ACTION_SHUFFLE // Default to shuffle
-        )
-        set(value) = sharedPreferences.edit { putString(SONGS_FAB_ACTION, value) }
+        get() = sharedPreferences.getString(SONGS_FAB_ACTION, null) ?: FAB_ACTION_SHUFFLE
+        set(value) {
+            sharedPreferences.edit {
+                putString(SONGS_FAB_ACTION, value)
+            }
+        }
 
     var artistsFabAction: String
-        get() = sharedPreferences.getStringOrDefault(
-            ARTISTS_FAB_ACTION, FAB_ACTION_SHUFFLE // Default to shuffle
-        )
-        set(value) = sharedPreferences.edit { putString(ARTISTS_FAB_ACTION, value) }
+        get() = sharedPreferences.getString(ARTISTS_FAB_ACTION, null) ?: FAB_ACTION_SHUFFLE
+        set(value) {
+            sharedPreferences.edit {
+                putString(ARTISTS_FAB_ACTION, value)
+            }
+        }
 
     var albumsFabAction: String
-        get() = sharedPreferences.getStringOrDefault(
-            ALBUMS_FAB_ACTION, FAB_ACTION_SHUFFLE // Default to shuffle
-        )
-        set(value) = sharedPreferences.edit { putString(ALBUMS_FAB_ACTION, value) }
+        get() = sharedPreferences.getString(ALBUMS_FAB_ACTION, null) ?: FAB_ACTION_SHUFFLE
+        set(value) {
+            sharedPreferences.edit {
+                putString(ALBUMS_FAB_ACTION, value)
+            }
+        }
 
     val artworkClickAction: Int
         get() = sharedPreferences.getStringOrDefault(ARTWORK_CLICK_ACTION, "0").toInt()
