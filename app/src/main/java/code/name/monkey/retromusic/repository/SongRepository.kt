@@ -67,6 +67,15 @@ class RealSongRepository(private val context: Context) : SongRepository {
         }
     }
 
+    fun songs(cursor: Cursor?, hideDuplicates: Boolean): List<Song> {
+        val allSongs = sortedSongs(cursor)
+        return if (hideDuplicates) {
+            allSongs.deduplicateByKey()
+        } else {
+            allSongs
+        }
+    }
+
     fun List<Song>.deduplicateByKey(): List<Song> {
         val seen = HashSet<String>()
         val uniqueSongs = mutableListOf<Song>()
