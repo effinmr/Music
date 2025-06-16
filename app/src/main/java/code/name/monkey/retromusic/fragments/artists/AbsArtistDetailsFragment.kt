@@ -198,11 +198,8 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
         binding.fragmentArtistContent.songTitle.text = songText
         binding.fragmentArtistContent.albumTitle.text = albumText
         
-        val sortedSongs = sortSongs(artist.songs, PreferenceUtil.artistDetailSongSortOrder)
-        val sortedAlbums = sortAlbums(artist.albums, PreferenceUtil.artistAlbumSortOrder)
-        
-        songAdapter.swapDataSet(sortedSongs)
-        albumAdapter.swapDataSet(sortedAlbums)
+        songAdapter.swapDataSet(artist.sortedSongs)
+        albumAdapter.swapDataSet(artist.sortedAlbums)
 
     }
 
