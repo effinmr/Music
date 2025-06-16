@@ -250,7 +250,8 @@
     <string-array name="pref_disabled_now_playing_taps_values">
         <item>album_art</item>
         <item>seek_bar</item>
-        <item>title_artist</item>
+        <item>title</item>
+        <item>artist</item>
         <item>lyrics</item>
     </string-array>
 
