@@ -302,6 +302,8 @@ object MusicPlayerRemote : KoinComponent {
                 queue.add(song)
                 openQueue(queue, 0, false)
             }
+            musicService?.showToast(R.string.added_title_to_playing_queue)
+            return true
         }
         return false
     }
@@ -314,6 +316,13 @@ object MusicPlayerRemote : KoinComponent {
             } else {
                 openQueue(songs, 0, false)
             }
+            val toast =
+                if (songs.size == 1) musicService!!.resources.getString(R.string.added_title_to_playing_queue) else musicService!!.resources.getString(
+                    R.string.added_x_titles_to_playing_queue,
+                    songs.size
+                )
+            musicService?.showToast(toast, Toast.LENGTH_SHORT)
+            return true
         }
         return false
     }
@@ -327,6 +336,8 @@ object MusicPlayerRemote : KoinComponent {
                 queue.add(song)
                 openQueue(queue, 0, false)
             }
+            musicService?.showToast(R.string.added_title_to_playing_queue)
+            return true
         }
         return false
     }
@@ -338,6 +349,13 @@ object MusicPlayerRemote : KoinComponent {
             } else {
                 openQueue(songs, 0, false)
             }
+            val toast =
+                if (songs.size == 1) musicService!!.resources.getString(R.string.added_title_to_playing_queue) else musicService!!.resources.getString(
+                    R.string.added_x_titles_to_playing_queue,
+                    songs.size
+                )
+            musicService?.showToast(toast)
+            return true
         }
         return false
     }
