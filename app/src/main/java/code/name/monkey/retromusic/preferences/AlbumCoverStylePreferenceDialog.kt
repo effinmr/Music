@@ -77,12 +77,7 @@ class AlbumCoverStylePreferenceDialog : DialogFragment(),
         return materialDialog(R.string.pref_title_album_cover_style)
             .setPositiveButton(R.string.set) { _, _ ->
                 val coverStyle = values()[viewPagerPosition]
-                if (isAlbumCoverStyle(coverStyle)) {
-                    val result = getString(coverStyle.titleRes) + " theme is Pro version feature."
-                    showToast(result)
-                    requireContext().goToProVersion()
-                } else {
-                    PreferenceUtil.albumCoverStyle = coverStyle
+                PreferenceUtil.albumCoverStyle = coverStyle
                 }
             }
             .setView(binding.root)
