@@ -179,18 +179,15 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val composer = cursor.getStringOrNull(AudioColumns.COMPOSER)
         val albumArtist = cursor.getStringOrNull("album_artist")
 
-        val finalYear = try {
+        var finalYear = try {
             val retriever = MediaMetadataRetriever()
             retriever.setDataSource(data)
             val date = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE)
             retriever.release()
-            date?.takeIf { it.isNotBlank() }
+            date?.takeIf { it.length >= 4 }?.substring(0, 4)?.takeIf { it.all { c -> c.isDigit() } }
+            ?: cursor.getStringOrNull(AudioColumns.YEAR)
         } catch (e: Exception) {
             cursor.getStringOrNull(AudioColumns.YEAR)
-        }
-
-        if (finalYear.isNullOrEmpty()) {
-            finalYear = cursor.getStringOrNull(AudioColumns.YEAR)
         }
 
         return Song(
