@@ -268,7 +268,9 @@ abstract class AbsPlayerControlsFragment(@LayoutRes layout: Int) : AbsMusicServi
                 constraintSet.connect(repeatButton.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
                 constraintSet.setHorizontalBias(repeatButton.id, 0.5f) // Maintain horizontal bias
 
-                constraintSet.applyTo(it)
+                constraintSet.applyTo(parent)
+                parent.requestLayout()
+                parent.invalidate()
             }
         }
     }
