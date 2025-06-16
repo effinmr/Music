@@ -57,8 +57,7 @@ class SongsFragment : AbsRecyclerViewCustomGridSizeFragment<SongAdapter, GridLay
 
 
     override val isShuffleVisible: Boolean
-        get() = PreferenceUtil.songsFabAction != PreferenceUtil.FAB_ACTION_DISABLED &&
-                !(PreferenceUtil.songsFabAction == PreferenceUtil.FAB_ACTION_SEARCH && !PreferenceUtil.showSongsSearchButton)
+        get() = PreferenceUtil.songsFabAction != PreferenceUtil.FAB_ACTION_DISABLED
 
     override fun onShuffleClicked() {
         when (PreferenceUtil.songsFabAction) {
@@ -377,16 +376,12 @@ class SongsFragment : AbsRecyclerViewCustomGridSizeFragment<SongAdapter, GridLay
     }
 
     private fun updateFabIcon() {
-        if (!PreferenceUtil.showSongsSearchButton && PreferenceUtil.songsFabAction == PreferenceUtil.FAB_ACTION_SEARCH) {
-            shuffleButton.visibility = View.GONE
-        } else {
-            shuffleButton.visibility = View.VISIBLE
-            when (PreferenceUtil.songsFabAction) {
-                PreferenceUtil.FAB_ACTION_SHUFFLE -> shuffleButton.setImageResource(R.drawable.ic_shuffle)
-                PreferenceUtil.FAB_ACTION_SEARCH -> shuffleButton.setImageResource(R.drawable.ic_search)
-                PreferenceUtil.FAB_ACTION_PLAY_NEXT -> shuffleButton.setImageResource(R.drawable.ic_play_arrow)
-                PreferenceUtil.FAB_ACTION_DISABLED -> { /* FAB is hidden by isShuffleVisible */ }
-            }
+        shuffleButton.visibility = View.VISIBLE
+        when (PreferenceUtil.songsFabAction) {
+            PreferenceUtil.FAB_ACTION_SHUFFLE -> shuffleButton.setImageResource(R.drawable.ic_shuffle)
+            PreferenceUtil.FAB_ACTION_SEARCH -> shuffleButton.setImageResource(R.drawable.ic_search)
+            PreferenceUtil.FAB_ACTION_PLAY_NEXT -> shuffleButton.setImageResource(R.drawable.ic_play_arrow)
+            PreferenceUtil.FAB_ACTION_DISABLED -> { /* FAB is hidden by isShuffleVisible */ }
         }
     }
 
