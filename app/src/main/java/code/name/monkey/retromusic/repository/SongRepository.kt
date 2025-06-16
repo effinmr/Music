@@ -178,8 +178,9 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val artistName = cursor.getStringOrNull(AudioColumns.ARTIST)
         val composer = cursor.getStringOrNull(AudioColumns.COMPOSER)
         val albumArtist = cursor.getStringOrNull("album_artist")
+        val year = cursor.getStringOrNull(AudioColumns.YEAR)
 
-        var finalYear = try {
+        var date = try {
             val retriever = MediaMetadataRetriever()
             retriever.setDataSource(data)
             val date = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE)
@@ -194,7 +195,7 @@ class RealSongRepository(private val context: Context) : SongRepository {
             id,
             title,
             trackNumber,
-            finalYear,
+            year,
             duration,
             data,
             dateModified,
