@@ -18,7 +18,6 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 
 object Constants {
-    const val PRO_VERSION_PRODUCT_ID = "pro_version"
     const val WEBSITE = "https://github.com/effinmr/Music"
     const val GITHUB_PROJECT = "https://github.com/effinmr/Music"
     const val USER_PROFILE = "profile.jpg"
@@ -160,7 +159,7 @@ const val MANAGE_AUDIO_FOCUS = "manage_audio_focus"
 const val SWIPE_DOWN_DISMISS = "swipe_to_dismiss"
 const val ENABLE_SEARCH_PLAYLIST= "enable_search_playlist"
 const val ARTWORK_CLICK_ACTION = "artwork_click_action"
-const val DISABLE_SWIPE_DOWN_TO_DISMISS = "disable_swipe_down_to_disismiss"
+const val DISABLE_SWIPE_DOWN_TO_DISMISS = "disable_swipe_down_to_dismiss"
 const val ENABLE_SONG_TITLE_MARQUEE = "enable_song_title_marquee"
 const val SHOW_FAB_ON_SCROLL = "show_fab_on_scroll"
 const val MINI_PLAYER_SCROLLING = "mini_player_scrolling"
