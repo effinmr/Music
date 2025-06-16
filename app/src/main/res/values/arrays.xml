@@ -243,7 +243,8 @@
     <string-array name="pref_disabled_now_playing_taps_titles">
         <item>Album Art</item>
         <item>Seek Bar</item>
-        <item>Title and Artist</item>
+        <item>Title</item>
+        <item>Artist</item>
         <item>Lyrics</item>
     </string-array>
 

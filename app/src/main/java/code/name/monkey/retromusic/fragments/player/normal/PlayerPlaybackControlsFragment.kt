@@ -19,6 +19,7 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import code.name.monkey.appthemehelper.util.ATHUtil
 import code.name.monkey.appthemehelper.util.ColorUtil
@@ -89,11 +90,13 @@ class PlayerPlaybackControlsFragment :
         setUpPlayPauseFab()
         binding.title.isSelected = true
         binding.text.isSelected = true
+
         binding.title.setOnClickListener {
             if (!PreferenceUtil.disabledNowPlayingTaps.contains("title")) {
                 goToAlbum(requireActivity())
             }
         }
+
         binding.text.setOnClickListener {
             if (!PreferenceUtil.disabledNowPlayingTaps.contains("artist")) {
                 if (individualArtists.size > 1) {
@@ -102,26 +105,41 @@ class PlayerPlaybackControlsFragment :
                         .setItems(individualArtists.toTypedArray()) { _, which ->
                             val selectedArtistName = individualArtists[which]
                             lifecycleScope.launch(Dispatchers.IO) {
-                                // Find the artist by name from the list of all artists
                                 val allArtists = (requireParentFragment() as AbsPlayerFragment).libraryViewModel.artists.value
-                                val selectedArtist = allArtists?.find { artist -> artist.name == selectedArtistName }
+                                val selectedArtist = allArtists?.find {
+                                    it.name.equals(selectedArtistName, ignoreCase = true)
+                                }
                                 withContext(Dispatchers.Main) {
                                     if (selectedArtist != null) {
-                                        goToArtist(requireActivity(), selectedArtistName, selectedArtist.id)
+                                        goToArtist(requireActivity(), selectedArtist.name, selectedArtist.id)
                                     } else {
-                                        // If artist not found by ID, navigate by name.
-                                        // Use a placeholder ID (e.g., 0L) to indicate navigation by name.
-                                        goToArtist(requireActivity(), selectedArtistName, 0L)
+                                        Toast.makeText(requireContext(), "Artist not found: $selectedArtistName", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             }
                         }
                         .show()
                 } else {
-                    goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPlayerRemote.currentSong.artistId)
+                    val artistName = MusicPlayerRemote.currentSong.artistName
+                    val artistId = MusicPlayerRemote.currentSong.artistId
+
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val allArtists = (requireParentFragment() as AbsPlayerFragment).libraryViewModel.artists.value
+                        val artist = allArtists?.find {
+                            it.name.equals(artistName, ignoreCase = true)
+                        }
+                        withContext(Dispatchers.Main) {
+                            if (artist != null) {
+                                goToArtist(requireActivity(), artist.name, artist.id)
+                            } else {
+                                Toast.makeText(requireContext(), "Artist not found: $artistName", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
                 }
             }
         }
+
         PreferenceManager.getDefaultSharedPreferences(requireContext())
             .registerOnSharedPreferenceChangeListener(this)
     }
