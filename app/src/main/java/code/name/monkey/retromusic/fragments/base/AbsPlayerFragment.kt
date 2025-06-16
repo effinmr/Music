@@ -491,18 +491,14 @@ fun goToArtist(activity: Activity, artistName: String, artistId: Long) {
             collapsePanel()
         }
 
-        try {
-            val bundle = bundleOf(EXTRA_ARTIST_ID to artistId)
-            if (artistId == 0L) { // Our placeholder for navigating by name
-                bundle.putString(EXTRA_ARTIST_NAME, artistName)
-            }
-            findNavController(R.id.fragment_container).navigate(
-                R.id.artistDetailsFragment,
-                bundle
-            )
-        } catch (e: Exception) {
-            showToast("Artist not found")
+        val bundle = bundleOf(EXTRA_ARTIST_ID to artistId)
+        if (artistId == 0L) { // Our placeholder for navigating by name
+            bundle.putString(EXTRA_ARTIST_NAME, artistName)
         }
+        findNavController(R.id.fragment_container).navigate(
+            R.id.artistDetailsFragment,
+            bundle
+        )
     }
 }
 
