@@ -346,6 +346,7 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
                         R.id.action_sort_order_title -> SortOrder.ArtistSongSortOrder.SONG_A_Z
                         R.id.action_sort_order_title_desc -> SortOrder.ArtistSongSortOrder.SONG_Z_A
                         R.id.action_sort_order_album -> SortOrder.ArtistSongSortOrder.SONG_ALBUM
+                        R.id.action_sort_order_album_year -> SortOrder.ArtistSongSortOrder.SONG_ALBUM_YEAR
                         R.id.action_sort_order_year -> SortOrder.ArtistSongSortOrder.SONG_YEAR
                         R.id.action_sort_order_song_duration -> SortOrder.ArtistSongSortOrder.SONG_DURATION
                         else -> {
@@ -424,6 +425,9 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
                 true
 
             SortOrder.ArtistSongSortOrder.SONG_ALBUM -> sortOrder.findItem(R.id.action_sort_order_album).isChecked =
+                true
+
+            SortOrder.ArtistSongSortOrder.SONG_ALBUM_YEAR -> sortOrder.findItem(R.id.action_sort_order_album_year).isChecked =
                 true
 
             SortOrder.ArtistSongSortOrder.SONG_YEAR -> sortOrder.findItem(R.id.action_sort_order_year).isChecked =
