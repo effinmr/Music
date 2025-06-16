@@ -18,7 +18,6 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 
 object Constants {
-    const val PRO_VERSION_PRODUCT_ID = "pro_version"
     const val WEBSITE = "https://github.com/effinmr/Music"
     const val GITHUB_PROJECT = "https://github.com/effinmr/Music"
     const val USER_PROFILE = "profile.jpg"
