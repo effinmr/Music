@@ -382,7 +382,6 @@ class SongsFragment : AbsRecyclerViewCustomGridSizeFragment<SongAdapter, GridLay
             PreferenceUtil.FAB_ACTION_SEARCH -> shuffleButton.setImageResource(R.drawable.ic_search)
             PreferenceUtil.FAB_ACTION_PLAY_NEXT -> shuffleButton.setImageResource(R.drawable.ic_play_arrow)
             PreferenceUtil.FAB_ACTION_DISABLED -> { /* FAB is hidden by isShuffleVisible */ }
-            }
         }
     }
 
