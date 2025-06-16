@@ -180,11 +180,7 @@ abstract class AbsPlayerFragment(@LayoutRes layout: Int) : AbsMusicServiceFragme
             }
 
             R.id.action_go_to_artist -> {
-                try {
-                    goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPlayerRemote.currentSong.artistId)
-                } catch (e: Exception) {
-                    showToast("Artist not found")
-                }
+                goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPlayerRemote.currentSong.artistId)
                 return true
             }
 
@@ -495,14 +491,18 @@ fun goToArtist(activity: Activity, artistName: String, artistId: Long) {
             collapsePanel()
         }
 
-        val bundle = bundleOf(EXTRA_ARTIST_ID to artistId)
-        if (artistId == 0L) { // Our placeholder for navigating by name
-            bundle.putString(EXTRA_ARTIST_NAME, artistName)
+        try {
+            val bundle = bundleOf(EXTRA_ARTIST_ID to artistId)
+            if (artistId == 0L) { // Our placeholder for navigating by name
+                bundle.putString(EXTRA_ARTIST_NAME, artistName)
+            }
+            findNavController(R.id.fragment_container).navigate(
+                R.id.artistDetailsFragment,
+                bundle
+            )
+        } catch (e: Exception) {
+            showToast("Artist not found")
         }
-        findNavController(R.id.fragment_container).navigate(
-            R.id.artistDetailsFragment,
-            bundle
-        )
     }
 }
 
