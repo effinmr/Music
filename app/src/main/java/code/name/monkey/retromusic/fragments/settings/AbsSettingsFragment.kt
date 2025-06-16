@@ -26,7 +26,6 @@ import androidx.preference.PreferenceManager
 import code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceFragmentCompat
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.extensions.dip
-import code.name.monkey.retromusic.extensions.goToProVersion
 import code.name.monkey.retromusic.extensions.showToast
 import code.name.monkey.retromusic.preferences.*
 import dev.chrisbanes.insetter.applyInsetter
@@ -44,12 +43,7 @@ abstract class AbsSettingsFragment : ATEPreferenceFragmentCompat() {
         val themedContext = ContextThemeWrapper(context, context.getThemeResValue())
         super.onAttach(themedContext)
     }
-
-    internal fun showProToastAndNavigate(message: String) {
-        showToast(getString(R.string.message_pro_feature, message))
-        requireContext().goToProVersion()
-    }
-
+    
     internal fun setSummary(preference: Preference, value: Any?) {
         val stringValue = value.toString()
         if (preference is ListPreference) {
