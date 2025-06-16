@@ -90,12 +90,12 @@ class PlayerPlaybackControlsFragment :
         binding.title.isSelected = true
         binding.text.isSelected = true
         binding.title.setOnClickListener {
-            if (!PreferenceUtil.disabledNowPlayingTaps.contains("title_artist")) {
+            if (!PreferenceUtil.disabledNowPlayingTaps.contains("title")) {
                 goToAlbum(requireActivity())
             }
         }
         binding.text.setOnClickListener {
-            if (!PreferenceUtil.disabledNowPlayingTaps.contains("title_artist")) {
+            if (!PreferenceUtil.disabledNowPlayingTaps.contains("artist")) {
                 if (individualArtists.size > 1) {
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(R.string.select_artist)
