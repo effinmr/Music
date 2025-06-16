@@ -88,7 +88,6 @@ class NowPlayingScreenPreferenceDialog : DialogFragment(), ViewPager.OnPageChang
                 val nowPlayingScreen = values()[viewPagerPosition]
                 PreferenceUtil.nowPlayingScreen = nowPlayingScreen
                 }
-            }
             .setView(view)
             .create()
             .colorButtons()

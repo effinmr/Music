@@ -79,7 +79,6 @@ class AlbumCoverStylePreferenceDialog : DialogFragment(),
                 val coverStyle = values()[viewPagerPosition]
                 PreferenceUtil.albumCoverStyle = coverStyle
                 }
-            }
             .setView(binding.root)
             .create()
             .colorButtons()
