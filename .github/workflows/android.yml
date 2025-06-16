@@ -21,10 +21,10 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Debug APK
-        run: ./gradlew assembleFdroidRelease
+        run: ./gradlew assembleFdroidRelease assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug.apk-${{ github.run_number }}
-          path: app/build/outputs/apk/fdroid/release/*.apk
+          path: app/build/outputs/apk/
