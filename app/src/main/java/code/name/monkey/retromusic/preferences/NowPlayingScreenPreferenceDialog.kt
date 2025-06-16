@@ -86,13 +86,7 @@ class NowPlayingScreenPreferenceDialog : DialogFragment(), ViewPager.OnPageChang
             .setCancelable(false)
             .setPositiveButton(R.string.set) { _, _ ->
                 val nowPlayingScreen = values()[viewPagerPosition]
-                if (isNowPlayingThemes(nowPlayingScreen)) {
-                    val result =
-                        "${getString(nowPlayingScreen.titleRes)} theme is Pro version feature."
-                    showToast(result)
-                    requireContext().goToProVersion()
-                } else {
-                    PreferenceUtil.nowPlayingScreen = nowPlayingScreen
+                PreferenceUtil.nowPlayingScreen = nowPlayingScreen
                 }
             }
             .setView(view)
