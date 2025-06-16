@@ -200,20 +200,23 @@ class AlbumDetailsFragment : AbsMainActivityFragment(R.layout.fragment_album_det
             album.songCount
         )
         binding.fragmentAlbumContent.songTitle.text = songText
-        if (MusicUtil.getYearString(album.year) == "-") {
-            binding.albumText.text = String.format(
-                "%s • %s",
+        
+        val date    = album.date?.takeIf { it.isNotBlank() }
+        val year    = date?.let { Regex("""\d{4}""").find(it)?.value }
+
+        binding.albumText.text = if (year == null) {
+            "%s • %s".format(
                 if (albumArtistExists) album.albumArtist else album.artistName,
                 MusicUtil.getReadableDurationString(MusicUtil.getTotalDuration(album.songs))
             )
         } else {
-            binding.albumText.text = String.format(
-                "%s • %s • %s",
+            "%s • %s • %s".format(
                 album.artistName,
-                MusicUtil.getYearString(album.year),
+                year,
                 MusicUtil.getReadableDurationString(MusicUtil.getTotalDuration(album.songs))
             )
         }
+        
         loadAlbumCover(album)
         simpleSongAdapter.swapDataSet(album.songs)
         if (albumArtistExists) {
