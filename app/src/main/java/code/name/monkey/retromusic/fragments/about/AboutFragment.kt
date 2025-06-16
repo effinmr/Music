@@ -83,9 +83,10 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener {
     }
 
     private fun shareApp() {
-        ShareCompat.IntentBuilder(requireActivity()).setType("text/plain")
+        ShareCompat.IntentBuilder(requireActivity())
+            .setType("text/plain")
             .setChooserTitle(R.string.share_app)
-            .setText(String.format(getString(R.string.app_share), requireActivity().packageName))
+            .setText("Hey check out this cool music player at: https://github.com/effinmr/EffinMusic")
             .startChooser()
     }
 
