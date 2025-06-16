@@ -52,10 +52,6 @@ fun FragmentActivity.installLanguageAndRecreate(code: String, onInstallComplete:
     }
 }
 
-fun Context.goToProVersion() {
-    startActivity(Intent(this, PurchaseActivity::class.java))
-}
-
 fun Context.installSplitCompat() {
     SplitCompat.install(this)
 }
