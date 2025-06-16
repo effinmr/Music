@@ -28,7 +28,6 @@ import code.name.monkey.retromusic.App
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.databinding.FragmentMainSettingsBinding
 import code.name.monkey.retromusic.extensions.drawAboveSystemBarsWithPadding
-import code.name.monkey.retromusic.extensions.goToProVersion
 import code.name.monkey.retromusic.model.SearchableSetting
 import code.name.monkey.retromusic.views.SettingListItemView // Ensure this import is present
 import androidx.navigation.NavOptions
@@ -240,20 +239,6 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
                 return true
             }
         })
-
-        binding.buyProContainer.apply {
-            isGone = App.isProVersion()
-            setOnClickListener {
-                requireContext().goToProVersion()
-            }
-        }
-        binding.buyPremium.setOnClickListener {
-            requireContext().goToProVersion()
-        }
-        ThemeStore.accentColor(requireContext()).let {
-            binding.buyPremium.setTextColor(it)
-            binding.diamondIcon.imageTintList = ColorStateList.valueOf(it)
-        }
 
         binding.container.drawAboveSystemBarsWithPadding()
     }
