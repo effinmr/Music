@@ -1,4 +1,4 @@
-name: Android CI
+name: Debug
 
 on:
   workflow_dispatch: 
@@ -21,10 +21,10 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Debug APK
-        run: ./gradlew assembleNormalRelease
+        run: ./gradlew assembleNormalDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug.apk-${{ github.run_number }}
-          path: app/build/outputs/apk/normal/release/*.apk
+          path: app/build/outputs/apk/debug/release/*.apk
