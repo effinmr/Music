@@ -61,8 +61,6 @@ class MainActivity : AbsCastActivity(), IMiniPlayerExpanded {
         savedInstanceState?.getBundle("nav_state")?.let {
             findNavController(R.id.fragment_container).restoreState(it)
         }
-
-        WhatsNewFragment.showChangeLog(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
