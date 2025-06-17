@@ -19,6 +19,7 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import code.name.monkey.appthemehelper.util.ATHUtil
 import code.name.monkey.appthemehelper.util.ColorUtil
@@ -104,14 +105,13 @@ class PlayerPlaybackControlsFragment :
                             lifecycleScope.launch(Dispatchers.IO) {
                                 // Find the artist by name from the list of all artists
                                 val allArtists = (requireParentFragment() as AbsPlayerFragment).libraryViewModel.artists.value
-                                val selectedArtist = allArtists?.find { artist -> artist.name == selectedArtistName }
+                                val selectedArtist = allArtists?.find { artist -> artist.name.equals(selectedArtistName, ignoreCase = true) }
                                 withContext(Dispatchers.Main) {
                                     if (selectedArtist != null) {
                                         goToArtist(requireActivity(), selectedArtistName, selectedArtist.id)
                                     } else {
-                                        // If artist not found by ID, navigate by name.
-                                        // Use a placeholder ID (e.g., 0L) to indicate navigation by name.
-                                        goToArtist(requireActivity(), selectedArtistName, 0L)
+                                        // GOOD: avoid navigating, just show message
+                                        Toast.makeText(requireContext(), "Artist not found: $selectedArtistName", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             }
