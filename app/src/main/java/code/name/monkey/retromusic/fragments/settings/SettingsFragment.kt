@@ -43,7 +43,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ColorCallback {
             setNavigationIcon(R.drawable.ic_arrow_back)
             isTitleCentered = false
             setNavigationOnClickListener {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+                val navController = childFragmentManager
+                    .findFragmentById(R.id.contentFrame)
+                    ?.findNavController()
+
+                if (navController != null && !navController.popBackStack()) {
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
             }
         }
 
