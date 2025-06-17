@@ -204,11 +204,16 @@ class PlayerPlaybackControlsFragment :
         binding.title.text = song.title
 
         val artistName = song.artistName
-        val delimiters = PreferenceUtil.artistDelimiters.split(",").map { it.trim() }
-        individualArtists = artistName.split(*delimiters.toTypedArray())
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-
+        val delimiters = PreferenceUtil.artistDelimiters
+        individualArtists = if (delimiters.isBlank()) {
+            listOf(artistName)
+        } else {
+            artistName
+                .split(*delimiters.toCharArray().map { it.toString() }.toTypedArray())
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+        }
+        
         // Always display the full artist name string
         binding.text.text = artistName
 
