@@ -370,6 +370,10 @@ class SongsFragment : AbsRecyclerViewCustomGridSizeFragment<SongAdapter, GridLay
             adapter?.notifyDataSetChanged()
             recyclerView.requestLayout() // Request a layout pass for the RecyclerView
         }
+        if (key == ARTIST_TEXT_SIZE) {
+            adapter?.notifyDataSetChanged()
+            recyclerView.requestLayout() // Request a layout pass for the RecyclerView
+        }
         if (key == HIDE_DUPLICATE_SONGS || key == PREFER_HIGHER_BITRATE_SONGS) {
             libraryViewModel.forceReload(ReloadType.Songs)
         }

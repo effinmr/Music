@@ -666,6 +666,7 @@
     <string name="pref_summary_custom_fallback_artwork">Choose a custom image to use as fallback artwork for songs without embedded cover art.</string>
     <string name="pref_title_reset_custom_fallback_artwork">Reset Custom Fallback Artwork</string>
     <string name="pref_title_song_text_size">Song Text Size</string>
+    <string name="pref_title_artist_text_size">Artist Text Size</string>
     <string name="pref_title_hide_duplicate_songs">Hide Duplicate Songs</string>
     <string name="pref_summary_hide_duplicate_songs">Hide songs that have the same title and artist from the song list.</string>
     <string name="pref_title_prefer_higher_bitrate_songs">Prefer Higher Bitrate Songs</string>

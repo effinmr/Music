@@ -957,6 +957,12 @@ object PreferenceUtil {
         )
         set(value) = sharedPreferences.edit { putInt(SONG_TEXT_SIZE, value) }
 
+    var artistTextSize: Int
+        get() = sharedPreferences.getInt(
+            ARTIST_TEXT_SIZE, 14 // Default font size
+        )
+        set(value) = sharedPreferences.edit { putInt(ARTIST_TEXT_SIZE, value) }
+
     const val AUTO_HIDE_MINI_PLAYER = "auto_hide_mini_player"
     const val KEEP_HEADER_VISIBLE = "keep_header_visible"
     var autoHideMiniPlayer: Boolean
