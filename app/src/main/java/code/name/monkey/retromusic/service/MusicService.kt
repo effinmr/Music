@@ -821,7 +821,7 @@ class MusicService : MediaBrowserServiceCompat(),
         // And by using Default dispatcher for local playback we are reduce the burden of main thread
 
         val currentTime = System.currentTimeMillis()
-        if (currentTime - lastPlayTapTime < 300) return  // Ignore if tapped too soon again
+        if (currentTime - lastPlayTapTime < 100) return  // Ignore if tapped too soon again
         lastPlayTapTime = currentTime
         
         serviceScope.launch(if (playbackManager.isLocalPlayback) Default else Main) {
