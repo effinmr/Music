@@ -208,7 +208,7 @@ class PlayerPlaybackControlsFragment :
         individualArtists = if (delimiters.isBlank()) {
             listOf(artistName)
         } else {
-            artistName
+            listOf(artistName) + artistName
                 .split(*delimiters.toCharArray().map { it.toString() }.toTypedArray())
                 .map { it.trim() }
                 .filter { it.isNotEmpty() }
