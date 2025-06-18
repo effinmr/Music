@@ -43,6 +43,14 @@
             android:max="24"
             app:showSeekBarValue="true" />
 
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESeekBarPreference
+            android:key="artist_text_size"
+            android:title="@string/pref_title_artist_text_size"
+            android:layout="@layout/list_item_view_seekbar"
+            android:defaultValue="14"
+            android:max="24"
+            app:showSeekBarValue="true" />
+
     </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
 
     <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
