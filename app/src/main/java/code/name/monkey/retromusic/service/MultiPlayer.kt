@@ -247,9 +247,8 @@ class MultiPlayer(context: Context) : LocalPlayback(context) {
         mCurrentMediaPlayer.release()
         mCurrentMediaPlayer = MediaPlayer()
         mCurrentMediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK)
-        context.showToast(R.string.unplayable_file)
         logE(what.toString() + extra)
-        return false
+        return true
     }
 
     override fun onCompletion(mp: MediaPlayer) {
