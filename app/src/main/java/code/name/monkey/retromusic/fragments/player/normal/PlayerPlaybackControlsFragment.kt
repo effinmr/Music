@@ -208,10 +208,15 @@ class PlayerPlaybackControlsFragment :
         individualArtists = if (delimiters.isBlank()) {
             listOf(artistName)
         } else {
-            listOf(artistName) + artistName
+            val splitNames = artistName
                 .split(*delimiters.toCharArray().map { it.toString() }.toTypedArray())
                 .map { it.trim() }
                 .filter { it.isNotEmpty() }
+            if (splitNames.size <= 1 || splitNames.contains(artistName)) {
+                listOf(artistName)
+            } else {
+                listOf(artistName) + splitNames
+            }
         }
         
         // Always display the full artist name string
