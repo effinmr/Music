@@ -47,7 +47,7 @@
             android:key="artist_text_size"
             android:title="@string/pref_title_artist_text_size"
             android:layout="@layout/list_item_view_seekbar"
-            android:defaultValue="14"
+            android:defaultValue="12"
             android:max="24"
             app:showSeekBarValue="true" />
 
