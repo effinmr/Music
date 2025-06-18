@@ -52,7 +52,7 @@ class SimpleSongAdapter(
         if (PreferenceUtil.showArtistInSongs) {
             holder.artist?.text = dataSet[position].artistName
             holder.artist?.isVisible = true
-            val artistTextSize = PreferenceUtil.songTextSize.toFloat()
+            val artistTextSize = PreferenceUtil.artistTextSize.toFloat()
             holder.artist?.setTextSize(TypedValue.COMPLEX_UNIT_SP, artistTextSize) // Slightly smaller for artist
         } else {
             holder.artist?.isVisible = false
