@@ -50,7 +50,7 @@ class SimpleSongAdapter(
         holder.title?.setTextSize(TypedValue.COMPLEX_UNIT_SP, songTextSize)
 
         if (PreferenceUtil.showArtistInSongs) {
-            holder.artist?.text = dataSet[position].artistName
+            holder.artist?.text = dataSet[position].allArtists
             holder.artist?.isVisible = true
             val artistTextSize = PreferenceUtil.artistTextSize.toFloat()
             holder.artist?.setTextSize(TypedValue.COMPLEX_UNIT_SP, artistTextSize) // Slightly smaller for artist
