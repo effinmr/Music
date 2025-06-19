@@ -30,6 +30,7 @@ import code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
+import code.name.monkey.retromusic.util.PreferenceUtil
 
 class PlainPlayerFragment : AbsPlayerFragment(R.layout.fragment_plain_player) {
     override fun playerToolbar(): Toolbar {
@@ -43,6 +44,8 @@ class PlainPlayerFragment : AbsPlayerFragment(R.layout.fragment_plain_player) {
     private var _binding: FragmentPlainPlayerBinding? = null
     private val binding get() = _binding!!
 
+    private var individualArtists: List<String> = emptyList()
+
 
     override fun onPlayingMetaChanged() {
         super.onPlayingMetaChanged()
@@ -52,7 +55,36 @@ class PlainPlayerFragment : AbsPlayerFragment(R.layout.fragment_plain_player) {
     private fun updateSong() {
         val song = MusicPlayerRemote.currentSong
         binding.title.text = song.title
-        binding.text.text = song.artistName
+        val artistName = song.artistName?.trim()
+        val delimiters = PreferenceUtil.artistDelimiters
+        
+        val allArtists: List<String> = (song.allArtists?.split(",") ?: emptyList<String>())
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            
+        individualArtists = if (delimiters.isBlank()) {
+            allArtists
+        } else {
+            val splitNames = allArtists
+                .flatMap { artist ->
+                    artist.split(*(
+                            delimiters.split(",")
+                            .map { it.trim() }
+                            .map { if (it.isEmpty()) "," else it }
+                            .distinct()
+                            .toTypedArray()
+                    )).map { it.trim() }
+                }
+                .filter { it.isNotEmpty() }
+                .distinct()
+            (allArtists + splitNames)
+                .filter { it.isNotEmpty() }
+                .distinct()
+        }
+        
+        // Always display the full artist name string
+        binding.text.text = song.allArtists
+        setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
     }
 
     override fun onServiceConnected() {

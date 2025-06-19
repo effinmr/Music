@@ -77,6 +77,13 @@ import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import kotlin.math.abs
+import android.widget.Toast
+import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import android.widget.TextView
 
 abstract class AbsPlayerFragment(@LayoutRes layout: Int) : AbsMusicServiceFragment(layout),
     Toolbar.OnMenuItemClickListener, IPaletteColorHolder, PlayerAlbumCoverFragment.Callbacks,
@@ -296,6 +303,62 @@ abstract class AbsPlayerFragment(@LayoutRes layout: Int) : AbsMusicServiceFragme
             libraryViewModel.forceReload(ReloadType.Playlists)
             LocalBroadcastManager.getInstance(requireContext())
                 .sendBroadcast(Intent(MusicService.FAVORITE_STATE_CHANGED))
+        }
+    }
+
+    fun setupTitleAndArtistClicks(
+        titleView: TextView,
+        artistView: TextView,
+        individualArtists: List<String>
+    ) {
+        titleView.setOnClickListener {
+            if (!PreferenceUtil.disabledNowPlayingTaps.contains("title")) {
+                goToAlbum(requireActivity())
+            }
+        }
+
+        artistView.setOnClickListener {
+            if (!PreferenceUtil.disabledNowPlayingTaps.contains("artist")) {
+                if (individualArtists.size > 1) {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(R.string.select_artist)
+                        .setItems(individualArtists.toTypedArray()) { _, which ->
+                            val selectedArtistName = individualArtists[which]
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                val allArtists = libraryViewModel.artists.value
+                                val selectedArtist = allArtists?.find {
+                                    it.name.equals(selectedArtistName, ignoreCase = true)
+                                }
+                                withContext(Dispatchers.Main) {
+                                    if (selectedArtist != null) {
+                                        goToArtist(requireActivity(), selectedArtist.name, selectedArtist.id)
+                                    } else {
+                                        context?.showToast("Artist not found: $selectedArtistName")
+                                    }
+                                }
+                            }
+                        }
+                        .show()
+                } else {
+                    val song = MusicPlayerRemote.currentSong
+                    val artistName = song.artistName
+                    val artistId = song.artistId
+
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val allArtists = libraryViewModel.artists.value
+                        val artist = allArtists?.find {
+                            it.name.equals(artistName, ignoreCase = true)
+                        }
+                        withContext(Dispatchers.Main) {
+                            if (artist != null) {
+                                goToArtist(requireActivity(), artist.name, artist.id)
+                            } else {
+                                context?.showToast("Artist not found: $artistName")
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
