@@ -118,11 +118,31 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
         updateSong()
     }
 
-    private fun updateSong() {
+private fun updateSong() {
         val song = MusicPlayerRemote.currentSong
+
         binding.playerToolbar.apply {
             title = song.title
             subtitle = song.artistName
+
+            // ✅ Fix marquee: re-select the title TextView
+            post {
+                for (i in 0 until childCount) {
+                    val view = getChildAt(i)
+                    if (view is TextView && view.text == song.title) {
+                        view.apply {
+                            ellipsize = TextUtils.TruncateAt.MARQUEE
+                            isSingleLine = true
+                            isSelected = true
+                            marqueeRepeatLimit = -1
+                            isFocusable = true
+                            isFocusableInTouchMode = true
+                            setHorizontallyScrolling(true)
+                        }
+                        break
+                    }
+                }
+            }
         }
     }
 
