@@ -46,6 +46,12 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
         setUpSubFragments()
         setUpPlayerToolbar()
         binding.playbackControlsFragment.drawAboveSystemBars()
+        binding.title.setOnClickListener {
+            goToAlbum(requireActivity())
+        }
+        binding.text.setOnClickListener {
+            goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPlayerRemote.currentSong.artistId)
+        }
     }
 
     private fun setUpSubFragments() {
