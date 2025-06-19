@@ -205,31 +205,29 @@ class PlayerPlaybackControlsFragment :
 
         val artistName = song.artistName?.trim()
         val delimiters = PreferenceUtil.artistDelimiters
-        val albumArtist = song.albumArtist?.trim()
-        var allArtists = listOfNotNull(albumArtist, artistName)
+        
+        val allartists = artistName
+            ?.split(",")
+            ?: emptyList()
             .map { it.trim() }
             .filter { it.isNotEmpty() }
-            .distinct()
+            
             
         individualArtists = if (delimiters.isBlank()) {
-            allArtists
+            allartists
         } else {
-            val splitNames = allArtists
+            val splitNames = allartists
                 .flatMap { artist ->
                     artist.split(*delimiters.toCharArray().map { it.toString() }.toTypedArray())
+                        .map { it.trim() }
                 }
-                .map { it.trim() }
+            (allartists + splitNames)
                 .filter { it.isNotEmpty() }
                 .distinct()
-            if (splitNames.size <= 1 || splitNames.containsAll(allArtists)) {
-                allArtists
-            } else {
-                (allArtists + splitNames).distinct()
-            }
         }
         
         // Always display the full artist name string
-        binding.text.text = allArtists.joinToString(", ")
+        binding.text.text = artistName
 
         val metadataOrder = PreferenceUtil.nowPlayingMetadataOrder
         val metadataVisibility = PreferenceUtil.nowPlayingMetadataVisibility
