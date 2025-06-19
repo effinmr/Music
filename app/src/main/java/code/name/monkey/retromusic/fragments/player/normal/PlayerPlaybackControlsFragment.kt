@@ -203,24 +203,33 @@ class PlayerPlaybackControlsFragment :
         val song = MusicPlayerRemote.currentSong
         binding.title.text = song.title
 
-        val artistName = song.artistName
+        val artistName = song.artistName?.trim()
         val delimiters = PreferenceUtil.artistDelimiters
+        val albumArtist = song.albumArtist?.trim()
+        var allArtists = listOfNotNull(albumArtist, artistName)
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            .distinct()
+            
         individualArtists = if (delimiters.isBlank()) {
-            listOf(artistName)
+            allArtists
         } else {
-            val splitNames = artistName
-                .split(*delimiters.toCharArray().map { it.toString() }.toTypedArray())
+            val splitNames = allArtists
+                .flatMap { artist ->
+                    artist.split(*delimiters.toCharArray().map { it.toString() }.toTypedArray())
+                }
                 .map { it.trim() }
                 .filter { it.isNotEmpty() }
-            if (splitNames.size <= 1 || splitNames.contains(artistName)) {
-                listOf(artistName)
+                .distinct()
+            if (splitNames.size <= 1 || splitNames.contains(allArtists)) {
+                allArtists
             } else {
-                listOf(artistName) + splitNames
+                (allArtists + splitNames).distinct()
             }
         }
         
         // Always display the full artist name string
-        binding.text.text = artistName
+        binding.text.text = allArtists.joinToString(", ")
 
         val metadataOrder = PreferenceUtil.nowPlayingMetadataOrder
         val metadataVisibility = PreferenceUtil.nowPlayingMetadataVisibility
