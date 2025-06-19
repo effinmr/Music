@@ -118,7 +118,7 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
     private fun updateSong() {
         val song = MusicPlayerRemote.currentSong
         binding.playerToolbar.title = song.title
-        binding.playerToolbar.subtitle = song.artistName
+        binding.playerToolbar.subtitle = song.allArtists
         applyMarqueeToToolbarTitle()
     }
 
