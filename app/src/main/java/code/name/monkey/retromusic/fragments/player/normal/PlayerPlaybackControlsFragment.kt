@@ -206,7 +206,7 @@ class PlayerPlaybackControlsFragment :
         val artistName = song.artistName?.trim()
         val delimiters = PreferenceUtil.artistDelimiters
         
-        val allArtists: List<String> = (artistName?.split(",") ?: emptyList<String>())
+        val allArtists: List<String> = (song.allArtists?.split(",") ?: emptyList<String>())
             .map { it.trim() }
             .filter { it.isNotEmpty() }
             
@@ -215,7 +215,7 @@ class PlayerPlaybackControlsFragment :
         } else {
             val splitNames = allArtists
                 .flatMap { artist ->
-                    artist.split(*delimiters.toCharArray().map { it.toString() }.toTypedArray())
+                    artist.split(*delimiters.split(",").map { it.trim() }.filter { it.isNotEmpty() }.toTypedArray())
                         .map { it.trim() }
                 }
             (allArtists + splitNames)
