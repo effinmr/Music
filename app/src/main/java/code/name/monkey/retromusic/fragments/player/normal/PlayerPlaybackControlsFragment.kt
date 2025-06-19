@@ -206,7 +206,7 @@ class PlayerPlaybackControlsFragment :
         val artistName = song.artistName?.trim()
         val delimiters = PreferenceUtil.artistDelimiters
         
-        val allartists = artistName
+        val allartists: List<String> = artistName
             ?.split(",")
             ?: emptyList()
             .map { it.trim() }
