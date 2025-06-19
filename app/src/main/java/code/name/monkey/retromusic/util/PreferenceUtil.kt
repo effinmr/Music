@@ -972,6 +972,11 @@ object PreferenceUtil {
         )
         set(value) = sharedPreferences.edit { putBoolean(AUTO_HIDE_MINI_PLAYER, value) }
 
+    val keepHeaderVisible: Boolean
+        get() = sharedPreferences.getBoolean(
+            KEEP_HEADER_VISIBLE, false // Default to false
+        )
+    
     val hideHeader: Boolean
         get() = sharedPreferences.getBoolean(
             HIDE_HEADER, false // Default to false
