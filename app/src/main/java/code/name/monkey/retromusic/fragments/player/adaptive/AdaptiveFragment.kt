@@ -46,12 +46,6 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
         setUpSubFragments()
         setUpPlayerToolbar()
         binding.playbackControlsFragment.drawAboveSystemBars()
-        binding.title.setOnClickListener {
-            goToAlbum(requireActivity())
-        }
-        binding.text.setOnClickListener {
-            goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPlayerRemote.currentSong.artistId)
-        }
     }
 
     private fun setUpSubFragments() {
@@ -77,17 +71,34 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
             post {
                 for (i in 0 until childCount) {
                     val view = getChildAt(i)
-                    if (view is TextView && view.text == title) {
-                        view.apply {
-                            ellipsize = TextUtils.TruncateAt.MARQUEE
-                            isSingleLine = true
-                            marqueeRepeatLimit = -1
-                            isSelected = true
-                            setHorizontallyScrolling(true)
-                            isFocusable = true
-                            isFocusableInTouchMode = true
+                    if (view is TextView) {
+                        val text = view.text.toString()
+                        when (text) {
+                            title.toString() -> {
+                                view.apply {
+                                    ellipsize = TextUtils.TruncateAt.MARQUEE
+                                    isSingleLine = true
+                                    marqueeRepeatLimit = -1
+                                    isSelected = true
+                                    setHorizontallyScrolling(true)
+                                    isFocusable = true
+                                    isFocusableInTouchMode = true
+                                    setOnClickListener {
+                                        goToAlbum(requireActivity())
+                                    }
+                                }
+                            }
+
+                            MusicPlayerRemote.currentSong.artistName -> {
+                                view.setOnClickListener {
+                                    goToArtist(
+                                        requireActivity(),
+                                        MusicPlayerRemote.currentSong.artistName,
+                                        MusicPlayerRemote.currentSong.artistId
+                                    )
+                                }
+                            }
                         }
-                        break
                     }
                 }
             }
