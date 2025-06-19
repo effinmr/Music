@@ -32,7 +32,7 @@ open class Song(
     open val artistName: String,
     open val composer: String?,
     open val albumArtist: String?,
-    open val allArtists: String?
+    open val allArtists: String? = null
 ) : Parcelable {
 
 
