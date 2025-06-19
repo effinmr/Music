@@ -177,7 +177,8 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val artistId = cursor.getLong(AudioColumns.ARTIST_ID)
         val composer = cursor.getStringOrNull(AudioColumns.COMPOSER)
         val albumArtist = cursor.getStringOrNull("album_artist")
-        val artistName = listOfNotNull(albumArtist, cursor.getStringOrNull(AudioColumns.ARTIST))
+        val artistName = cursor.getStringOrNull(AudioColumns.ARTIST)
+        val allArtists = listOfNotNull(albumArtist, artistName)
             .map { it.trim() }
             .filter { it.isNotEmpty() }
             .distinct()
@@ -197,7 +198,8 @@ class RealSongRepository(private val context: Context) : SongRepository {
             artistId,
             artistName ?: "",
             composer ?: "",
-            albumArtist ?: ""
+            albumArtist ?: "",
+            allArtists ?: ""
         )
     }
 
