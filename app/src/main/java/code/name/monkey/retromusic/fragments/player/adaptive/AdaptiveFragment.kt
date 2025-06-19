@@ -67,6 +67,24 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
             setTitleTextColor(textColorPrimary())
             setSubtitleTextColor(textColorSecondary())
             setOnMenuItemClickListener(this@AdaptiveFragment)
+
+            post {
+                for (i in 0 until childCount) {
+                    val view = getChildAt(i)
+                    if (view is TextView && view.text == title) {
+                        view.apply {
+                            ellipsize = TextUtils.TruncateAt.MARQUEE
+                            isSingleLine = true
+                            marqueeRepeatLimit = -1
+                            isSelected = true
+                            setHorizontallyScrolling(true)
+                            isFocusable = true
+                            isFocusableInTouchMode = true
+                        }
+                        break
+                    }
+                }
+            }
         }
     }
 
