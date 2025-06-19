@@ -655,6 +655,9 @@
     <string name="keep_header_visible_title">Keep Header Visible</string>
     <string name="keep_header_visible_summary">Keep the top header in the Song View always visible, even when scrolling down.</string>
 
+    <string name="hide_header_title">Hide Header</string>
+    <string name="hide_header_summary">Hide Header Always.</string>
+
     <string name="new_update_available">New Update Available</string>
     <string name="update_message">A new version of Retro Music Player (%1$s > %2$s) is available. Do you want to update?\n\nChangelog:\n%3$s</string>
     <string name="update">Update</string>
