@@ -26,6 +26,8 @@ import code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
+import android.text.TextUtils
+import android.widget.TextView
 
 class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
 
