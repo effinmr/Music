@@ -22,6 +22,8 @@ import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.databinding.FragmentAdaptivePlayerBinding
 import code.name.monkey.retromusic.extensions.*
 import code.name.monkey.retromusic.fragments.base.AbsPlayerFragment
+import code.name.monkey.retromusic.fragments.base.goToAlbum
+import code.name.monkey.retromusic.fragments.base.goToArtist
 import code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.model.Song
