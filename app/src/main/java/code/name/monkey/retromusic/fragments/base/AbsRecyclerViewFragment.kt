@@ -68,24 +68,26 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
         binding.shuffleButton.fitsSystemWindows = PreferenceUtil.isFullScreenMode
         // Add listeners when shuffle is visible
         if (isShuffleVisible) {
-            if (!PreferenceUtil.showFabOnScroll) {
-                binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        super.onScrolled(recyclerView, dx, dy)
+            binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    // Show/hide shuffle FAB only if setting allows
+                    if (!PreferenceUtil.showFabOnScroll) {
                         if (dy > 0) {
                             binding.shuffleButton.hide()
-                            if (PreferenceUtil.autoHideMiniPlayer) {
-                                (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(false)
-                            }
                         } else if (dy < 0) {
                             binding.shuffleButton.show()
-                            if (PreferenceUtil.autoHideMiniPlayer) {
-                                (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(true)
-                            }
                         }
                     }
-                })
-            }
+
+                    // Always handle mini player show/hide if auto hide is on
+                    if (PreferenceUtil.autoHideMiniPlayer) {
+                        (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(dy < 0)
+                    }
+                }
+            })
+
             binding.shuffleButton.apply {
                 setOnClickListener {
                     onShuffleClicked()
