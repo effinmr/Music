@@ -173,7 +173,7 @@ open class SongAdapter(
     }
 
     private fun getSongText(song: Song): String {
-        return song.allArtists
+        return song.allArtists ?: ""
     }
 
     private fun getSongText2(song: Song): String {
