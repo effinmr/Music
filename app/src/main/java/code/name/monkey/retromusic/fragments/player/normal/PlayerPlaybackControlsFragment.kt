@@ -211,14 +211,14 @@ class PlayerPlaybackControlsFragment :
             .filter { it.isNotEmpty() }
             
         individualArtists = if (delimiters.isBlank()) {
-            allartists
+            allArtists
         } else {
-            val splitNames = allartists
+            val splitNames = allArtists
                 .flatMap { artist ->
                     artist.split(*delimiters.toCharArray().map { it.toString() }.toTypedArray())
                         .map { it.trim() }
                 }
-            (allartists + splitNames)
+            (allArtists + splitNames)
                 .filter { it.isNotEmpty() }
                 .distinct()
         }
