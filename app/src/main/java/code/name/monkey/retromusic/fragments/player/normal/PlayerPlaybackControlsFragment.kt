@@ -215,9 +215,16 @@ class PlayerPlaybackControlsFragment :
         } else {
             val splitNames = allArtists
                 .flatMap { artist ->
-                    artist.split(*delimiters.split(",").map { it.trim() }.filter { it.isNotEmpty() }.toTypedArray())
-                        .map { it.trim() }
+                    artist.split(*(
+                            delimiters.split(",")
+                            .map { it.trim() }
+                            .map { if (it.isEmpty()) "," else it }
+                            .distinct()
+                            .toTypedArray()
+                    )).map { it.trim() }
                 }
+                .filter { it.isNotEmpty() }
+                .distinct()
             (allArtists + splitNames)
                 .filter { it.isNotEmpty() }
                 .distinct()
