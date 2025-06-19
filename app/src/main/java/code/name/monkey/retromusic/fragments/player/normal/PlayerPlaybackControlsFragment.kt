@@ -231,7 +231,7 @@ class PlayerPlaybackControlsFragment :
         }
         
         // Always display the full artist name string
-        binding.text.text = artistName
+        binding.text.text = song.allArtists
 
         val metadataOrder = PreferenceUtil.nowPlayingMetadataOrder
         val metadataVisibility = PreferenceUtil.nowPlayingMetadataVisibility
