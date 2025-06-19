@@ -22,6 +22,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import code.name.monkey.appthemehelper.common.ATHToolbarActivity
@@ -97,6 +100,14 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
         }
         if (PreferenceUtil.keepHeaderVisible) {
             binding.appBarLayout.pinWhenScrolled()
+        }
+        if (PreferenceUtil.hideHeader) {
+            binding.appBarLayout.visibility = View.GONE
+            ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { view, insets ->
+                val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+                view.updatePadding(top = top)
+                insets
+            }
         }
         libraryViewModel.getFabMargin().observe(viewLifecycleOwner) {
             binding.shuffleButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
