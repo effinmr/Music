@@ -97,9 +97,9 @@ private fun AppCompatActivity.hideStatusBar(fullscreen: Boolean) {
 
 fun AppCompatActivity.setDrawBehindSystemBars() {
     if (VersionUtils.hasOreo()) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowCompat.setDecorFitsSystemWindows(window, true)
         window.navigationBarColor = Color.TRANSPARENT
-        window.statusBarColor = Color.TRANSPARENT
+        window.statusBarColor = surfaceColor()
         if (VersionUtils.hasQ()) {
             window.isNavigationBarContrastEnforced = false
         }
