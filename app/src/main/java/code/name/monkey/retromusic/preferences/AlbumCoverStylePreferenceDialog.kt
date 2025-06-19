@@ -105,12 +105,6 @@ class AlbumCoverStylePreferenceDialog : DialogFragment(),
 
             Glide.with(context).load(albumCoverStyle.drawableResId).into(binding.image)
             binding.title.setText(albumCoverStyle.titleRes)
-            if (isAlbumCoverStyle(albumCoverStyle)) {
-                binding.proText.show()
-                binding.proText.setText(R.string.pro)
-            } else {
-                binding.proText.hide()
-            }
             return binding.root
         }
 
