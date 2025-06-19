@@ -221,7 +221,7 @@ class PlayerPlaybackControlsFragment :
                 .map { it.trim() }
                 .filter { it.isNotEmpty() }
                 .distinct()
-            if (splitNames.size <= 1 || splitNames.contains(allArtists)) {
+            if (splitNames.size <= 1 || splitNames.containsAll(allArtists)) {
                 allArtists
             } else {
                 (allArtists + splitNames).distinct()
