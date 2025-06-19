@@ -35,12 +35,13 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
 
     private var _binding: FragmentAdaptivePlayerBinding? = null
     private val binding get() = _binding!!
-    override fun playerToolbar(): Toolbar {
-        return binding.playerToolbar
-    }
 
     private var lastColor: Int = 0
     private lateinit var playbackControlsFragment: AdaptivePlaybackControlsFragment
+
+    override fun playerToolbar(): Toolbar {
+        return binding.playerToolbar
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,42 +70,38 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
             setTitleTextColor(textColorPrimary())
             setSubtitleTextColor(textColorSecondary())
             setOnMenuItemClickListener(this@AdaptiveFragment)
+        }
+    }
 
-            post {
-                for (i in 0 until childCount) {
-                    val view = getChildAt(i)
-                    if (view is TextView) {
-                        val text = view.text.toString()
-                        when (text) {
-                            title.toString() -> {
-                                view.apply {
-                                    ellipsize = TextUtils.TruncateAt.MARQUEE
-                                    isSingleLine = true
-                                    marqueeRepeatLimit = -1
-                                    isSelected = true
-                                    setHorizontallyScrolling(true)
-                                    isFocusable = true
-                                    isFocusableInTouchMode = true
-                                    setOnClickListener {
-                                        goToAlbum(requireActivity())
-                                    }
-                                }
-                            }
-
-                            MusicPlayerRemote.currentSong.artistName -> {
-                                view.setOnClickListener {
-                                    goToArtist(
-                                        requireActivity(),
-                                        MusicPlayerRemote.currentSong.artistName,
-                                        MusicPlayerRemote.currentSong.artistId
-                                    )
-                                }
-                            }
+    private fun applyMarqueeToToolbarTitle() {
+        binding.playerToolbar.postDelayed({
+            for (i in 0 until binding.playerToolbar.childCount) {
+                val view = binding.playerToolbar.getChildAt(i)
+                if (view is TextView && view.text == binding.playerToolbar.title) {
+                    view.apply {
+                        ellipsize = TextUtils.TruncateAt.MARQUEE
+                        isSingleLine = true
+                        marqueeRepeatLimit = -1
+                        isSelected = true
+                        setHorizontallyScrolling(true)
+                        isFocusable = true
+                        isFocusableInTouchMode = true
+                        requestFocus()
+                        setOnClickListener {
+                            goToAlbum(requireActivity())
                         }
+                    }
+                } else if (view is TextView && view.text == binding.playerToolbar.subtitle) {
+                    view.setOnClickListener {
+                        goToArtist(
+                            requireActivity(),
+                            MusicPlayerRemote.currentSong.artistName,
+                            MusicPlayerRemote.currentSong.artistId
+                        )
                     }
                 }
             }
-        }
+        }, 300)
     }
 
     override fun onServiceConnected() {
@@ -120,10 +117,9 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
 
     private fun updateSong() {
         val song = MusicPlayerRemote.currentSong
-        binding.playerToolbar.apply {
-            title = song.title
-            subtitle = song.artistName
-        }
+        binding.playerToolbar.title = song.title
+        binding.playerToolbar.subtitle = song.allArtists
+        applyMarqueeToToolbarTitle()
     }
 
     override fun toggleFavorite(song: Song) {
