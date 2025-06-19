@@ -88,6 +88,8 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
         // Populate originalSettingViews
         // Iterate through children after they are inflated from XML
         // This ensures the order is preserved
+        originalSettingViews.clear()
+        
         for (i in 0 until binding.container.childCount) {
             val child = binding.container.getChildAt(i)
             if (child is SettingListItemView) {
@@ -228,10 +230,10 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
         binding.aboutSettings.setOnClickListener(this)
         binding.backupRestoreSettings.setOnClickListener(this)
 
+        binding.searchView.setOnQueryTextListener(null)
+        
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
+            override fun onQueryTextSubmit(query: String?): Boolean = true
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 filterSettings(newText)
@@ -326,6 +328,8 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        currentSearchResultViews.clear()
+        originalSettingViews.clear()
         _binding = null
     }
 }
