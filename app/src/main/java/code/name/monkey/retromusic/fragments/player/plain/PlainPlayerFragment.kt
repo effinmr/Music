@@ -30,6 +30,7 @@ import code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
+import code.name.monkey.retromusic.util.PreferenceUtil
 
 class PlainPlayerFragment : AbsPlayerFragment(R.layout.fragment_plain_player) {
     override fun playerToolbar(): Toolbar {
@@ -42,6 +43,8 @@ class PlainPlayerFragment : AbsPlayerFragment(R.layout.fragment_plain_player) {
         get() = lastColor
     private var _binding: FragmentPlainPlayerBinding? = null
     private val binding get() = _binding!!
+
+    private var individualArtists: List<String> = emptyList()
 
 
     override fun onPlayingMetaChanged() {
