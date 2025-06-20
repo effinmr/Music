@@ -47,6 +47,8 @@ class SimplePlaybackControlsFragment :
     private var _binding: FragmentSimpleControlsFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private var individualArtists: List<String> = emptyList()
+
     override val shuffleButton: ImageButton
         get() = binding.shuffleButton
 
