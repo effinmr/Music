@@ -28,7 +28,6 @@ import code.name.monkey.retromusic.extensions.accentColor
 import code.name.monkey.retromusic.extensions.getSongInfo
 import code.name.monkey.retromusic.extensions.hide
 import code.name.monkey.retromusic.extensions.show
-import code.name.monkey.retromusic.fragments.base.AbsPlayerFragment
 import code.name.monkey.retromusic.fragments.base.AbsPlayerControlsFragment
 import code.name.monkey.retromusic.fragments.base.goToAlbum
 import code.name.monkey.retromusic.fragments.base.goToArtist
@@ -136,7 +135,7 @@ binding.text.setOnClickListener {
         } else {
             binding.songInfo.hide()
         }
-        setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
+        (requireParentFragment() as? AbsPlayerFragment)?.setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
     }
 
     override fun onPlayingMetaChanged() {
