@@ -389,7 +389,7 @@ class GradientPlayerFragment : AbsPlayerFragment(R.layout.fragment_gradient_play
         } else {
             binding.playbackControlsFragment.songInfo.hide()
         }
-        setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
+        setupTitleAndArtistClicks(binding.playbackControlsFragment.title, binding.playbackControlsFragment.text, individualArtists)
     }
 
     private fun setUpMusicControllers() {
