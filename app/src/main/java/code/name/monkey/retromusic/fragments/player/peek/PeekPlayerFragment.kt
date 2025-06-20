@@ -32,6 +32,8 @@ import android.widget.Toast
 import kotlinx.coroutines.Dispatchers
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Created by hemanths on 2019-10-03.
@@ -43,6 +45,8 @@ class PeekPlayerFragment : AbsPlayerFragment(R.layout.fragment_peek_player) {
     private var lastColor: Int = 0
     private var _binding: FragmentPeekPlayerBinding? = null
     private val binding get() = _binding!!
+
+    private var individualArtists: List<String> = emptyList()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
