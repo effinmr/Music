@@ -183,7 +183,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
         viewDestroyed = true
         PreferenceManager.getDefaultSharedPreferences(requireContext())
             .unregisterOnSharedPreferenceChangeListener(this)
-        _binding.viewPager.removeOnPageChangeListener(this)
+        binding.viewPager.removeOnPageChangeListener(this)
         progressViewUpdateHelper?.stop()
         _binding = null
     }
