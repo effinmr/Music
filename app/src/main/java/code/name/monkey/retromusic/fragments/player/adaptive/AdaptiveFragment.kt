@@ -27,6 +27,7 @@ import code.name.monkey.retromusic.fragments.base.goToArtist
 import code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.model.Song
+import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import android.text.TextUtils
 import android.widget.TextView
@@ -88,16 +89,19 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
                         isFocusableInTouchMode = true
                         requestFocus()
                         setOnClickListener {
-                            goToAlbum(requireActivity())
+                            if (!PreferenceUtil.disabledNowPlayingTaps.contains("title")) {
+                                goToAlbum(requireActivity())
+                            }
                         }
                     }
                 } else if (view is TextView && view.text == binding.playerToolbar.subtitle) {
                     view.setOnClickListener {
-                        goToArtist(
-                            requireActivity(),
-                            MusicPlayerRemote.currentSong.artistName,
-                            MusicPlayerRemote.currentSong.artistId
-                        )
+                        if (!PreferenceUtil.disabledNowPlayingTaps.contains("artist")) {
+                            goToArtist(
+                                requireActivity(),
+                                MusicPlayerRemote.currentSong.artistName,
+                                MusicPlayerRemote.currentSong.artistId)
+                        }
                     }
                 }
             }
