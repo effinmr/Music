@@ -83,6 +83,8 @@ class GradientPlayerFragment : AbsPlayerFragment(R.layout.fragment_gradient_play
     private var _binding: FragmentGradientPlayerBinding? = null
     private val binding get() = _binding!!
 
+    private var individualArtists: List<String> = emptyList()
+
     private val bottomSheetCallbackList = object : BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             mainActivity.getBottomSheetBehavior().isDraggable = false
@@ -356,7 +358,36 @@ goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPla
     private fun updateSong() {
         val song = MusicPlayerRemote.currentSong
         binding.playbackControlsFragment.title.text = song.title
-        binding.playbackControlsFragment.text.text = song.artistName
+
+        val artistName = song.artistName?.trim()
+        val delimiters = PreferenceUtil.artistDelimiters
+        
+        val allArtists: List<String> = (song.allArtists?.split(",") ?: emptyList<String>())
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            
+        individualArtists = if (delimiters.isBlank()) {
+            allArtists
+        } else {
+            val splitNames = allArtists
+                .flatMap { artist ->
+                    artist.split(*(
+                            delimiters.split(",")
+                            .map { it.trim() }
+                            .map { if (it.isEmpty()) "," else it }
+                            .distinct()
+                            .toTypedArray()
+                    )).map { it.trim() }
+                }
+                .filter { it.isNotEmpty() }
+                .distinct()
+            (allArtists + splitNames)
+                .filter { it.isNotEmpty() }
+                .distinct()
+        }
+        
+        // Always display the full artist name string
+        binding.playbackControlsFragment.text.text = song.allArtists
         updateLabel()
         if (PreferenceUtil.isSongInfo) {
             binding.playbackControlsFragment.songInfo.text = getSongInfo(song)
@@ -364,6 +395,7 @@ goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPla
         } else {
             binding.playbackControlsFragment.songInfo.hide()
         }
+        (requireParentFragment() as? AbsPlayerFragment)?.setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
     }
 
     private fun setUpMusicControllers() {
