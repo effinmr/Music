@@ -51,8 +51,7 @@ class PeekPlayerFragment : AbsPlayerFragment(R.layout.fragment_peek_player) {
         binding.title.isSelected = true
         setupTitleAndArtistClicks(
             binding.title,
-            binding.text
-        ) {
+            binding.text,
             individualArtists
         }
         binding.root.drawAboveSystemBarsWithPadding()
