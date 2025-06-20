@@ -107,7 +107,7 @@ fun AppCompatActivity.setDrawBehindSystemBars() {
         if (VersionUtils.hasV()) {
             window.decorView.post {
                 WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars =
-                !surfaceColor().isDarkColor()
+                    !surfaceColor().isDarkColor()
             }
         }
     } else {
