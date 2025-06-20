@@ -132,14 +132,7 @@ object PreferenceUtil {
         }
 
     var artistDelimiters: String
-        get() {
-            val delimiters = sharedPreferences.getStringOrDefault(ARTIST_DELIMITERS, "")
-            return if (delimiters.isEmpty()) {
-                "&,x,feat.,ft."
-            } else {
-                delimiters
-            }
-        }
+        get() = sharedPreferences.getStringOrDefault(ARTIST_DELIMITERS, "")
         set(value) = sharedPreferences.edit { putString(ARTIST_DELIMITERS, value) }
 
     private val autoDownloadImagesPolicy
