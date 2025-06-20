@@ -35,7 +35,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-
+import kotlinx.coroutines.launch
 
 class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
 
@@ -112,21 +112,21 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
                                         .setTitle(R.string.select_artist)
                                         .setItems(individualArtists.toTypedArray()) { _, which ->
                                             val selectedArtistName = individualArtists[which]
-                                            lifecycleScope.launch(Dispatchers.IO) {
-                                                val allArtists = libraryViewModel.artists.value
+                                            lifecycleScope.launch {
+                                                val allArtists = withContext(Dispatchers.IO) {
+                                                    libraryViewModel.artists.value
+                                                }
                                                 val selectedArtist = allArtists?.find {
                                                     it.name.equals(selectedArtistName, ignoreCase = true)
                                                 }
-                                                withContext(Dispatchers.Main) {
-                                                    if (selectedArtist != null) {
-                                                        goToArtist(
-                                                            requireActivity(),
-                                                            selectedArtist.name,
-                                                            selectedArtist.id
-                                                        )
-                                                    } else {
-                                                        context?.showToast("Artist not found: $selectedArtistName")
-                                                    }
+                                                if (selectedArtist != null) {
+                                                    goToArtist(
+                                                        requireActivity(),
+                                                        selectedArtist.name,
+                                                        selectedArtist.id
+                                                    )
+                                                } else {
+                                                    context?.showToast("Artist not found: $selectedArtistName")
                                                 }
                                             }
                                         }
@@ -134,17 +134,17 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
                                 } else {
                                     val song = MusicPlayerRemote.currentSong
                                     val artistName = song.artistName
-                                    lifecycleScope.launch(Dispatchers.IO) {
-                                        val allArtists = libraryViewModel.artists.value
+                                    lifecycleScope.launch {
+                                        val allArtists = withContext(Dispatchers.IO) {
+                                            libraryViewModel.artists.value
+                                        }
                                         val artist = allArtists?.find {
                                             it.name.equals(artistName, ignoreCase = true)
                                         }
-                                        withContext(Dispatchers.Main) {
-                                            if (artist != null) {
-                                                goToArtist(requireActivity(), artist.name, artist.id)
-                                            } else {
-                                                context?.showToast("Artist not found: $artistName")
-                                            }
+                                        if (artist != null) {
+                                            goToArtist(requireActivity(), artist.name, artist.id)
+                                        } else {
+                                            context?.showToast("Artist not found: $artistName")
                                         }
                                     }
                                 }
