@@ -63,6 +63,7 @@ fun AppCompatActivity.setImmersiveFullscreen() {
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             hide(WindowInsetsCompat.Type.systemBars())
         }
+        window.statusBarColor = surfaceColor()
         if (VersionUtils.hasP()) {
             window.attributes.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
