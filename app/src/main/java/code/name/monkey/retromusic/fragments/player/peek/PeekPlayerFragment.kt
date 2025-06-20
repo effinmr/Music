@@ -28,12 +28,6 @@ import code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
-import android.widget.Toast
-import kotlinx.coroutines.Dispatchers
-import androidx.lifecycle.lifecycleScope
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * Created by hemanths on 2019-10-03.
@@ -55,56 +49,10 @@ class PeekPlayerFragment : AbsPlayerFragment(R.layout.fragment_peek_player) {
         setUpPlayerToolbar()
         setUpSubFragments()
         binding.title.isSelected = true
-        binding.title.setOnClickListener {
-            if (!PreferenceUtil.disabledNowPlayingTaps.contains("title")) {
-                goToAlbum(requireActivity())
-            }
-        }
-
-        binding.text.setOnClickListener {
-            if (!PreferenceUtil.disabledNowPlayingTaps.contains("artist")) {
-                if (individualArtists.size > 1) {
-                    MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(R.string.select_artist)
-                        .setItems(individualArtists.toTypedArray()) { _, which ->
-                            val selectedArtistName = individualArtists[which]
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                val parent = parentFragment as? AbsPlayerFragment
-                                val allArtists = parent?.libraryViewModel?.artists?.value.orEmpty()
-                                val selectedArtist = allArtists?.find {
-                                    it.name.equals(selectedArtistName, ignoreCase = true)
-                                }
-                                withContext(Dispatchers.Main) {
-                                    if (selectedArtist != null) {
-                                        goToArtist(requireActivity(), selectedArtist.name, selectedArtist.id)
-                                    } else {
-                                        Toast.makeText(requireContext(), "Artist not found: $selectedArtistName", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                            }
-                        }
-                        .show()
-                } else {
-                    val artistName = MusicPlayerRemote.currentSong.artistName
-                    val artistId = MusicPlayerRemote.currentSong.artistId
-
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        val parent = parentFragment as? AbsPlayerFragment
-                        val allArtists = parent?.libraryViewModel?.artists?.value.orEmpty()
-                        val artist = allArtists?.find {
-                            it.name.equals(artistName, ignoreCase = true)
-                        }
-                        withContext(Dispatchers.Main) {
-                            if (artist != null) {
-                                goToArtist(requireActivity(), artist.name, artist.id)
-                            } else {
-                                Toast.makeText(requireContext(), "Artist not found: $artistName", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        setupTitleAndArtistClicks(
+            binding.title,
+            binding.text
+        )
         binding.root.drawAboveSystemBarsWithPadding()
     }
 
