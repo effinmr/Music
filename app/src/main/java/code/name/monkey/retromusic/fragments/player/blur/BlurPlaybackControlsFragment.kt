@@ -107,7 +107,7 @@ class BlurPlaybackControlsFragment :
         }
         
         // Always display the full artist name string
-        binding.text.text = String.format("%s • %s", song.artistName, song.allArtists)
+        binding.text.text = String.format("%s • %s", song.allArtists, song.albumName)
 
         if (PreferenceUtil.isSongInfo) {
             binding.songInfo.show()
