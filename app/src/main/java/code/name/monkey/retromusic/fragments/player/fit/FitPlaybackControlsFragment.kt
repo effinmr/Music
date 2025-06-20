@@ -118,7 +118,7 @@ class FitPlaybackControlsFragment :
         } else {
             binding.songInfo.hide()
         }
-        setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
+        (requireParentFragment() as? AbsPlayerFragment)?.setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
     }
 
     override fun onServiceConnected() {
