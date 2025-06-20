@@ -309,7 +309,7 @@ abstract class AbsPlayerFragment(@LayoutRes layout: Int) : AbsMusicServiceFragme
     protected fun setupTitleAndArtistClicks(
         titleView: TextView,
         artistView: TextView,
-        getIndividualArtists: (() -> List<String>)? = null
+        individualArtists: List<String>
     ) {
         titleView.setOnClickListener {
             if (!PreferenceUtil.disabledNowPlayingTaps.contains("title")) {
@@ -319,10 +319,7 @@ abstract class AbsPlayerFragment(@LayoutRes layout: Int) : AbsMusicServiceFragme
 
         artistView.setOnClickListener {
             if (!PreferenceUtil.disabledNowPlayingTaps.contains("artist")) {
-                val song = MusicPlayerRemote.currentSong
-                val individualArtists = getIndividualArtists?.invoke()
-
-                if (individualArtists != null && individualArtists.size > 1) {
+                if (individualArtists.size > 1) {
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(R.string.select_artist)
                         .setItems(individualArtists.toTypedArray()) { _, which ->
@@ -343,6 +340,7 @@ abstract class AbsPlayerFragment(@LayoutRes layout: Int) : AbsMusicServiceFragme
                         }
                         .show()
                 } else {
+                    val song = MusicPlayerRemote.currentSong
                     val artistName = song.artistName
                     val artistId = song.artistId
 
