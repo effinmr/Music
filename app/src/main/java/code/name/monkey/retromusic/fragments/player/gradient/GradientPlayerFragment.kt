@@ -395,7 +395,7 @@ goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPla
         } else {
             binding.playbackControlsFragment.songInfo.hide()
         }
-        (requireParentFragment() as? AbsPlayerFragment)?.setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
+        (requireParentFragment() as? AbsPlayerFragment)?.setupTitleAndArtistClicks(binding.playbackControlsFragment.title, binding.playbackControlsFragment.text, individualArtists)
     }
 
     private fun setUpMusicControllers() {
