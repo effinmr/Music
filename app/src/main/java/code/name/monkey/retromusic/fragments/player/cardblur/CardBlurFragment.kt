@@ -56,8 +56,6 @@ class CardBlurFragment : AbsPlayerFragment(R.layout.fragment_card_blur_player),
     private val binding get() = _binding!!
     private var lastRequest: RequestBuilder<Drawable>? = null
 
-    private var individualArtists: List<String> = emptyList()
-
     override fun onShow() {
         playbackControlsFragment.show()
     }
@@ -132,38 +130,10 @@ class CardBlurFragment : AbsPlayerFragment(R.layout.fragment_card_blur_player),
 
     private fun updateSong() {
         val song = MusicPlayerRemote.currentSong
-        binding.title.text = song.title
-        
-        val artistName = song.artistName?.trim()
-        val delimiters = PreferenceUtil.artistDelimiters
-        
-        val allArtists: List<String> = (song.allArtists?.split(",") ?: emptyList<String>())
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-            
-        individualArtists = if (delimiters.isBlank()) {
-            allArtists
-        } else {
-            val splitNames = allArtists
-                .flatMap { artist ->
-                    artist.split(*(
-                            delimiters.split(",")
-                            .map { it.trim() }
-                            .map { if (it.isEmpty()) "," else it }
-                            .distinct()
-                            .toTypedArray()
-                    )).map { it.trim() }
-                }
-                .filter { it.isNotEmpty() }
-                .distinct()
-            (allArtists + splitNames)
-                .filter { it.isNotEmpty() }
-                .distinct()
+        binding.run {
+            title.text = song.title
+            text.text = song.artistName
         }
-        
-        // Always display the full artist name string
-        binding.text.text = song.allArtists
-        setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
     }
 
     private fun updateBlur() {
