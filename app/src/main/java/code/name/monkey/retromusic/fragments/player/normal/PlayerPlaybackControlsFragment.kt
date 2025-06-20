@@ -90,56 +90,6 @@ class PlayerPlaybackControlsFragment :
         setUpPlayPauseFab()
         binding.title.isSelected = true
         binding.text.isSelected = true
-
-        binding.title.setOnClickListener {
-            if (!PreferenceUtil.disabledNowPlayingTaps.contains("title")) {
-                goToAlbum(requireActivity())
-            }
-        }
-
-        binding.text.setOnClickListener {
-            if (!PreferenceUtil.disabledNowPlayingTaps.contains("artist")) {
-                if (individualArtists.size > 1) {
-                    MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(R.string.select_artist)
-                        .setItems(individualArtists.toTypedArray()) { _, which ->
-                            val selectedArtistName = individualArtists[which]
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                val allArtists = (requireParentFragment() as AbsPlayerFragment).libraryViewModel.artists.value
-                                val selectedArtist = allArtists?.find {
-                                    it.name.equals(selectedArtistName, ignoreCase = true)
-                                }
-                                withContext(Dispatchers.Main) {
-                                    if (selectedArtist != null) {
-                                        goToArtist(requireActivity(), selectedArtist.name, selectedArtist.id)
-                                    } else {
-                                        Toast.makeText(requireContext(), "Artist not found: $selectedArtistName", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                            }
-                        }
-                        .show()
-                } else {
-                    val artistName = MusicPlayerRemote.currentSong.artistName
-                    val artistId = MusicPlayerRemote.currentSong.artistId
-
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        val allArtists = (requireParentFragment() as AbsPlayerFragment).libraryViewModel.artists.value
-                        val artist = allArtists?.find {
-                            it.name.equals(artistName, ignoreCase = true)
-                        }
-                        withContext(Dispatchers.Main) {
-                            if (artist != null) {
-                                goToArtist(requireActivity(), artist.name, artist.id)
-                            } else {
-                                Toast.makeText(requireContext(), "Artist not found: $artistName", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         PreferenceManager.getDefaultSharedPreferences(requireContext())
             .registerOnSharedPreferenceChangeListener(this)
     }
@@ -232,6 +182,7 @@ class PlayerPlaybackControlsFragment :
         
         // Always display the full artist name string
         binding.text.text = song.allArtists
+        setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
 
         val metadataOrder = PreferenceUtil.nowPlayingMetadataOrder
         val metadataVisibility = PreferenceUtil.nowPlayingMetadataVisibility
