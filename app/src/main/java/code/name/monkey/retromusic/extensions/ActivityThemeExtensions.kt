@@ -105,10 +105,8 @@ fun AppCompatActivity.setDrawBehindSystemBars() {
             window.isNavigationBarContrastEnforced = false
         }
         if (VersionUtils.hasV()) {
-            window.decorView.post {
-                WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars =
-                    !surfaceColor().isDarkColor()
-            }
+            val insetsController = WindowCompat.getInsetsController(window, window.decorView)
+            insetsController?.isAppearanceLightStatusBars = !surfaceColor().isDarkColor()
         }
     } else {
         setNavigationBarColorPreOreo(surfaceColor())
