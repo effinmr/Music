@@ -53,7 +53,7 @@ class PeekPlayerFragment : AbsPlayerFragment(R.layout.fragment_peek_player) {
             binding.title,
             binding.text,
             individualArtists
-        }
+        )
         binding.root.drawAboveSystemBarsWithPadding()
     }
 
