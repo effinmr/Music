@@ -15,6 +15,8 @@ import code.name.monkey.appthemehelper.util.ColorUtil
 import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.util.PreferenceUtil
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 
 fun AppCompatActivity.maybeSetScreenOn() {
     if (PreferenceUtil.isScreenOnEnabled) {
@@ -104,6 +106,10 @@ fun AppCompatActivity.setDrawBehindSystemBars() {
         if (VersionUtils.hasQ()) {
             window.isNavigationBarContrastEnforced = false
         }
+        if (VersionUtils.hasV()) {
+            val insetsController = WindowCompat.getInsetsController(window, window.decorView)
+            insetsController?.isAppearanceLightStatusBars = !surfaceColor().isDarkColor()
+        }
     } else {
         setNavigationBarColorPreOreo(surfaceColor())
         if (VersionUtils.hasMarshmallow()) {
@@ -112,6 +118,13 @@ fun AppCompatActivity.setDrawBehindSystemBars() {
             setStatusBarColor(Color.BLACK)
         }
     }
+}
+
+fun Int.isDarkColor(): Boolean {
+    val darkness = 1 - (0.299 * Color.red(this) +
+                        0.587 * Color.green(this) +
+                        0.114 * Color.blue(this)) / 255
+    return darkness >= 0.5
 }
 
 fun FragmentActivity.setTaskDescriptionColor(color: Int) {
