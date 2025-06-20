@@ -49,11 +49,6 @@ class PeekPlayerFragment : AbsPlayerFragment(R.layout.fragment_peek_player) {
         setUpPlayerToolbar()
         setUpSubFragments()
         binding.title.isSelected = true
-        setupTitleAndArtistClicks(
-            binding.title,
-            binding.text,
-            individualArtists
-        )
         binding.root.drawAboveSystemBarsWithPadding()
     }
 
@@ -143,6 +138,7 @@ class PeekPlayerFragment : AbsPlayerFragment(R.layout.fragment_peek_player) {
         } else {
             binding.songInfo.hide()
         }
+        setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
     }
 
     override fun onServiceConnected() {
