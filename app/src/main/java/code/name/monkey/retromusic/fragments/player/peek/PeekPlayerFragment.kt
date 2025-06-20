@@ -57,6 +57,7 @@ class PeekPlayerFragment : AbsPlayerFragment(R.layout.fragment_peek_player) {
                 .split(",")
                 .map { it.trim() }
                 .filter { it.isNotEmpty() }
+                ?: emptyList()
         }
         binding.root.drawAboveSystemBarsWithPadding()
     }
