@@ -167,12 +167,6 @@ class GradientPlayerFragment : AbsPlayerFragment(R.layout.fragment_gradient_play
         setupSheet()
         setupMenu()
         setupFavourite()
-        binding.playbackControlsFragment.title.setOnClickListener {
-            goToAlbum(requireActivity())
-        }
-        binding.playbackControlsFragment.text.setOnClickListener {
-goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPlayerRemote.currentSong.artistId)
-        }
         ViewCompat.setOnApplyWindowInsetsListener(
             (binding.container)
         ) { v: View, insets: WindowInsetsCompat ->
