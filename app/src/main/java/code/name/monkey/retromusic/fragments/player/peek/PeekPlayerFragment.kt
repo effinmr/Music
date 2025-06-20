@@ -53,11 +53,7 @@ class PeekPlayerFragment : AbsPlayerFragment(R.layout.fragment_peek_player) {
             binding.title,
             binding.text
         ) {
-            MusicPlayerRemote.currentSong.allArtists
-                ?.split(",")
-                ?.map { it.trim() }
-                ?.filter { it.isNotEmpty() }
-                ?: emptyList()
+            individualArtists
         }
         binding.root.drawAboveSystemBarsWithPadding()
     }
