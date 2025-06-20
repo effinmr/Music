@@ -306,7 +306,7 @@ abstract class AbsPlayerFragment(@LayoutRes layout: Int) : AbsMusicServiceFragme
         }
     }
 
-    protected fun setupTitleAndArtistClicks(
+    fun setupTitleAndArtistClicks(
         titleView: TextView,
         artistView: TextView,
         individualArtists: List<String>
