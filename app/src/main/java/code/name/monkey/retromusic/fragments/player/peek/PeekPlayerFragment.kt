@@ -69,7 +69,8 @@ class PeekPlayerFragment : AbsPlayerFragment(R.layout.fragment_peek_player) {
                         .setItems(individualArtists.toTypedArray()) { _, which ->
                             val selectedArtistName = individualArtists[which]
                             lifecycleScope.launch(Dispatchers.IO) {
-                                val allArtists = (requireParentFragment() as AbsPlayerFragment).libraryViewModel.artists.value
+                                val parent = parentFragment as? AbsPlayerFragment
+                                val allArtists = parent?.libraryViewModel?.artists?.value.orEmpty()
                                 val selectedArtist = allArtists?.find {
                                     it.name.equals(selectedArtistName, ignoreCase = true)
                                 }
@@ -88,7 +89,8 @@ class PeekPlayerFragment : AbsPlayerFragment(R.layout.fragment_peek_player) {
                     val artistId = MusicPlayerRemote.currentSong.artistId
 
                     lifecycleScope.launch(Dispatchers.IO) {
-                        val allArtists = (requireParentFragment() as AbsPlayerFragment).libraryViewModel.artists.value
+                        val parent = parentFragment as? AbsPlayerFragment
+                        val allArtists = parent?.libraryViewModel?.artists?.value.orEmpty()
                         val artist = allArtists?.find {
                             it.name.equals(artistName, ignoreCase = true)
                         }
