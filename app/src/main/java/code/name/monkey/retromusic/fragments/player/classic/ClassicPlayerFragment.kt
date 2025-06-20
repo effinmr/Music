@@ -176,16 +176,12 @@ class ClassicPlayerFragment : AbsPlayerFragment(R.layout.fragment_classic_player
         binding.text.setOnClickListener {
             goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPlayerRemote.currentSong.artistId)
         }
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (getQueuePanel().state == BottomSheetBehavior.STATE_EXPANDED) {
-                    getQueuePanel().state = BottomSheetBehavior.STATE_COLLAPSED
-                }
-                else{
-                    mainActivity.getBottomSheetBehavior().state=BottomSheetBehavior.STATE_COLLAPSED
-                }
-            }
-        })
+    }
+
+    private fun getQueuePanelSafe(): BottomSheetBehavior<MaterialCardView>? {
+        val view = _binding?.playerQueueSheet ?: return null
+        val params = view.layoutParams as? CoordinatorLayout.LayoutParams ?: return null
+        return params.behavior as? BottomSheetBehavior<MaterialCardView>
     }
 
 

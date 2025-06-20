@@ -74,7 +74,8 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
     }
 
     private fun applyMarqueeToToolbarTitle() {
-        binding.playerToolbar.postDelayed({
+        _binding?.playerToolbar?.postDelayed({
+            val binding = _binding ?: return@postDelayed
             for (i in 0 until binding.playerToolbar.childCount) {
                 val view = binding.playerToolbar.getChildAt(i)
                 if (view is TextView && view.text == binding.playerToolbar.title) {
@@ -151,8 +152,9 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        _binding?.playerToolbar?.removeCallbacksAndMessages(null)
         _binding = null
+        super.onDestroyView()
     }
 
     override fun toolbarIconColor(): Int {

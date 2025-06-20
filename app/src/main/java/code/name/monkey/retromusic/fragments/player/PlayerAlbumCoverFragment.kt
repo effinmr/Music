@@ -59,6 +59,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     private var _binding: FragmentPlayerAlbumCoverBinding? = null
     private val binding get() = _binding!!
+    private var viewDestroyed = false
     private var callbacks: Callbacks? = null
     private var currentPosition: Int = 0
     val viewPager get() = binding.viewPager
@@ -93,11 +94,14 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
             } else {
                 val embeddedLyrics = LyricUtil.getEmbeddedSyncedLyrics(song.data)
                 if (embeddedLyrics != null) {
-                    binding.lyricsView.loadLrc(embeddedLyrics)
+                    _binding?.lyricsView?.loadLrc(embeddedLyrics)
                 } else {
                     withContext(Dispatchers.Main) {
-                        binding.lyricsView.reset()
-                        binding.lyricsView.setLabel(context?.getString(R.string.no_lyrics_found))
+                        val binding = _binding ?: return@withContext
+                        if (!viewDestroyed) {
+                            binding.lyricsView.reset()
+                            binding.lyricsView.setLabel(context?.getString(R.string.no_lyrics_found))
+                        }
                     }
                 }
             }
@@ -177,6 +181,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewDestroyed = true
         PreferenceManager.getDefaultSharedPreferences(requireContext())
             .unregisterOnSharedPreferenceChangeListener(this)
         binding.viewPager.removeOnPageChangeListener(this)
