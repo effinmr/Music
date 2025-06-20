@@ -58,6 +58,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     private var _binding: FragmentPlayerAlbumCoverBinding? = null
+    private val binding get() = _binding!!
     private var viewDestroyed = false
     private var callbacks: Callbacks? = null
     private var currentPosition: Int = 0
