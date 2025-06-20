@@ -165,6 +165,35 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
     private fun updateSong() {
         val song = MusicPlayerRemote.currentSong
         binding.playerToolbar.title = song.title
+
+        val artistName = song.artistName?.trim()
+        val delimiters = PreferenceUtil.artistDelimiters
+        
+        val allArtists: List<String> = (song.allArtists?.split(",") ?: emptyList<String>())
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            
+        individualArtists = if (delimiters.isBlank()) {
+            allArtists
+        } else {
+            val splitNames = allArtists
+                .flatMap { artist ->
+                    artist.split(*(
+                            delimiters.split(",")
+                            .map { it.trim() }
+                            .map { if (it.isEmpty()) "," else it }
+                            .distinct()
+                            .toTypedArray()
+                    )).map { it.trim() }
+                }
+                .filter { it.isNotEmpty() }
+                .distinct()
+            (allArtists + splitNames)
+                .filter { it.isNotEmpty() }
+                .distinct()
+        }
+        
+        // Always display the full artist name string
         binding.playerToolbar.subtitle = song.allArtists
         applyMarqueeToToolbarTitle()
     }
