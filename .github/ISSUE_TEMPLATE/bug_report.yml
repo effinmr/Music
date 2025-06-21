@@ -1,6 +1,7 @@
 name: Bug report
 description: Create a bug report to help us improve
 labels: [ bug ]
+assignees: effinmr
 body:
   - type: textarea
     id: bug
