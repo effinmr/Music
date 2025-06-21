@@ -115,6 +115,7 @@ fun AppCompatActivity.setDrawBehindSystemBars() {
                 view.setPadding(0, statusBarInsets.top, 0, 0)
                 insets
             }
+        }
     } else {
         setNavigationBarColorPreOreo(surfaceColor())
         if (VersionUtils.hasMarshmallow()) {
