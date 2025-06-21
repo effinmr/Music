@@ -73,6 +73,7 @@ import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.Collator
+import android.widget.Toast
 
 class AlbumDetailsFragment : AbsMainActivityFragment(R.layout.fragment_album_details),
     IAlbumClickListener {
@@ -217,14 +218,23 @@ class AlbumDetailsFragment : AbsMainActivityFragment(R.layout.fragment_album_det
         }
         loadAlbumCover(album)
         simpleSongAdapter.swapDataSet(album.songs)
-        if (albumArtistExists) {
-            detailsViewModel.getAlbumArtist(album.albumArtist.toString())
-                .observe(viewLifecycleOwner) {
-                    loadArtistImage(it)
+        if (albumArtistExists && !album.albumArtist.isNullOrBlank()) {
+            detailsViewModel.getAlbumArtist(album.albumArtist)
+                .observe(viewLifecycleOwner) { artist ->
+                    if (artist != null) {
+                        loadArtistImage(it)
+                    } else {
+                        Toast.makeText(requireContext(), "Artist not found: ${album.albumArtist}", Toast.LENGTH_SHORT).show()
+                    }
                 }
         } else {
-            detailsViewModel.getArtist(album.artistId).observe(viewLifecycleOwner) {
-                loadArtistImage(it)
+            detailsViewModel.getArtist(album.artistId)
+                .observe(viewLifecycleOwner) {
+                if (artist != null) {
+                    loadArtistImage(it)
+                } else {
+                    Toast.makeText(requireContext(), "Artist not found", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
