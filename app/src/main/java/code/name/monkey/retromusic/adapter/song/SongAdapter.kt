@@ -103,7 +103,7 @@ open class SongAdapter(
         holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
         holder.text?.text = getSongText(song)
         holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
-        holder.text2?.text = getSongText2(song)
+        holder.text2?.text = String.format("%s • %s", getTrackNumber(song), getSongText2(song))
 
         if (PreferenceUtil.showCoversInSongsTab) {
             holder.image?.isVisible = true
@@ -178,6 +178,10 @@ open class SongAdapter(
 
     private fun getSongText2(song: Song): String {
         return song.albumName
+    }
+
+    private fun getTrackNumber(song: Song): String {
+        return song.trackNumber
     }
 
     override fun getItemCount(): Int {
