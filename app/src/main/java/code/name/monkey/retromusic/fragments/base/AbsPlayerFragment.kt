@@ -312,13 +312,13 @@ abstract class AbsPlayerFragment(@LayoutRes layout: Int) : AbsMusicServiceFragme
         individualArtists: List<String>
     ) {
         titleView.setOnClickListener {
-            if (!PreferenceUtil.disabledNowPlayingTaps.contains("title")) {
+            if (PreferenceUtil.tapOnTitle) {
                 goToAlbum(requireActivity())
             }
         }
 
         artistView.setOnClickListener {
-            if (!PreferenceUtil.disabledNowPlayingTaps.contains("artist")) {
+            if (PreferenceUtil.tapOnArtist) {
                 if (individualArtists.size > 1) {
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(R.string.select_artist)

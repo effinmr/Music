@@ -825,10 +825,6 @@ object PreferenceUtil {
     val disableSwipeDownToDismiss
         get() = sharedPreferences.getBoolean(DISABLE_SWIPE_DOWN_TO_DISMISS, false)
 
-    const val DISABLED_NOW_PLAYING_TAPS = "disabled_now_playing_taps"
-    val disabledNowPlayingTaps: Set<String>
-        get() = sharedPreferences.getStringSet(DISABLED_NOW_PLAYING_TAPS, emptySet()) ?: emptySet()
-
     const val PLAYER_ACTION_BUTTONS_ORDER = "player_action_buttons_order"
     const val NOW_PLAYING_ACTION_BUTTONS_ORDER = "now_playing_action_buttons_order"
     const val NOW_PLAYING_ACTION_BUTTONS_VISIBILITY = "now_playing_action_buttons_visibility"
@@ -906,6 +902,18 @@ object PreferenceUtil {
     val showCoversInSongsTab: Boolean
         get() = sharedPreferences.getBoolean(
             SHOW_COVERS_IN_SONGS_TAB, true // Default to true
+        )
+
+    const val TAP_ON_TITLE = "tap_on_title"
+    val tapOnTitle: Boolean
+        get() = sharedPreferences.getBoolean(
+            TAP_ON_TITLE, true // Default to true
+        )
+
+    const val TAP_ON_ARTIST = "tap_on_artist"
+    val tapOnArtist: Boolean
+        get() = sharedPreferences.getBoolean(
+            TAP_ON_ARTIST, true // Default to true
         )
 
     val miniPlayerScrolling: Boolean

@@ -240,26 +240,6 @@
         <item>disabled</item>
     </string-array>
 
-    <string-array name="pref_disabled_now_playing_taps_titles">
-        <item>Album Art</item>
-        <item>Seek Bar</item>
-        <item>Title</item>
-        <item>Artist</item>
-        <item>Lyrics</item>
-    </string-array>
-
-    <string-array name="pref_disabled_now_playing_taps_values">
-        <item>album_art</item>
-        <item>seek_bar</item>
-        <item>title</item>
-        <item>artist</item>
-        <item>lyrics</item>
-    </string-array>
-
-    <array name="pref_disabled_now_playing_taps_default_value">
-        </array>
-
-
     <string-array name="mini_player_time_entries">
         <item>@string/remaining_time</item>
         <item>@string/total_time</item>

@@ -107,7 +107,10 @@ class PlayerPlaybackControlsFragment :
             PreferenceUtil.NOW_PLAYING_METADATA_VISIBILITY -> {
                 updateSong()
             }
-            PreferenceUtil.DISABLED_NOW_PLAYING_TAPS -> {
+            PreferenceUtil.TAP_ON_ARTIST -> {
+                // No UI update needed for tap preference change, just the click listener logic
+            }
+            PreferenceUtil.TAP_ON_TITLE -> {
                 // No UI update needed for tap preference change, just the click listener logic
             }
         }
