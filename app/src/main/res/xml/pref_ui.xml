@@ -254,14 +254,14 @@
             android:title="@string/pref_title_tap_on_title"
             android:summary="@string/pref_summary_tap_on_title"
             android:layout="@layout/list_item_view_switch"
-            android:defaultValue="true"
+            android:defaultValue="true" />
 
         <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
             android:key="tap_on_artist"
             android:title="@string/pref_title_tap_on_artist"
             android:summary="@string/pref_summary_tap_on_artist"
             android:layout="@layout/list_item_view_switch"
-            android:defaultValue="true"
+            android:defaultValue="true" />
 
         <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
             android:defaultValue="true"
