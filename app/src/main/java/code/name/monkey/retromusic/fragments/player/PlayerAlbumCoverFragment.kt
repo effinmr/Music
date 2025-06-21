@@ -190,11 +190,13 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     }
 
     override fun onServiceConnected() {
+        delay(100)
         updatePlayingQueue()
         updateLyrics()
     }
 
     override fun onPlayingMetaChanged() {
+        delay(100)
         if (viewPager.currentItem != MusicPlayerRemote.position) {
             viewPager.setCurrentItem(MusicPlayerRemote.position, true)
         }
@@ -202,6 +204,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     }
 
     override fun onQueueChanged() {
+        delay(100)
         updatePlayingQueue()
     }
 
