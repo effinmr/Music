@@ -40,6 +40,7 @@ import code.name.monkey.retromusic.util.PreferenceUtil.blurAmount
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
+import code.name.monkey.retromusic.util.PreferenceUtil
 
 class CardBlurFragment : AbsPlayerFragment(R.layout.fragment_card_blur_player),
     SharedPreferences.OnSharedPreferenceChangeListener {
