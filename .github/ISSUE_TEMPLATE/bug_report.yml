@@ -1,6 +1,7 @@
 name: Bug report
 description: Create a bug report to help us improve
 labels: [ bug ]
+assignees: effinmr
 body:
   - type: textarea
     id: bug
@@ -24,7 +25,7 @@ body:
           3. Scroll down to '....'
           4. See error
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: expected-behavior
