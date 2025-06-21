@@ -152,7 +152,6 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
     }
 
     override fun onDestroyView() {
-        _binding?.playerToolbar?.removeCallbacksAndMessages(null)
         _binding = null
         super.onDestroyView()
     }
