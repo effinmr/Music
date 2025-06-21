@@ -112,7 +112,6 @@ open class SongAdapter(
         } else {
             holder.image?.isVisible = false
             holder.imageText?.isVisible = true
-            holder.imageTextContainer?.isVisible = false
         }
 
         val landscape = RetroUtil.isLandscape
