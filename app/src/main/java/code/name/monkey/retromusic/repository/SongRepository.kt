@@ -178,7 +178,6 @@ class RealSongRepository(private val context: Context) : SongRepository {
         val composer = cursor.getStringOrNull(AudioColumns.COMPOSER)
         val artistName = cursor.getStringOrNull(AudioColumns.ARTIST)
         val albumArtist = cursor.getStringOrNull("album_artist")
-            ?.takeIf { it.isNotEmpty() } ?: artistName
         val allArtists = listOfNotNull(albumArtist, artistName)
             .map { it.trim() }
             .filter { it.isNotEmpty() }
