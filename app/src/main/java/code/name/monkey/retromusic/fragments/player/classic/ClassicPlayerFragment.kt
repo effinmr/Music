@@ -78,7 +78,7 @@ class ClassicPlayerFragment : AbsPlayerFragment(R.layout.fragment_classic_player
 
     private var individualArtists: List<String> = emptyList()
 
-    private var backCallback: OnBackPressedCallback? = null
+    private lateinit var backCallback: OnBackPressedCallback
 
     private var lastColor: Int = 0
     private var lastPlaybackControlsColor: Int = 0
