@@ -52,7 +52,6 @@ import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.*
 
 class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_player_album_cover),
     ViewPager.OnPageChangeListener, MusicProgressViewUpdateHelper.Callback,
@@ -191,13 +190,11 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     }
 
     override fun onServiceConnected() {
-        delay(100)
         updatePlayingQueue()
         updateLyrics()
     }
 
     override fun onPlayingMetaChanged() {
-        delay(100)
         if (viewPager.currentItem != MusicPlayerRemote.position) {
             viewPager.setCurrentItem(MusicPlayerRemote.position, true)
         }
@@ -205,7 +202,6 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     }
 
     override fun onQueueChanged() {
-        delay(100)
         updatePlayingQueue()
     }
 
