@@ -78,8 +78,6 @@ class ClassicPlayerFragment : AbsPlayerFragment(R.layout.fragment_classic_player
 
     private var individualArtists: List<String> = emptyList()
 
-    private lateinit var backCallback: OnBackPressedCallback
-
     private var lastColor: Int = 0
     private var lastPlaybackControlsColor: Int = 0
     private var lastDisabledPlaybackControlsColor: Int = 0
@@ -178,18 +176,6 @@ class ClassicPlayerFragment : AbsPlayerFragment(R.layout.fragment_classic_player
         binding.text.setOnClickListener {
             goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPlayerRemote.currentSong.artistId)
         }
-        backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val panel = getQueuePanelSafe()
-                if (panel?.state == BottomSheetBehavior.STATE_EXPANDED) {
-                    panel.state = BottomSheetBehavior.STATE_COLLAPSED
-                }
-                else{
-                    mainActivity.getBottomSheetBehavior().state = BottomSheetBehavior.STATE_COLLAPSED
-                }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback!!)
     }
 
     private fun getQueuePanelSafe(): BottomSheetBehavior<MaterialCardView>? {
