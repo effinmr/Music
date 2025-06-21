@@ -48,6 +48,7 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.google.android.material.slider.Slider
 import code.name.monkey.retromusic.SWAP_SHUFFLE_REPEAT_BUTTONS
+import androidx.transition.TransitionManager
 
 /**
  * Created by hemanths on 24/09/17.
@@ -241,39 +242,83 @@ abstract class AbsPlayerControlsFragment(@LayoutRes layout: Int) : AbsMusicServi
     }
 
     private fun applyButtonSwapLogic() {
+        val parent = shuffleButton.parent as? ConstraintLayout ?: return
+
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(parent)
+
+        // Clear existing constraints
+        constraintSet.clear(shuffleButton.id)
+        constraintSet.clear(repeatButton.id)
+
         if (PreferenceUtil.swapShuffleRepeatButtons) {
-            val parent = shuffleButton.parent as? ConstraintLayout
-            parent?.let {
-                val constraintSet = ConstraintSet()
-                constraintSet.clone(it)
+            // Shuffle goes to repeat's original position (left)
+            constraintSet.connect(
+                shuffleButton.id,
+                ConstraintSet.END,
+                R.id.previousButton,
+                ConstraintSet.START
+            )
+            constraintSet.connect(
+                shuffleButton.id,
+                ConstraintSet.START,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.START
+            )
+            constraintSet.setHorizontalBias(shuffleButton.id, 0.5f)
 
-                // Clear existing constraints for shuffle and repeat buttons
-                constraintSet.clear(shuffleButton.id, ConstraintSet.START)
-                constraintSet.clear(shuffleButton.id, ConstraintSet.END)
-                constraintSet.clear(repeatButton.id, ConstraintSet.START)
-                constraintSet.clear(repeatButton.id, ConstraintSet.END)
+            // Repeat goes to shuffle's original position (right)
+            constraintSet.connect(
+                repeatButton.id,
+                ConstraintSet.START,
+                R.id.nextButton,
+                ConstraintSet.END
+            )
+            constraintSet.connect(
+                repeatButton.id,
+                ConstraintSet.END,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.END
+            )
+            constraintSet.setHorizontalBias(repeatButton.id, 0.5f)
+        } else {
+            // Default positioning
+            constraintSet.connect(
+                repeatButton.id,
+                ConstraintSet.END,
+                R.id.previousButton,
+                ConstraintSet.START
+            )
+            constraintSet.connect(
+                repeatButton.id,
+                ConstraintSet.START,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.START
+            )
+            constraintSet.setHorizontalBias(repeatButton.id, 0.5f)
 
-                // Swap positions: shuffleButton takes repeatButton's original position
-                // and repeatButton takes shuffleButton's original position.
-                // Original: repeatButton -- previousButton -- playPauseButton -- nextButton -- shuffleButton
-                // New:      shuffleButton -- previousButton -- playPauseButton -- nextButton -- repeatButton
-
-                // Shuffle button takes repeatButton's original position (leftmost)
-                constraintSet.connect(shuffleButton.id, ConstraintSet.END, R.id.previousButton, ConstraintSet.START)
-                constraintSet.connect(shuffleButton.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-                constraintSet.setHorizontalBias(shuffleButton.id, 0.5f) // Maintain horizontal bias
-
-                // Repeat button takes shuffleButton's original position (rightmost)
-                constraintSet.connect(repeatButton.id, ConstraintSet.START, R.id.nextButton, ConstraintSet.END)
-                constraintSet.connect(repeatButton.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
-                constraintSet.setHorizontalBias(repeatButton.id, 0.5f) // Maintain horizontal bias
-
-                constraintSet.applyTo(parent)
-                // manual app restart
-                parent.invalidate()
-                parent.requestLayout()
-            }
+            constraintSet.connect(
+                shuffleButton.id,
+                ConstraintSet.START,
+                R.id.nextButton,
+                ConstraintSet.END
+            )
+            constraintSet.connect(
+                shuffleButton.id,
+                ConstraintSet.END,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.END
+            )
+            constraintSet.setHorizontalBias(shuffleButton.id, 0.5f)
         }
+
+        // Apply with transition for smooth visual update
+        TransitionManager.beginDelayedTransition(parent)
+        constraintSet.applyTo(parent)
+
+        // Ensure layout is refreshed
+        shuffleButton.requestLayout()
+        repeatButton.requestLayout()
     }
 
     @SuppressLint("ClickableViewAccessibility")
