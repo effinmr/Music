@@ -617,8 +617,10 @@
     <string name="save_playlists_title">Save playlists</string>
     <string name="pref_header_now_playing_metadata">Now Playing Metadata</string>
     <string name="pref_header_now_playing">Now Playing</string>
-    <string name="pref_summary_disabled_now_playing_taps">Select which elements on the now playing screen should not react to taps.</string>
-    <string name="pref_title_disabled_now_playing_taps">Disabled now playing taps</string>
+    <string name="pref_summary_tap_on_title">Go to Album on tap</string>
+    <string name="pref_title_tap_on_title">Tap on Title</string>
+    <string name="pref_summary_tap_on_artist">Go to Artist on tap</string>
+    <string name="pref_title_tap_on_artist">Tap on Artist</string>
     <string name="pref_title_show_cast_button">Show Cast Button</string>
     <string name="pref_summary_show_cast_button">Toggle visibility of the Cast to Device button</string>
     <string name="pref_title_show_song_menu_grid">Show song menu in grid</string>
