@@ -27,14 +27,22 @@ import code.name.monkey.retromusic.fragments.base.goToArtist
 import code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.model.Song
+import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import android.text.TextUtils
 import android.widget.TextView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 
 class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
 
     private var _binding: FragmentAdaptivePlayerBinding? = null
     private val binding get() = _binding!!
+
+    private var individualArtists: List<String> = emptyList()
 
     private var lastColor: Int = 0
     private lateinit var playbackControlsFragment: AdaptivePlaybackControlsFragment
@@ -78,27 +86,71 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
             val binding = _binding ?: return@postDelayed
             for (i in 0 until binding.playerToolbar.childCount) {
                 val view = binding.playerToolbar.getChildAt(i)
-                if (view is TextView && view.text == binding.playerToolbar.title) {
-                    view.apply {
-                        ellipsize = TextUtils.TruncateAt.MARQUEE
-                        isSingleLine = true
-                        marqueeRepeatLimit = -1
-                        isSelected = true
-                        setHorizontallyScrolling(true)
-                        isFocusable = true
-                        isFocusableInTouchMode = true
-                        requestFocus()
-                        setOnClickListener {
-                            goToAlbum(requireActivity())
+                when {
+                    view is TextView && view.text == binding.playerToolbar.title -> {
+                        view.apply {
+                            ellipsize = TextUtils.TruncateAt.MARQUEE
+                            isSingleLine = true
+                            marqueeRepeatLimit = -1
+                            isSelected = true
+                            setHorizontallyScrolling(true)
+                            isFocusable = true
+                            isFocusableInTouchMode = true
+                            requestFocus()
+                            setOnClickListener {
+                                if (PreferenceUtil.tapOnTitle) {
+                                    goToAlbum(requireActivity())
+                                }
+                            }
                         }
                     }
-                } else if (view is TextView && view.text == binding.playerToolbar.subtitle) {
-                    view.setOnClickListener {
-                        goToArtist(
-                            requireActivity(),
-                            MusicPlayerRemote.currentSong.artistName,
-                            MusicPlayerRemote.currentSong.artistId
-                        )
+
+                    view is TextView && view.text == binding.playerToolbar.subtitle -> {
+                        view.setOnClickListener {
+                            if (PreferenceUtil.tapOnArtist) {
+                                if (individualArtists.size > 1) {
+                                    MaterialAlertDialogBuilder(requireContext())
+                                        .setTitle(R.string.select_artist)
+                                        .setItems(individualArtists.toTypedArray()) { _, which ->
+                                            val selectedArtistName = individualArtists[which]
+                                            lifecycleScope.launch {
+                                                val allArtists = withContext(Dispatchers.IO) {
+                                                    libraryViewModel.artists.value
+                                                }
+                                                val selectedArtist = allArtists?.find {
+                                                    it.name.equals(selectedArtistName, ignoreCase = true)
+                                                }
+                                                if (selectedArtist != null) {
+                                                    goToArtist(
+                                                        requireActivity(),
+                                                        selectedArtist.name,
+                                                        selectedArtist.id
+                                                    )
+                                                } else {
+                                                    context?.showToast("Artist not found: $selectedArtistName")
+                                                }
+                                            }
+                                        }
+                                        .show()
+                                } else {
+                                    val song = MusicPlayerRemote.currentSong
+                                    val artistName = song.artistName
+                                    lifecycleScope.launch {
+                                        val allArtists = withContext(Dispatchers.IO) {
+                                            libraryViewModel.artists.value
+                                        }
+                                        val artist = allArtists?.find {
+                                            it.name.equals(artistName, ignoreCase = true)
+                                        }
+                                        if (artist != null) {
+                                            goToArtist(requireActivity(), artist.name, artist.id)
+                                        } else {
+                                            context?.showToast("Artist not found: $artistName")
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -119,6 +171,35 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
     private fun updateSong() {
         val song = MusicPlayerRemote.currentSong
         binding.playerToolbar.title = song.title
+
+        val artistName = song.artistName?.trim()
+        val delimiters = PreferenceUtil.artistDelimiters
+        
+        val allArtists: List<String> = (song.allArtists?.split(",") ?: emptyList<String>())
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            
+        individualArtists = if (delimiters.isBlank()) {
+            allArtists
+        } else {
+            val splitNames = allArtists
+                .flatMap { artist ->
+                    artist.split(*(
+                            delimiters.split(",")
+                            .map { it.trim() }
+                            .map { if (it.isEmpty()) "," else it }
+                            .distinct()
+                            .toTypedArray()
+                    )).map { it.trim() }
+                }
+                .filter { it.isNotEmpty() }
+                .distinct()
+            (allArtists + splitNames)
+                .filter { it.isNotEmpty() }
+                .distinct()
+        }
+        
+        // Always display the full artist name string
         binding.playerToolbar.subtitle = song.allArtists
         applyMarqueeToToolbarTitle()
     }
@@ -152,7 +233,6 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
     }
 
     override fun onDestroyView() {
-        _binding?.playerToolbar?.removeCallbacksAndMessages(null)
         _binding = null
         super.onDestroyView()
     }
