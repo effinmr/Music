@@ -180,6 +180,10 @@ open class SongAdapter(
         return song.albumName
     }
 
+    private fun getTrackNumber(song: Song): Int {
+        return song.trackNumber
+    }
+
     override fun getItemCount(): Int {
         return dataSet.size
     }
