@@ -17,6 +17,8 @@ import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.util.PreferenceUtil
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import android.view.Window
+import android.view.WindowInsets
 
 fun AppCompatActivity.maybeSetScreenOn() {
     if (PreferenceUtil.isScreenOnEnabled) {
@@ -107,9 +109,12 @@ fun AppCompatActivity.setDrawBehindSystemBars() {
             window.isNavigationBarContrastEnforced = false
         }
         if (VersionUtils.hasV()) {
-            val insetsController = WindowCompat.getInsetsController(window, window.decorView)
-            insetsController?.isAppearanceLightStatusBars = !surfaceColor().isDarkColor()
-        }
+            window.decorView.setOnApplyWindowInsetsListener { view, insets ->
+                val statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars())
+                view.setBackgroundColor(surfaceColor())
+                view.setPadding(0, statusBarInsets.top, 0, 0)
+                insets
+            }
     } else {
         setNavigationBarColorPreOreo(surfaceColor())
         if (VersionUtils.hasMarshmallow()) {
