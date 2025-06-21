@@ -134,6 +134,7 @@ class CardBlurFragment : AbsPlayerFragment(R.layout.fragment_card_blur_player),
 
     private fun updateSong() {
         val song = MusicPlayerRemote.currentSong
+        binding.title.text = song.title
 
         val artistName = song.artistName?.trim()
         val delimiters = PreferenceUtil.artistDelimiters
@@ -163,11 +164,8 @@ class CardBlurFragment : AbsPlayerFragment(R.layout.fragment_card_blur_player),
         }
         
         // Always display the full artist name string
-        binding.run {
-            title.text = song.title
-            text.text = song.allArtists
-        }
-        setupTitleAndArtistClicks(title, text, individualArtists)
+        binding.text.text = song.allArtists
+        setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
     }
 
     private fun updateBlur() {
