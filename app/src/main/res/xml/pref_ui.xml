@@ -249,14 +249,19 @@
             android:title="@string/pref_header_now_playing_metadata"
             android:summary="@string/pref_summary_extra_song_info" />
 
-        <MultiSelectListPreference
-            android:key="disabled_now_playing_taps"
-            android:title="@string/pref_title_disabled_now_playing_taps"
-            android:summary="@string/pref_summary_disabled_now_playing_taps"
-            android:entries="@array/pref_disabled_now_playing_taps_titles"
-            android:entryValues="@array/pref_disabled_now_playing_taps_values"
-            android:defaultValue="@array/pref_disabled_now_playing_taps_default_value"
-            android:layout="@layout/list_item_view" />
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:key="tap_on_title"
+            android:title="@string/pref_title_tap_on_title"
+            android:summary="@string/pref_summary_tap_on_title"
+            android:layout="@layout/list_item_view_switch"
+            android:defaultValue="true"
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:key="tap_on_artist"
+            android:title="@string/pref_title_tap_on_artist"
+            android:summary="@string/pref_summary_tap_on_artist"
+            android:layout="@layout/list_item_view_switch"
+            android:defaultValue="true"
 
         <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
             android:defaultValue="true"
