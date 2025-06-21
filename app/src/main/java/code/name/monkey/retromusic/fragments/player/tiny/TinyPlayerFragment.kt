@@ -49,6 +49,8 @@ class TinyPlayerFragment : AbsPlayerFragment(R.layout.fragment_tiny_player),
     private var _binding: FragmentTinyPlayerBinding? = null
     private val binding get() = _binding!!
 
+    private var individualArtists: List<String> = emptyList()
+    
     private var lastColor: Int = 0
     private var toolbarColor: Int = 0
     private var isDragEnabled = false
@@ -116,7 +118,36 @@ class TinyPlayerFragment : AbsPlayerFragment(R.layout.fragment_tiny_player),
     private fun updateSong() {
         val song = MusicPlayerRemote.currentSong
         binding.title.text = song.title
-        binding.text.text = String.format("%s \nby - %s", song.albumName, song.artistName)
+
+        val artistName = song.artistName?.trim()
+        val delimiters = PreferenceUtil.artistDelimiters
+        
+        val allArtists: List<String> = (song.allArtists?.split(",") ?: emptyList<String>())
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            
+        individualArtists = if (delimiters.isBlank()) {
+            allArtists
+        } else {
+            val splitNames = allArtists
+                .flatMap { artist ->
+                    artist.split(*(
+                            delimiters.split(",")
+                            .map { it.trim() }
+                            .map { if (it.isEmpty()) "," else it }
+                            .distinct()
+                            .toTypedArray()
+                    )).map { it.trim() }
+                }
+                .filter { it.isNotEmpty() }
+                .distinct()
+            (allArtists + splitNames)
+                .filter { it.isNotEmpty() }
+                .distinct()
+        }
+        
+        // Always display the full artist name string
+        binding.text.text = String.format("%s \nby - %s", song.albumName, song.allArtists)
 
         if (PreferenceUtil.isSongInfo) {
             binding.songInfo.text = getSongInfo(song)
@@ -124,6 +155,7 @@ class TinyPlayerFragment : AbsPlayerFragment(R.layout.fragment_tiny_player),
         } else {
             binding.songInfo.hide()
         }
+        setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -136,12 +168,6 @@ class TinyPlayerFragment : AbsPlayerFragment(R.layout.fragment_tiny_player),
 
         setUpPlayerToolbar()
         setUpSubFragments()
-        binding.title.setOnClickListener {
-            goToAlbum(requireActivity())
-        }
-binding.text.setOnClickListener {
-            goToArtist(requireActivity(), MusicPlayerRemote.currentSong.artistName, MusicPlayerRemote.currentSong.artistId)
-        }
         playerToolbar().drawAboveSystemBars()
     }
 
