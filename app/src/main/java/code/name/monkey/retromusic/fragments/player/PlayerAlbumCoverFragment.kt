@@ -94,10 +94,11 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
             } else {
                 val embeddedLyrics = LyricUtil.getEmbeddedSyncedLyrics(song.data)
                 if (embeddedLyrics != null) {
-                    binding.lyricsView.loadLrc(embeddedLyrics)
+                    _binding?.lyricsView?.loadLrc(embeddedLyrics)
                 } else {
                     withContext(Dispatchers.Main) {
-                        if (!viewDestroyed && _binding != null) {
+                        val binding = _binding ?: return@withContext
+                        if (!viewDestroyed) {
                             binding.lyricsView.reset()
                             binding.lyricsView.setLabel(context?.getString(R.string.no_lyrics_found))
                         }
