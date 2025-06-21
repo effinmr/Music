@@ -48,6 +48,7 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.google.android.material.slider.Slider
 import code.name.monkey.retromusic.SWAP_SHUFFLE_REPEAT_BUTTONS
+import android.widget.Toast
 
 /**
  * Created by hemanths on 24/09/17.
@@ -231,12 +232,11 @@ abstract class AbsPlayerControlsFragment(@LayoutRes layout: Int) : AbsMusicServi
         setUpRepeatButton()
         applyButtonSwapLogic()
     }
-
+    
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-            SWAP_SHUFFLE_REPEAT_BUTTONS -> {
-                applyButtonSwapLogic()
-            }
+        if (key == SWAP_SHUFFLE_REPEAT_BUTTONS) {
+            Toast.makeText(requireContext(), "Swap preference changed", Toast.LENGTH_SHORT).show()
+            applyButtonSwapLogic()
         }
     }
 
@@ -270,8 +270,6 @@ abstract class AbsPlayerControlsFragment(@LayoutRes layout: Int) : AbsMusicServi
 
                 constraintSet.applyTo(parent)
                 // manual app restart
-                parent.invalidate()
-                parent.requestLayout()
             }
         }
     }
@@ -350,6 +348,12 @@ abstract class AbsPlayerControlsFragment(@LayoutRes layout: Int) : AbsMusicServi
     override fun onPause() {
         super.onPause()
         progressViewUpdateHelper.stop()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        PreferenceManager.getDefaultSharedPreferences(requireContext())
+            .unregisterOnSharedPreferenceChangeListener(this)
     }
 
     companion object {
