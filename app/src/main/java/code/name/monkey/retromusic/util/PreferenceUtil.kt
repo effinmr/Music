@@ -904,11 +904,13 @@ object PreferenceUtil {
             SHOW_COVERS_IN_SONGS_TAB, true // Default to true
         )
 
+    const val TAP_ON_TITLE = "tap_on_title"
     val tapOnTitle: Boolean
         get() = sharedPreferences.getBoolean(
             TAP_ON_TITLE, true // Default to true
         )
-    
+
+    const val TAP_ON_ARTIST = "tap_on_artist"
     val tapOnArtist: Boolean
         get() = sharedPreferences.getBoolean(
             TAP_ON_ARTIST, true // Default to true
