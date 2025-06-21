@@ -98,7 +98,7 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
                             isFocusableInTouchMode = true
                             requestFocus()
                             setOnClickListener {
-                                if (!PreferenceUtil.disabledNowPlayingTaps.contains("title")) {
+                                if (PreferenceUtil.tapOnTitle) {
                                     goToAlbum(requireActivity())
                                 }
                             }
@@ -107,7 +107,7 @@ class AdaptiveFragment : AbsPlayerFragment(R.layout.fragment_adaptive_player) {
 
                     view is TextView && view.text == binding.playerToolbar.subtitle -> {
                         view.setOnClickListener {
-                            if (!PreferenceUtil.disabledNowPlayingTaps.contains("artist")) {
+                            if (PreferenceUtil.tapOnArtist) {
                                 if (individualArtists.size > 1) {
                                     MaterialAlertDialogBuilder(requireContext())
                                         .setTitle(R.string.select_artist)
