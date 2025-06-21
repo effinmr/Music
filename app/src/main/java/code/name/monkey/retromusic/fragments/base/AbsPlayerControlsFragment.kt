@@ -300,6 +300,7 @@ abstract class AbsPlayerControlsFragment(@LayoutRes layout: Int) : AbsMusicServi
 
                 constraintSet.applyTo(parent)
             }
+        }
             
     }
 
