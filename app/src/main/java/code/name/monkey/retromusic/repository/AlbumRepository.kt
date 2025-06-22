@@ -87,7 +87,11 @@ class RealAlbumRepository(private val songRepository: RealSongRepository) :
                 grouped.sortedWith { a1, a2 -> collator.compare(a2.title, a1.title) }
             }
             SortOrder.AlbumSortOrder.ALBUM_ARTIST -> {
-                grouped.sortedWith { a1, a2 -> collator.compare(a1.albumArtist, a2.albumArtist) }
+                grouped.sortedWith { a1, a2 ->
+                    val artist1 = a1.albumArtist.takeIf { !it.isNullOrBlank() } ?: a1.artistName
+                    val artist2 = a2.albumArtist.takeIf { !it.isNullOrBlank() } ?: a2.artistName
+                    collator.compare(artist1, artist2)
+                }
             }
             SortOrder.AlbumSortOrder.ALBUM_NUMBER_OF_SONGS -> {
                 grouped.sortedByDescending { it.songCount }
