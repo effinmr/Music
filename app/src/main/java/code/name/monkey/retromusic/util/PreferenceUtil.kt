@@ -831,6 +831,8 @@ object PreferenceUtil {
 
     const val OFFLINE_MODE = "offline_mode"
 
+    const val SHOW_SONG_ONLY = "show_song_only"
+
     var playerActionButtonsOrder: String
         get() = sharedPreferences.getStringOrDefault(PLAYER_ACTION_BUTTONS_ORDER, "")
         set(value) = sharedPreferences.edit { putString(PLAYER_ACTION_BUTTONS_ORDER, value) }
