@@ -85,6 +85,13 @@
             android:summary="@string/pref_summary_offline_mode"
             android:title="@string/pref_title_offline_mode" />
 
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:key="show_song_only"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_summary_show_song_only"
+            android:title="@string/pref_title_show_song_only" />
+
     </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
     <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
         android:defaultValue="auto"
