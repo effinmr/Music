@@ -120,7 +120,11 @@ class RealSongRepository(private val context: Context) : SongRepository {
                 songs.sortedWith{ s1, s2 -> collator.compare(s1.albumName, s2.albumName) }
             }
             SortOrder.SongSortOrder.SONG_ALBUM_ARTIST -> {
-                songs.sortedWith{ s1, s2 -> collator.compare(s1.albumArtist, s2.albumArtist) }
+                songs.sortedWith { s1, s2 ->
+                    val artist1 = s1.albumArtist.takeIf { !it.isNullOrBlank() } ?: s1.artistName
+                    val artist2 = s2.albumArtist.takeIf { !it.isNullOrBlank() } ?: s2.artistName
+                    collator.compare(artist1, artist2)
+                }
             }
             SortOrder.SongSortOrder.SONG_ARTIST -> {
                 songs.sortedWith{ s1, s2 -> collator.compare(s1.artistName, s2.artistName) }
