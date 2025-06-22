@@ -51,6 +51,7 @@ import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import java.util.*
 import android.content.SharedPreferences
+import androidx.core.view.isGone
 
 abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_artist_details),
     IAlbumClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
