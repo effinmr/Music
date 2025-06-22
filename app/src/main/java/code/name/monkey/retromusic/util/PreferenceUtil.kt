@@ -831,6 +831,8 @@ object PreferenceUtil {
 
     const val OFFLINE_MODE = "offline_mode"
 
+    const val SHOW_SONG_ONLY = "show_song_only"
+
     var playerActionButtonsOrder: String
         get() = sharedPreferences.getStringOrDefault(PLAYER_ACTION_BUTTONS_ORDER, "")
         set(value) = sharedPreferences.edit { putString(PLAYER_ACTION_BUTTONS_ORDER, value) }
@@ -868,6 +870,10 @@ object PreferenceUtil {
     var isOfflineMode: Boolean
         get() = sharedPreferences.getBoolean(OFFLINE_MODE, false)
         set(value) = sharedPreferences.edit { putBoolean(OFFLINE_MODE, value) }
+
+    var showSongOnly: Boolean
+        get() = sharedPreferences.getBoolean(SHOW_SONG_ONLY, false)
+        set(value) = sharedPreferences.edit { putBoolean(SHOW_SONG_ONLY, value) }
 
     const val SHOW_NOW_PLAYING_QUEUE_BUTTON = "show_now_playing_queue_button"
     const val SHOW_OPTIONS_MENU = "show_options_menu"

@@ -51,6 +51,7 @@ import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import java.util.*
 import android.content.SharedPreferences
+import androidx.core.view.isGone
 
 abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_artist_details),
     IAlbumClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -165,23 +166,33 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
 
     private fun showArtist(artist: Artist) {
         this.artist = artist
-        loadArtistImage(artist)
-        if ((!PreferenceUtil.isOfflineMode) && PreferenceUtil.isAllowedToDownloadMetadata(requireContext())) {
-            loadBiography(artist.name)
-            binding.fragmentArtistContent.biographyText.isVisible = true
-            binding.fragmentArtistContent.biographyTitle.isVisible = true
-            binding.fragmentArtistContent.listeners.isVisible = true
-            binding.fragmentArtistContent.listenersLabel.isVisible = true
-            binding.fragmentArtistContent.scrobbles.isVisible = true
-            binding.fragmentArtistContent.scrobblesLabel.isVisible = true
-
-        } else {
+        if (PreferenceUtil.showSongOnly) {
+            binding.artistCoverContainer.isGone = true
             binding.fragmentArtistContent.biographyText.isVisible = false
             binding.fragmentArtistContent.biographyTitle.isVisible = false
-             binding.fragmentArtistContent.listeners.isVisible = false
-             binding.fragmentArtistContent.listenersLabel.isVisible = false
-             binding.fragmentArtistContent.scrobbles.isVisible = false
-             binding.fragmentArtistContent.scrobblesLabel.isVisible = false
+            binding.fragmentArtistContent.listeners.isVisible = false
+            binding.fragmentArtistContent.listenersLabel.isVisible = false
+            binding.fragmentArtistContent.scrobbles.isVisible = false
+            binding.fragmentArtistContent.scrobblesLabel.isVisible = false
+        }
+        else {
+            loadArtistImage(artist)
+            if ((!PreferenceUtil.isOfflineMode) && PreferenceUtil.isAllowedToDownloadMetadata(requireContext())) {
+                loadBiography(artist.name)
+                binding.fragmentArtistContent.biographyText.isVisible = true
+                binding.fragmentArtistContent.biographyTitle.isVisible = true
+                binding.fragmentArtistContent.listeners.isVisible = true
+                binding.fragmentArtistContent.listenersLabel.isVisible = true
+                binding.fragmentArtistContent.scrobbles.isVisible = true
+                binding.fragmentArtistContent.scrobblesLabel.isVisible = true
+            } else {
+                binding.fragmentArtistContent.biographyText.isVisible = false
+                binding.fragmentArtistContent.biographyTitle.isVisible = false
+                binding.fragmentArtistContent.listeners.isVisible = false
+                binding.fragmentArtistContent.listenersLabel.isVisible = false
+                binding.fragmentArtistContent.scrobbles.isVisible = false
+                binding.fragmentArtistContent.scrobblesLabel.isVisible = false
+            }
         }
         binding.artistTitle.text = artist.name
         binding.text.text = String.format(

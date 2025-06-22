@@ -651,6 +651,9 @@
     <string name="pref_summary_auto_hide_mini_player">Automatically hide the mini player when scrolling down and show it when scrolling up.</string>
     <string name="pref_summary_offline_mode">Complete Offline Mode</string>
 
+    <string name="pref_title_show_song_only">"Minimal Artist"</string>
+    <string name="pref_summary_show_song_only">Show Songs/Albums only in Artist</string>
+
     <string name="pref_title_swap_shuffle_repeat">Swap Shuffle and Repeat Buttons</string>
     <string name="pref_summary_swap_shuffle_repeat">Swap the positions of the shuffle and repeat buttons on the now playing screen.</string>
 
