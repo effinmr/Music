@@ -106,6 +106,7 @@ fun AppCompatActivity.setDrawBehindSystemBars() {
         if (VersionUtils.hasQ()) {
             window.isNavigationBarContrastEnforced = false
         }
+        setStatusBarColor(surfaceColor())
     } else {
         setNavigationBarColorPreOreo(surfaceColor())
         if (VersionUtils.hasMarshmallow()) {
