@@ -22,9 +22,21 @@ jobs:
 
       - name: Build Release APK
         run: ./gradlew assembleNormalRelease
+      
+      - uses: ilharp/sign-android-release@v2
+        name: Sign app APK
+        id: sign_app
+        with:
+          releaseDir: app/build/outputs/apk/normal/release
+          signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
+          keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          buildToolsVersion: 36.0.0
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release.apk-${{ github.run_number }}
-          path: app/build/outputs/apk/normal/release/*.apk
+          path: ${{steps.sign_app.outputs.signedFile}}
+          #path: app/build/outputs/apk/normal/release/*.apk
