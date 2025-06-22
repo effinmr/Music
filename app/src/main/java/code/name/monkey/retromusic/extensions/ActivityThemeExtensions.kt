@@ -102,13 +102,10 @@ fun AppCompatActivity.setDrawBehindSystemBars() {
     if (VersionUtils.hasOreo()) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.navigationBarColor = Color.TRANSPARENT
-        window.statusBarColor = surfaceColor()
+        window.statusBarColor = Color.TRANSPARENT
         if (VersionUtils.hasQ()) {
             window.isNavigationBarContrastEnforced = false
         }
-        if (VersionUtils.hasV()) {
-            val statusBar = window.decorView.rootView.findViewById<View>(R.id.status_bar)
-            statusBar.setBackgroundColor(surfaceColor())
         }
     } else {
         setNavigationBarColorPreOreo(surfaceColor())
@@ -165,11 +162,11 @@ fun AppCompatActivity.setLightStatusBar(enabled: Boolean) {
 }
 
 fun AppCompatActivity.setLightStatusBarAuto() {
-    setLightStatusBar(surfaceColor().isColorLight)
+    setLightStatusBar(surfaceColor())
 }
 
 fun AppCompatActivity.setLightStatusBarAuto(bgColor: Int) {
-    setLightStatusBar(bgColor.isColorLight)
+    setLightStatusBar(bgColor)
 }
 
 @Suppress("Deprecation")
