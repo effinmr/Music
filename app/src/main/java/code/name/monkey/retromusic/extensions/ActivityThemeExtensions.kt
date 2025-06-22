@@ -162,11 +162,11 @@ fun AppCompatActivity.setLightStatusBar(enabled: Boolean) {
 }
 
 fun AppCompatActivity.setLightStatusBarAuto() {
-    setLightStatusBar(surfaceColor())
+    setLightStatusBar(surfaceColor().isColorLight)
 }
 
 fun AppCompatActivity.setLightStatusBarAuto(bgColor: Int) {
-    setLightStatusBar(bgColor)
+    setLightStatusBar(bgColor.isColorLight)
 }
 
 @Suppress("Deprecation")
