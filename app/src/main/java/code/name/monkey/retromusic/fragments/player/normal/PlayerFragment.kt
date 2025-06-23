@@ -36,7 +36,6 @@ import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.ViewUtil
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import code.name.monkey.retromusic.views.DrawableGradient
-import androidx.constraintlayout.widget.ConstraintLayout
 
 class PlayerFragment : AbsPlayerFragment(R.layout.fragment_player),
     SharedPreferences.OnSharedPreferenceChangeListener {
@@ -124,7 +123,6 @@ class PlayerFragment : AbsPlayerFragment(R.layout.fragment_player),
         PreferenceManager.getDefaultSharedPreferences(requireContext())
             .registerOnSharedPreferenceChangeListener(this)
         playerToolbar().drawAboveSystemBars()
-        updatePlaybackLayout()
     }
 
     override fun onDestroyView() {
@@ -154,22 +152,8 @@ class PlayerFragment : AbsPlayerFragment(R.layout.fragment_player),
         )
     }
 
-
-
-    private fun updatePlaybackLayout() {
-        val hideAll = PreferenceUtil.hideAllActionButtons
-        val params = binding.playbackControlsFragment.layoutParams as ConstraintLayout.LayoutParams
-        if (hideAll) {
-            binding.playerToolbar.visibility = View.GONE
-            params.bottomToTop = ConstraintLayout.LayoutParams.UNSET
-        } else {
-            binding.playerToolbar.visibility = View.VISIBLE
-            params.bottomToTop = binding.playerToolbar.id
-        }
-        binding.playbackControlsFragment.layoutParams = params
-    }
-
     private fun startOrStopSnow(isSnowFalling: Boolean) {
+        if (_binding == null) return
         if (isSnowFalling && !surfaceColor().isColorLight) {
             binding.snowfallView.isVisible = true
             binding.snowfallView.restartFalling()
@@ -187,17 +171,8 @@ class PlayerFragment : AbsPlayerFragment(R.layout.fragment_player),
         updateIsFavorite()
     }
 
-
     override fun playerToolbar(): Toolbar {
         return binding.playerToolbar
-    }
-
-    override fun onPrepareOptionsMenu(menu: android.view.Menu) {
-        super.onPrepareOptionsMenu(menu)
-        val hideAll = PreferenceUtil.hideAllActionButtons
-        menu.findItem(R.id.action_sleep_timer).isVisible = !hideAll && PreferenceUtil.showSleepTimerButton
-        menu.findItem(R.id.action_toggle_lyrics).isVisible = !hideAll && PreferenceUtil.showLyricsButton
-        menu.findItem(R.id.action_toggle_favorite).isVisible = !hideAll && PreferenceUtil.showFavoriteButton
     }
 
     companion object {

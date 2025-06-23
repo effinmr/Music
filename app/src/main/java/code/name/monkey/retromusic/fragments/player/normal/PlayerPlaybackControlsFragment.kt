@@ -101,21 +101,6 @@ class PlayerPlaybackControlsFragment :
         _binding = null
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-            PreferenceUtil.NOW_PLAYING_METADATA_ORDER,
-            PreferenceUtil.NOW_PLAYING_METADATA_VISIBILITY -> {
-                updateSong()
-            }
-            PreferenceUtil.TAP_ON_ARTIST -> {
-                // No UI update needed for tap preference change, just the click listener logic
-            }
-            PreferenceUtil.TAP_ON_TITLE -> {
-                // No UI update needed for tap preference change, just the click listener logic
-            }
-        }
-    }
-
     override fun setColor(color: MediaNotificationProcessor) {
         val colorBg = ATHUtil.resolveColor(requireContext(), android.R.attr.colorBackground)
         if (ColorUtil.isColorLight(colorBg)) {
@@ -185,85 +170,14 @@ class PlayerPlaybackControlsFragment :
         
         // Always display the full artist name string
         binding.text.text = song.allArtists
-        (requireParentFragment() as? AbsPlayerFragment)?.setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
 
-        val metadataOrder = PreferenceUtil.nowPlayingMetadataOrder
-        val metadataVisibility = PreferenceUtil.nowPlayingMetadataVisibility
-        val stringBuilder = StringBuilder()
-
-        var retriever: MediaMetadataRetriever? = null
-        try {
-            if (song.data.isNotEmpty()) {
-                retriever = MediaMetadataRetriever()
-                retriever.setDataSource(requireContext(), Uri.parse(song.data))
-            }
-
-            for (fieldId in metadataOrder) {
-                if (metadataVisibility.contains(fieldId)) {
-                    val metadataField = MetadataField.fromId(fieldId)
-                    metadataField?.let {
-                        val label = getString(it.labelRes)
-                        val value = when (it) {
-                            MetadataField.ALBUM -> song.albumName
-                            MetadataField.ARTIST -> song.artistName
-                            MetadataField.YEAR -> if (!song.year.isNullOrEmpty()) song.year else null
-                            MetadataField.BITRATE -> {
-                                retriever?.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)?.let { bitrateStr ->
-                                    try {
-                                        val bitrate = bitrateStr.toLong() / 1000 // Convert to kbps
-                                        "${bitrate}kbps"
-                                    } catch (e: NumberFormatException) {
-                                        null
-                                    }
-                                }
-                            }
-                            MetadataField.FORMAT -> {
-                                retriever?.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE)?.let { mimeType ->
-                                    mimeType.substringAfterLast('/') // e.g., "mpeg" from "audio/mpeg"
-                                }
-                            }
-                            MetadataField.TRACK_LENGTH -> if (song.duration != 0L) MusicUtil.getReadableDurationString(song.duration) else null
-                            MetadataField.FILE_NAME -> if (song.data.isNotEmpty()) File(song.data).name else null
-                            MetadataField.FILE_PATH -> if (song.data.isNotEmpty()) song.data else null
-                            MetadataField.FILE_SIZE -> {
-                                val file = File(song.data)
-                                if (file.exists()) FileUtil.getReadableFileSize(file.length()) else null
-                            }
-                            MetadataField.SAMPLING_RATE -> {
-                                retriever?.extractMetadata(MediaMetadataRetriever.METADATA_KEY_SAMPLERATE)?.let { sampleRateStr ->
-                                    try {
-                                        val sampleRate = sampleRateStr.toLong() / 1000 // Convert to kHz
-                                        "${sampleRate}kHz"
-                                    } catch (e: NumberFormatException) {
-                                        null
-                                    }
-                                }
-                            }
-                            MetadataField.LAST_MODIFIED -> if (song.dateModified != 0L) {
-                                val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-                                dateFormat.format(Date(song.dateModified * 1000L))
-                            } else null
-                        }
-
-                        if (!value.isNullOrEmpty()) {
-                            if (stringBuilder.isNotEmpty()) {
-                                stringBuilder.append("  •  ")
-                            }
-                            stringBuilder.append("$label: $value")
-                        }
-                    }
-                }
-            }
-        } finally {
-            retriever?.release()
-        }
-
-        if (stringBuilder.isNotEmpty()) {
-            binding.songInfo.text = stringBuilder.toString()
+        if (PreferenceUtil.isSongInfo) {
+            binding.songInfo.text = getSongInfo(song)
             binding.songInfo.show()
         } else {
             binding.songInfo.hide()
         }
+        (requireParentFragment() as? AbsPlayerFragment)?.setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
     }
 
 
