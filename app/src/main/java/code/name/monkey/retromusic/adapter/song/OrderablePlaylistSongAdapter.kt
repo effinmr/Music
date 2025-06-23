@@ -47,17 +47,11 @@ class OrderablePlaylistSongAdapter(
     private var filtered = false
     private var filter: CharSequence? = null
     private var fullDataSet: MutableList<Song>
-    private var isDragEnabled: Boolean = false
 
     init {
         this.setHasStableIds(true)
         this.setMultiSelectMenuRes(R.menu.menu_playlists_songs_selection)
         fullDataSet = dataSet.toMutableList()
-    }
-
-    fun setDragEnabled(enabled: Boolean) {
-        isDragEnabled = enabled
-        notifyDataSetChanged()
     }
 
     override fun swapDataSet(dataSet: List<Song>) {
@@ -90,9 +84,6 @@ class OrderablePlaylistSongAdapter(
     }
 
     inner class ViewHolder(itemView: View) : SongAdapter.ViewHolder(itemView) {
-        private val dragView: View? = itemView.findViewById(R.id.drag_view)
-
-        fun getDragView(): View? = dragView
 
         override var songMenuRes: Int
             get() = R.menu.menu_item_playlist_song
@@ -120,16 +111,20 @@ class OrderablePlaylistSongAdapter(
             }
         }
 
-
         init {
-
+            dragView?.isVisible = true
         }
     }
+
     override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int): Boolean {
-        // Check if dragging is enabled and if the touch coordinates are within the dragView bounds
-        return isDragEnabled && holder.getDragView()?.let {
-            x >= it.left && x < it.right && y >= it.top && y < it.bottom
-        } ?: false
+        if (isInQuickSelectMode || filtered) {
+            return false
+        }
+        return ViewUtil.hitTest(holder.imageText!!, x, y) || ViewUtil.hitTest(
+            holder.dragView!!,
+            x,
+            y
+        )
     }
 
     override fun onMoveItem(fromPosition: Int, toPosition: Int) {
@@ -175,13 +170,5 @@ class OrderablePlaylistSongAdapter(
 
     fun hasSongs(): Boolean {
         return itemCount > 0 || (filtered && fullDataSet.size > 0)
-    }
-
-    override fun onBindViewHolder(holder: SongAdapter.ViewHolder, position: Int) {
-        super.onBindViewHolder(holder, position)
-        // Update dragView visibility based on isDragEnabled state for each bound item
-        if (holder is ViewHolder) {
-            holder.getDragView()?.isVisible = isDragEnabled
-        }
     }
 }
