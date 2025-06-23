@@ -173,7 +173,11 @@ open class SongAdapter(
     }
 
     private fun getSongText(song: Song): String {
-        return song.allArtists ?: ""
+        return listOfNotNull(song.albumArtist, song.artistName)
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            .distinct()
+            .joinToString(", ")
     }
 
     private fun getSongText2(song: Song): String {
