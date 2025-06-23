@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -58,9 +57,6 @@ class PlaylistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playli
 
     private lateinit var playlist: PlaylistWithSongs
     private lateinit var playlistSongAdapter: OrderablePlaylistSongAdapter
-    private lateinit var dragDropManager: RecyclerViewDragDropManager
-
-    private var isEditMode: Boolean = false
 
     private val _searchFlow = MutableSharedFlow<CharSequence?>()
 
@@ -162,7 +158,7 @@ class PlaylistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playli
             R.layout.item_queue
         )
 
-        dragDropManager = RecyclerViewDragDropManager()
+        val dragDropManager = RecyclerViewDragDropManager()
 
         val wrappedAdapter: RecyclerView.Adapter<*> =
             dragDropManager.createWrappedAdapter(playlistSongAdapter)
@@ -181,33 +177,13 @@ class PlaylistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playli
                 checkIsEmpty()
             }
         })
-        playlistSongAdapter.setDragEnabled(isEditMode)
     }
 
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_playlist_detail, menu)
-        val editItem = menu.findItem(R.id.action_edit_playlist)
-        val saveItem = menu.findItem(R.id.action_save_playlist)
-        editItem.isVisible = !isEditMode
-        saveItem.isVisible = isEditMode
     }
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_edit_playlist -> {
-                isEditMode = true
-                requireActivity().invalidateOptionsMenu() // Recreate menu to show/hide buttons
-                playlistSongAdapter.setDragEnabled(true)
-                return true
-            }
-            R.id.action_save_playlist -> {
-                isEditMode = false
-                requireActivity().invalidateOptionsMenu() // Recreate menu to show/hide buttons
-                playlistSongAdapter.setDragEnabled(false)
-                playlistSongAdapter.saveSongs(playlist.playlistEntity)
-                return true
-            }
-        }
         return PlaylistMenuHelper.handleMenuClick(requireActivity(), playlist, item)
     }
 
@@ -233,7 +209,7 @@ class PlaylistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playli
 
     override fun onPause() {
         binding.playlistSearchView.clearText()
-        // playlistSongAdapter.saveSongs(playlist.playlistEntity) // Removed auto-save
+        playlistSongAdapter.saveSongs(playlist.playlistEntity)
         super.onPause()
     }
 
