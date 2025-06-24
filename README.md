@@ -54,6 +54,9 @@
 - Major bugs fixed
 - Improved Search Bar
 - Minimal Artist
+- Settings Search Bar
+- Built-in Equalizer
+- Pro Features
 -  Base 3 themes (Clearly White, Kinda Dark and AMOLED)
 -  Chromecast support
 -  Choose from 10+ now playing themes
