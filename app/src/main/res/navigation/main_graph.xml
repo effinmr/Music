@@ -131,4 +131,10 @@
     <fragment
         android:id="@+id/lyrics_fragment"
         android:name="code.name.monkey.retromusic.fragments.lyrics.LyricsFragment" />
+
+    <fragment
+        android:id="@+id/equalizerFragment"
+        android:name="code.name.monkey.retromusic.fragments.equalizer.EqualizerFragment"
+        android:label="Equalizer"
+        tools:layout="@layout/fragment_equalizer" />
 </navigation>

@@ -17,6 +17,7 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.os.PowerManager
 import android.util.Log
+import android.content.SharedPreferences
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.extensions.showToast
 import code.name.monkey.retromusic.extensions.uri
@@ -24,6 +25,14 @@ import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.service.playback.Playback.PlaybackCallbacks
 import code.name.monkey.retromusic.util.PreferenceUtil.isGapLessPlayback
 import code.name.monkey.retromusic.util.logE
+import android.media.audiofx.Equalizer
+import android.media.audiofx.BassBoost
+import android.media.audiofx.Virtualizer
+import android.media.audiofx.LoudnessEnhancer
+import android.content.Intent
+import android.media.audiofx.AudioEffect
+import android.widget.Toast
+import code.name.monkey.retromusic.extensions.showToast
 
 /**
  * @author Andrew Neal, Karim Abou Zeid (kabouzeid)
@@ -32,6 +41,146 @@ class MultiPlayer(context: Context) : LocalPlayback(context) {
     private var mCurrentMediaPlayer = MediaPlayer()
     private var mNextMediaPlayer: MediaPlayer? = null
     override var callbacks: PlaybackCallbacks? = null
+
+    private var equalizer: Equalizer? = null
+    private var bassBoost: BassBoost? = null
+    private var virtualizer: Virtualizer? = null
+    private var loudnessEnhancer: LoudnessEnhancer? = null
+
+    // Call this after MediaPlayer is initialized and audioSessionId is available
+    private fun initAudioEffects() {
+        releaseAudioEffects()
+
+        val sessionId = mCurrentMediaPlayer.audioSessionId
+        equalizer = Equalizer(0, sessionId).apply { enabled = true }
+        bassBoost = BassBoost(0, sessionId).apply { enabled = true }
+        virtualizer = Virtualizer(0, sessionId).apply { enabled = true }
+
+        registerPrefListener()
+    }
+
+    private fun openAudioEffectSession() {
+        val intent = Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION).apply {
+            putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
+            putExtra(AudioEffect.EXTRA_PACKAGE_NAME, context.packageName)
+            putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
+        }
+        context.sendBroadcast(intent)
+    }
+    
+    private fun closeAudioEffectSession() {
+        val intent = Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION).apply {
+            putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
+            putExtra(AudioEffect.EXTRA_PACKAGE_NAME, context.packageName)
+        }
+        context.sendBroadcast(intent)
+    }
+
+    private fun applyEqualizerPreferences() {
+        val prefs = context.getSharedPreferences("equalizer_prefs", Context.MODE_PRIVATE)
+        val isEnabled = prefs.getBoolean("equalizer_enabled", false)
+        setEqualizerEnabled(isEnabled)
+        for (i in 0 until (equalizer?.numberOfBands ?: 0)) {
+            val level = prefs.getFloat("band_$i", 0f)
+            setEqualizerBandLevel(i.toShort(), (level * 100).toInt().toShort())
+        }
+    }
+
+    private val preferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+        when {
+            (key?.startsWith("band_") == true || key == "equalizer_enabled") -> {
+                applyEqualizerPreferences()
+            }
+            key == "virtualizer_strength" -> {
+                val value = sharedPreferences.getFloat(key, 0f)
+                setVirtualizerStrength((value * 10).toInt().toShort())
+            }
+            key == "bass_boost_strength" -> {
+                val value = sharedPreferences.getFloat(key, 0f)
+                setBassBoostStrength((value * 10).toInt().toShort())
+            }
+            key == "amplifier_strength" -> {
+                val value = sharedPreferences.getFloat(key, 0f)
+                setAmplifierStrength((value * 10).toInt().toShort())
+            }
+        }
+    }
+
+    private fun registerPrefListener() {
+        val prefs = context.getSharedPreferences("equalizer_prefs", Context.MODE_PRIVATE)
+        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener)
+    }
+
+    private fun unregisterPrefListener() {
+        val prefs = context.getSharedPreferences("equalizer_prefs", Context.MODE_PRIVATE)
+        prefs.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener)
+    }
+
+    private fun releaseAudioEffects() {
+        equalizer?.release()
+        bassBoost?.release()
+        virtualizer?.release()
+        equalizer = null
+        bassBoost = null
+        virtualizer = null
+    }
+
+    override fun release() {
+        stop()
+        closeAudioEffectSession() 
+        mCurrentMediaPlayer.release()
+        mNextMediaPlayer?.release()
+        releaseAudioEffects()
+        unregisterPrefListener()
+    }
+
+    fun getEqualizerMinBandLevel(): Short {
+        equalizer?.let { eq ->
+            val minLevel = eq.bandLevelRange[0]
+            return minLevel
+        }
+        return 0
+    }
+    
+    fun getEqualizerMaxBandLevel(): Short {
+        equalizer?.let { eq ->
+            val maxLevel = eq.bandLevelRange[1]
+            return maxLevel
+        }
+        return 0
+    }
+
+    // Setters for effects
+    fun setEqualizerBandLevel(band: Short, level: Short) {
+        try {
+            equalizer?.setBandLevel(band, level)
+        } catch (_: Exception) {}
+    }
+
+    fun setBassBoostStrength(strength: Short) {
+        try {
+            bassBoost?.setStrength(strength)
+        } catch (_: Exception) {}
+    }
+
+    fun setVirtualizerStrength(strength: Short) {
+        try {
+            virtualizer?.setStrength(strength)
+        } catch (_: Exception) {}
+    }
+
+    fun setAmplifierStrength(strength: Short) {
+        if (loudnessEnhancer == null) {
+            loudnessEnhancer = LoudnessEnhancer(audioSessionId)
+        }
+        loudnessEnhancer?.enabled = true
+        val gain = strength.toInt()
+        loudnessEnhancer?.setTargetGain(gain)
+    }
+
+    fun setEqualizerEnabled(enabled: Boolean) {
+        equalizer?.enabled = enabled
+    }
 
     /**
      * @return True if the player is ready to go, false otherwise
@@ -57,6 +206,8 @@ class MultiPlayer(context: Context) : LocalPlayback(context) {
             isInitialized = success
             if (isInitialized) {
                 setNextDataSource(null)
+                initAudioEffects()
+                openAudioEffectSession()
             }
             completion(isInitialized)
         }
@@ -139,12 +290,7 @@ class MultiPlayer(context: Context) : LocalPlayback(context) {
     /**
      * Releases resources associated with this MediaPlayer object.
      */
-    override fun release() {
-        stop()
-        mCurrentMediaPlayer.release()
-        mNextMediaPlayer?.release()
-    }
-
+     
     /**
      * Pauses playback. Call start() to resume.
      */

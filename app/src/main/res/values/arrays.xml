@@ -253,4 +253,16 @@
         <item>3</item>
         <item>2</item>
     </string-array>
+
+    <string-array name="equalizer_presets">
+        <item>Normal</item>
+        <item>Rock</item>
+        <item>Pop</item>
+        <item>Jazz</item>
+        <item>Classic</item>
+        <item>Dance</item>
+        <item>Hip-Hop</item>
+        <item>Full Bass</item>
+        <item>Full Treble</item>
+    </string-array>
 </resources>

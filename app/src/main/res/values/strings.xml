@@ -184,6 +184,7 @@
     <string name="edit_fab">Edit Button</string>
     <string name="edit_mode_enabled">Edit mode enabled</string>
     <string name="changes_saved">Changes saved</string>
+    <string name="custom_preset">Custom</string>
     <string name="edit_normal_lyrics">Edit Lyrics</string>
     <string name="edit_synced_lyrics">Edit Synced Lyrics</string>
     <string name="empty">Empty</string>
@@ -455,6 +456,7 @@
     <string name="scanned_files">Scanned %1$d of %2$d files.</string>
     <string name="scrobbles_label">Scrobbles</string>
     <string name="select_all">Select all</string>
+    <string name="select_preset">Select Preset</string>
     <string name="selected">Selected</string>
     <string name="set">Set</string>
     <string name="set_artist_image">Set artist image</string>

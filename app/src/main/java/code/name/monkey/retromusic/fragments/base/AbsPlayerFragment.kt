@@ -207,6 +207,8 @@ abstract class AbsPlayerFragment(@LayoutRes layout: Int) : AbsMusicServiceFragme
             }
 
             R.id.action_equalizer -> {
+                mainActivity.setBottomNavVisibility(false)
+                mainActivity.collapsePanel()
                 NavigationUtil.openEqualizer(requireActivity())
                 return true
             }
