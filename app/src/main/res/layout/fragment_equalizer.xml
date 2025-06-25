@@ -51,32 +51,46 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Preset" />
-                
-                <!-- Preset selector -->
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/presetSelector"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="@string/select_preset"
-                    android:textSize="16sp"
-                    android:gravity="center_vertical"
-                    android:drawablePadding="8dp"
-                    android:paddingBottom="16dp" />
-
-                <!-- Band 1 -->
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Band 1" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingBottom="8dp">
+                    android:paddingBottom="16dp">
+                    
+                    <!-- Preset selector -->
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/presetSelector"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:text="@string/select_preset"
+                        android:textSize="16sp"
+                        android:gravity="center_vertical"
+                        android:drawableEnd="@drawable/ic_dropdown_white"
+                        android:drawablePadding="8dp"
+                        android:paddingBottom="16dp" />
+                    
+                    <ImageButton
+                        android:id="@+id/resetButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_restore"
+                        android:background="@android:color/transparent"
+                        android:tint="?attr/colorOnSurface"
+                        android:padding="8dp" />
+                </LinearLayout>
+
+                <!-- Band 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="16dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -100,17 +114,12 @@
                 </LinearLayout>
 
                 <!-- Band 2 -->
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Band 2" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingBottom="8dp">
+                    android:paddingBottom="16dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -134,17 +143,12 @@
                 </LinearLayout>
 
                 <!-- Band 3 -->
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Band 3" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingBottom="8dp">
+                    android:paddingBottom="16dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -168,17 +172,12 @@
                 </LinearLayout>
 
                 <!-- Band 4 -->
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Band 4" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingBottom="8dp">
+                    android:paddingBottom="16dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -202,17 +201,12 @@
                 </LinearLayout>
 
                 <!-- Band 5 -->
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Band 5" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingBottom="8dp">
+                    android:paddingBottom="16dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -271,7 +265,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bass Boost"
+                    android:text="BassBoost"
                     android:textSize="18sp" 
                     android:paddingBottom="8dp" />
 
@@ -303,7 +297,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Amplifier"
+                    android:text="LoudnessEnhancer"
                     android:textSize="18sp"
                     android:paddingBottom="8dp" />
 

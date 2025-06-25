@@ -31,6 +31,23 @@ class EqualizerFragment : Fragment(R.layout.fragment_equalizer) {
 
         setupToolbar()
 
+        binding.appBarLayout.toolbar.inflateMenu(R.menu.menu_equalizer)
+        binding.appBarLayout.toolbar.setOnMenuItemClickListener {
+            item ->
+            when (item.itemId) {
+                R.id.action_reset_equalizer -> {
+                    setBandValues(0f, 0f, 0f, 0f, 0f)
+                    binding.virtualizerSlider.value = 0f
+                    binding.bassBoostSlider.value = 0f
+                    binding.amplifierSlider.value = 0f
+                    selectedPresetIndex = 0
+                    updatePresetSelectorText()
+                    true
+                }
+                else -> false
+            }
+        }
+        
         binding.presetSelector.setOnClickListener { showPresetDialog() }
 
         binding.enableEqualizerSwitch.isChecked = prefs.getBoolean("equalizer_enabled", false)
@@ -40,6 +57,12 @@ class EqualizerFragment : Fragment(R.layout.fragment_equalizer) {
             prefs.edit().putBoolean("equalizer_enabled", isChecked).apply()
             val player = MusicPlayerRemote.musicService as? MultiPlayer ?: return@setOnCheckedChangeListener
             player.setEqualizerEnabled(isChecked)
+        }
+
+        binding.resetButton.setOnClickListener {
+            selectedPresetIndex = 0
+            applyPreset(0)
+            updatePresetSelectorText()
         }
 
         setupSlider(binding.bandSlider1, isDb = true, bandIndex = 0)
