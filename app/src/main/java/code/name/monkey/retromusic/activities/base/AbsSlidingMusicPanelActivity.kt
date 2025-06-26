@@ -177,14 +177,14 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
                 when (newState) {
                     STATE_EXPANDED -> {
                         onPanelExpanded()
-                        if (PreferenceUtil.lyricsScreenOn && PreferenceUtil.showLyrics) {
+                        if (PreferenceUtil.showLyrics && PreferenceUtil.lyricsScreenOn || PreferenceUtil.isScreenOnEnabled) {
                             keepScreenOn(true)
                         }
                     }
 
                     STATE_COLLAPSED -> {
                         onPanelCollapsed()
-                        if ((PreferenceUtil.lyricsScreenOn && PreferenceUtil.showLyrics) || !PreferenceUtil.isScreenOnEnabled) {
+                        if (!PreferenceUtil.isScreenOnEnabled && !(PreferenceUtil.lyricsScreenOn && PreferenceUtil.showLyrics)) {
                             keepScreenOn(false)
                         }
                     }
@@ -320,7 +320,9 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
             }
 
             SCREEN_ON_LYRICS -> {
-                keepScreenOn(bottomSheetBehavior.state == STATE_EXPANDED && PreferenceUtil.lyricsScreenOn && PreferenceUtil.showLyrics || PreferenceUtil.isScreenOnEnabled)
+                if ((PreferenceUtil.showLyrics && PreferenceUtil.lyricsScreenOn) || PreferenceUtil.isScreenOnEnabled) {
+                    keepScreenOn(true)
+                }
             }
 
             KEEP_SCREEN_ON -> {

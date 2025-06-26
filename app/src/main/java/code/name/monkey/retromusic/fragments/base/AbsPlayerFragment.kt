@@ -111,9 +111,10 @@ abstract class AbsPlayerFragment(@LayoutRes layout: Int) : AbsMusicServiceFragme
             R.id.action_toggle_lyrics -> {
                 PreferenceUtil.showLyrics = !PreferenceUtil.showLyrics
                 showLyricsIcon(item)
-                if (PreferenceUtil.lyricsScreenOn && PreferenceUtil.showLyrics) {
+                if (PreferenceUtil.showLyrics && PreferenceUtil.lyricsScreenOn) {
                     mainActivity.keepScreenOn(true)
-                } else if (!PreferenceUtil.isScreenOnEnabled && !PreferenceUtil.showLyrics) {
+                }
+                else if (!PreferenceUtil.isScreenOnEnabled) {
                     mainActivity.keepScreenOn(false)
                 }
                 return true
