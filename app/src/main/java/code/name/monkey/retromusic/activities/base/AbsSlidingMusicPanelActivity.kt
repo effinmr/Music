@@ -78,6 +78,7 @@ import code.name.monkey.retromusic.fragments.LibraryViewModel
 import code.name.monkey.retromusic.fragments.NowPlayingScreen
 import code.name.monkey.retromusic.fragments.NowPlayingScreen.*
 import code.name.monkey.retromusic.fragments.base.AbsPlayerFragment
+import code.name.monkey.retromusic.fragments.lyrics.LyricsFragment
 import code.name.monkey.retromusic.fragments.other.MiniPlayerFragment
 import code.name.monkey.retromusic.fragments.player.adaptive.AdaptiveFragment
 import code.name.monkey.retromusic.fragments.player.blur.BlurPlayerFragment
@@ -177,14 +178,20 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
                 when (newState) {
                     STATE_EXPANDED -> {
                         onPanelExpanded()
-                        if (PreferenceUtil.lyricsScreenOn && PreferenceUtil.showLyrics) {
+                        if (PreferenceUtil.isScreenOnEnabled ||
+                                ((currentFragment(R.id.fragment_container) is LyricsFragment) && PreferenceUtil.lyricsScreenOn) ||
+                                (PreferenceUtil.showLyrics && PreferenceUtil.lyricsScreenOn)
+                           ) {
                             keepScreenOn(true)
                         }
                     }
 
                     STATE_COLLAPSED -> {
                         onPanelCollapsed()
-                        if ((PreferenceUtil.lyricsScreenOn && PreferenceUtil.showLyrics) || !PreferenceUtil.isScreenOnEnabled) {
+                        if (!PreferenceUtil.isScreenOnEnabled &&
+                                !((currentFragment(R.id.fragment_container) is LyricsFragment) && PreferenceUtil.lyricsScreenOn) &&
+                                !(PreferenceUtil.showLyrics && PreferenceUtil.lyricsScreenOn)
+                           ) {
                             keepScreenOn(false)
                         }
                     }
@@ -320,7 +327,14 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
             }
 
             SCREEN_ON_LYRICS -> {
-                keepScreenOn(bottomSheetBehavior.state == STATE_EXPANDED && PreferenceUtil.lyricsScreenOn && PreferenceUtil.showLyrics || PreferenceUtil.isScreenOnEnabled)
+                if (PreferenceUtil.isScreenOnEnabled ||
+                        ((currentFragment(R.id.fragment_container) is LyricsFragment) && PreferenceUtil.lyricsScreenOn) ||
+                        (PreferenceUtil.showLyrics && PreferenceUtil.lyricsScreenOn)
+                   ) {
+                    keepScreenOn(true)
+                } else {
+                    keepScreenOn(false)
+                }
             }
 
             KEEP_SCREEN_ON -> {
