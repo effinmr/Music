@@ -26,7 +26,7 @@ fun AppCompatActivity.maybeSetScreenOn() {
     }
 }
 
-fun AppCompatActivity.keepScreenOn(keepScreenOn: Boolean) {
+fun Activity.keepScreenOn(keepScreenOn: Boolean) {
     if (keepScreenOn) {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     } else {
