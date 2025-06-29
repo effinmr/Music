@@ -47,7 +47,7 @@ import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.FileUtils
 import code.name.monkey.retromusic.util.LyricUtil
 import code.name.monkey.retromusic.util.UriUtil
-code.name.monkey.retromusic.util.PreferenceUtil
+import code.name.monkey.retromusic.util.PreferenceUtil
 import com.afollestad.materialdialogs.input.input
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
