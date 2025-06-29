@@ -52,6 +52,7 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
         resumeFade()
         return try {
             getCurrentPlayer()?.start()
+            MusicPlayerRemote.isPlaying = true
             if (isCrossFading) {
                 getNextPlayer()?.start()
             }
@@ -73,6 +74,7 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
     override fun stop() {
         super.stop()
         getCurrentPlayer()?.reset()
+        MusicPlayerRemote.isPlaying = false
         mIsInitialized = false
     }
 
@@ -83,11 +85,13 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
         getCurrentPlayer()?.let {
             if (it.isPlaying) {
                 it.pause()
+                MusicPlayerRemote.isPlaying = false
             }
         }
         getNextPlayer()?.let {
             if (it.isPlaying) {
                 it.pause()
+                MusicPlayerRemote.isPlaying = false
             }
         }
         return true
@@ -266,6 +270,7 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
         mIsInitialized = false
+        MusicPlayerRemote.isPlaying = false
         mp?.release()
         player1 = MediaPlayer()
         player2 = MediaPlayer()
@@ -328,6 +333,7 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
 
     private fun switchPlayer() {
         getNextPlayer()?.start()
+        MusicPlayerRemote.isPlaying = true
         crossFade(getNextPlayer()!!, getCurrentPlayer()!!)
         currentPlayer =
             if (currentPlayer == CurrentPlayer.PLAYER_ONE || currentPlayer == CurrentPlayer.NOT_SET) {
