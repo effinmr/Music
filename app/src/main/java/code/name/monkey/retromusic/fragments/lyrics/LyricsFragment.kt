@@ -31,7 +31,7 @@ import code.name.monkey.appthemehelper.common.ATHToolbarActivity
 import code.name.monkey.appthemehelper.util.ToolbarContentTintHelper
 import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.R
-import code.name.monkey.retromusic.activities.MainActivity
+import code.name.monkey.retromusic.extensions.keepScreenOn
 import code.name.monkey.retromusic.activities.tageditor.TagWriter
 import code.name.monkey.retromusic.databinding.FragmentLyricsBinding
 import code.name.monkey.retromusic.extensions.accentColor
@@ -65,9 +65,6 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
     private val binding get() = _binding!!
     private lateinit var song: Song
 
-    val mainActivity: MainActivity
-        get() = activity as MainActivity
-    
     private lateinit var normalLyricsLauncher: ActivityResultLauncher<IntentSenderRequest>
     private lateinit var editSyncedLyricsLauncher: ActivityResultLauncher<IntentSenderRequest>
 
@@ -357,9 +354,9 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
 
     override fun keepItLit() {
         if (PreferenceUtil.lyricsScreenOn) {
-            mainActivity.keepScreenOn(true)
+            keepScreenOn(true)
         } else if (!PreferenceUtil.isScreenOnEnabled) {
-            mainActivity.keepScreenOn(false)
+            keepScreenOn(false)
         }
     }
 
@@ -372,7 +369,7 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
     override fun onPause() {
         super.onPause()
         if (!PreferenceUtil.isScreenOnEnabled) {
-            mainActivity.keepScreenOn(false)
+            keepScreenOn(false)
         }
         updateHelper.stop()
     }
@@ -382,7 +379,7 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
         if (MusicPlayerRemote.playingQueue.isNotEmpty())
             mainActivity.expandPanel()
         if (!PreferenceUtil.isScreenOnEnabled) {
-            mainActivity.keepScreenOn(false)
+            keepScreenOn(false)
         }
         _binding = null
     }
