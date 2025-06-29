@@ -49,6 +49,7 @@ import code.name.monkey.retromusic.util.UriUtil
 import com.afollestad.materialdialogs.input.input
 import code.name.monkey.retromusic.util.PreferenceUtil
 import androidx.appcompat.app.AppCompatActivity
+import code.name.monkey.retromusic.extensions.keepScreenOn
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jaudiotagger.audio.AudioFileIO
@@ -354,9 +355,9 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
 
     fun keepItLit() {
         if (PreferenceUtil.lyricsScreenOn) {
-            (mainActivity as AppCompatActivity).keepScreenOn(true)
+            keepScreenOn(true)
         } else if (!PreferenceUtil.isScreenOnEnabled) {
-            (mainActivity as AppCompatActivity).keepScreenOn(false)
+            keepScreenOn(false)
         }
     }
 
@@ -369,7 +370,7 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
     override fun onPause() {
         super.onPause()
         if (!PreferenceUtil.isScreenOnEnabled) {
-            (mainActivity as AppCompatActivity).keepScreenOn(false)
+            keepScreenOn(false)
         }
         updateHelper.stop()
     }
@@ -377,7 +378,7 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
     override fun onDestroyView() {
         super.onDestroyView()
         if (!PreferenceUtil.isScreenOnEnabled) {
-            (mainActivity as AppCompatActivity).keepScreenOn(false)
+            keepScreenOn(false)
         }
         if (MusicPlayerRemote.playingQueue.isNotEmpty())
             mainActivity.expandPanel()
