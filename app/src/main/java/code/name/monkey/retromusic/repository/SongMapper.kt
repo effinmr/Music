@@ -1,3 +1,7 @@
+import code.name.monkey.retromusic.model.Song
+import code.name.monkey.retromusic.db.SongEntity
+
+
 fun Song.toSongEntity(playlistCreatorId: Long, songPrimaryKey: Long = 0L): SongEntity {
     return SongEntity(
         songPrimaryKey = songPrimaryKey,
