@@ -337,6 +337,7 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
             }
         callbacks?.onTrackEndedWithCrossfade()
         callbacks?.onPlayStateChanged()
+        MusicPlayerRemote.playingCallback?.onPlayStateChanged()
     }
 
     override fun setCrossFadeDuration(duration: Int) {
