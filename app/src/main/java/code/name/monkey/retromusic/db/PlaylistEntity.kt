@@ -22,10 +22,14 @@ import kotlinx.parcelize.Parcelize
 
 @Entity
 @Parcelize
-class PlaylistEntity(
+data class PlaylistEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "playlist_id")
     val playListId: Long = 0,
+    
     @ColumnInfo(name = "playlist_name")
-    val playlistName: String
+    val playlistName: String,
+    
+    @ColumnInfo(name = "position")
+    var position: Int = 0,
 ) : Parcelable

@@ -72,4 +72,7 @@ interface PlaylistDao {
 
     @Query("SELECT EXISTS(SELECT * FROM PlaylistEntity WHERE playlist_id = :playlistId)")
     fun checkPlaylistExists(playlistId: Long): LiveData<Boolean>
+
+    @Update
+    suspend fun updatePlaylists(playlists: List<PlaylistEntity>)
 }

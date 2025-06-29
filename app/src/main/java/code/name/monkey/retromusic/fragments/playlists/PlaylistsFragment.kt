@@ -41,6 +41,8 @@ import code.name.monkey.retromusic.helper.SortOrder.PlaylistSortOrder
 import code.name.monkey.retromusic.interfaces.IPlaylistClickListener
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.PreferenceUtil
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import code.name.monkey.retromusic.util.RetroUtil
 import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.Dispatchers
@@ -61,6 +63,36 @@ class PlaylistsFragment :
             else
                 adapter?.swapDataSet(listOf())
         }
+        if (PreferenceUtil.playlistSortOrder == PlaylistSortOrder.PLAYLIST_CUSTOM) {
+            setAndSaveSortOrder(PlaylistSortOrder.PLAYLIST_CUSTOM)
+        }
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN or
+                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, 0) {
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
+                adapter?.swapItems(fromPosition, toPosition)
+                adapter?.notifyItemMoved(fromPosition, toPosition)
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                // No swipe action
+            }
+
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
+                updatePlaylistPositionsInDb()
+                setAndSaveSortOrder(PlaylistSortOrder.PLAYLIST_CUSTOM)
+            }
+        })
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     override val titleRes: Int
@@ -199,6 +231,12 @@ class PlaylistsFragment :
             R.string.sort_order_num_songs_desc,
             order == PlaylistSortOrder.PLAYLIST_SONG_COUNT_DESC
         )
+        createId(
+            subMenu,
+            R.id.action_playlist_sort_order_custom,
+            R.string.sort_order_custom,
+            order == PlaylistSortOrder.PLAYLIST_CUSTOM
+        )
         subMenu.setGroupCheckable(0, true, true)
     }
 
@@ -208,6 +246,7 @@ class PlaylistsFragment :
             R.id.action_song_sort_order_desc -> PlaylistSortOrder.PLAYLIST_Z_A
             R.id.action_playlist_sort_order -> PlaylistSortOrder.PLAYLIST_SONG_COUNT
             R.id.action_playlist_sort_order_desc -> PlaylistSortOrder.PLAYLIST_SONG_COUNT_DESC
+            R.id.action_playlist_sort_order_custom -> PlaylistSortOrder.PLAYLIST_CUSTOM
             else -> PreferenceUtil.playlistSortOrder
         }
         if (sortOrder != PreferenceUtil.playlistSortOrder) {
@@ -240,6 +279,16 @@ class PlaylistsFragment :
 
     private fun createId(menu: SubMenu, id: Int, title: Int, checked: Boolean) {
         menu.add(0, id, 0, title).isChecked = checked
+    }
+
+    private fun updatePlaylistPositionsInDb() {
+        val dataSet = adapter?.dataSet ?: return
+        viewLifecycleOwner.lifecycleScope.launch {
+            dataSet.forEachIndexed { index, playlistWithSongs ->
+                playlistWithSongs.playlistEntity.position = index
+            }
+            libraryViewModel.updatePlaylistPositions(dataSet.map { it.playlistEntity })
+        }
     }
 
     private fun importPlaylists(uris: List<Uri>) {

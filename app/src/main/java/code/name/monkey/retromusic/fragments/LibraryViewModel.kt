@@ -27,6 +27,7 @@ import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.interfaces.IMusicServiceEventListener
 import code.name.monkey.retromusic.model.*
 import code.name.monkey.retromusic.repository.RealRepository
+import code.name.monkey.retromusic.repository.RoomRepository
 import code.name.monkey.retromusic.util.DensityUtil
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.logD
@@ -198,6 +199,12 @@ class LibraryViewModel(
         viewModelScope.launch(IO) {
             repository.deleteSongsInPlaylist(songs)
             forceReload(Playlists)
+        }
+    }
+
+    fun updatePlaylistPositions(playlists: List<PlaylistEntity>) {
+        viewModelScope.launch(IO) {
+            repository.updatePlaylists(playlists)
         }
     }
 

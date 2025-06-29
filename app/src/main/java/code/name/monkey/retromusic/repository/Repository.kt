@@ -97,6 +97,7 @@ interface Repository {
     fun getSongByGenre(genreId: Long): Song
     fun checkPlaylistExists(playListId: Long): LiveData<Boolean>
     fun getPlaylist(playlistId: Long): LiveData<PlaylistWithSongs>
+    suspend fun updatePlaylists(playlists: List<PlaylistEntity>)
 }
 
 class RealRepository(
@@ -144,6 +145,9 @@ class RealRepository(
 
     override suspend fun albumArtistByName(name: String): Artist =
         artistRepository.albumArtist(name)
+
+    override suspend fun updatePlaylists(playlists: List<PlaylistEntity>) =
+        roomRepository.updatePlaylists(playlists)
 
     override suspend fun recentArtists(): List<Artist> = lastAddedRepository.recentArtists()
 
