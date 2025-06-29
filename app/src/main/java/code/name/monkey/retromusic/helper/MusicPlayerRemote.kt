@@ -46,6 +46,9 @@ object MusicPlayerRemote : KoinComponent {
     private val songRepository by inject<SongRepository>()
 
     @JvmStatic
+    var playingCallback: Playback.PlaybackCallbacks? = null
+
+    @JvmStatic
     val isPlaying: Boolean
         get() = musicService != null && musicService!!.isPlaying
 
