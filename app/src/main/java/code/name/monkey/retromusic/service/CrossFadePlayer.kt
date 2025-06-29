@@ -243,10 +243,6 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
             crossFadeAnimator = null
             durationListener.start()
             isCrossFading = false
-
-            isActuallyPlaying = true
-            callbacks?.onPlayStateChanged()
-            MusicPlayerRemote.playingCallback?.onPlayStateChanged()
         }
         crossFadeAnimator?.start()
     }
