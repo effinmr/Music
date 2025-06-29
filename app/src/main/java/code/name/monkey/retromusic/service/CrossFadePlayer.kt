@@ -58,9 +58,6 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
             if (isCrossFading) {
                 getNextPlayer()?.start()
             }
-            isActuallyPlaying = true
-            callbacks?.onPlayStateChanged()
-            MusicPlayerRemote.playingCallback?.onPlayStateChanged()
             true
         } catch (e: IllegalStateException) {
             e.printStackTrace()
@@ -80,7 +77,6 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
         super.stop()
         getCurrentPlayer()?.reset()
         mIsInitialized = false
-        isActuallyPlaying = false
     }
 
     override fun pause(): Boolean {
@@ -97,9 +93,6 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
                 it.pause()
             }
         }
-        isActuallyPlaying = false
-        callbacks?.onPlayStateChanged()
-        MusicPlayerRemote.playingCallback?.onPlayStateChanged()
         return true
     }
 
