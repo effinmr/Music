@@ -296,7 +296,8 @@ object MusicPlayerRemote : KoinComponent {
     fun playNext(song: Song): Boolean {
         if (musicService != null) {
             if (playingQueue.isNotEmpty()) {
-                musicService?.addSong(position + 1, song)
+                val insertIndex = (position + 1).coerceAtMost(playingQueue.size)
+                musicService?.addSong(insertIndex, song)
             } else {
                 val queue = ArrayList<Song>()
                 queue.add(song)
