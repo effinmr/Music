@@ -1,4 +1,4 @@
-    /*
+/*
  * Copyright (c) 2020 Hemanth Savarla.
  *
  * Licensed under the GNU General Public License v3
@@ -31,7 +31,6 @@ import code.name.monkey.appthemehelper.common.ATHToolbarActivity
 import code.name.monkey.appthemehelper.util.ToolbarContentTintHelper
 import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.R
-import code.name.monkey.retromusic.extensions.keepScreenOn
 import code.name.monkey.retromusic.activities.tageditor.TagWriter
 import code.name.monkey.retromusic.databinding.FragmentLyricsBinding
 import code.name.monkey.retromusic.extensions.accentColor
@@ -47,7 +46,6 @@ import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.FileUtils
 import code.name.monkey.retromusic.util.LyricUtil
 import code.name.monkey.retromusic.util.UriUtil
-import code.name.monkey.retromusic.util.PreferenceUtil
 import com.afollestad.materialdialogs.input.input
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -60,7 +58,7 @@ import kotlin.collections.set
 
 class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
     MusicProgressViewUpdateHelper.Callback {
-    
+
     private var _binding: FragmentLyricsBinding? = null
     private val binding get() = _binding!!
     private lateinit var song: Song
@@ -116,7 +114,7 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
         setupLyricsView()
         keepItLit()
         loadLyrics()
-        
+
         setupWakelock()
         setupViews()
         setupToolbar()
@@ -376,53 +374,11 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
 
     override fun onDestroyView() {
         super.onDestroyView()
-        if (MusicPlayerRemote.playingQueue.isNotEmpty())
-            mainActivity.expandPanel()
         if (!PreferenceUtil.isScreenOnEnabled) {
             (mainActivity as AppCompatActivity).keepScreenOn(false)
         }
-        _binding = null
-    }
-
-    enum class LyricsType {
-        NORMAL_LYRICS,
-        SYNCED_LYRICS
-    }
-}
-
-    }
-
-    enum class LyricsType {
-        NORMAL_LYRICS,
-        SYNCED_LYRICS
-    }
-}
-enceUtil.isScreenOnEnabled) {
-            mainActivity.keepScreenOn(false)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        keepItLit()
-        updateHelper.start()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (!PreferenceUtil.isScreenOnEnabled) {
-            mainActivity.keepScreenOn(false)
-        }
-        updateHelper.stop()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
         if (MusicPlayerRemote.playingQueue.isNotEmpty())
             mainActivity.expandPanel()
-        if (!PreferenceUtil.isScreenOnEnabled) {
-            mainActivity.keepScreenOn(false)
-        }
         _binding = null
     }
 
