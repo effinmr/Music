@@ -38,5 +38,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-signed-release.apk-${{ github.run_number }}
-          path: ${{steps.sign_app.outputs.signedFile}}
-          #path: app/build/outputs/apk/normal/release/*.apk
+          path: |
+              ${{steps.sign_app.outputs.signedFile}}
+              app/build/outputs/
