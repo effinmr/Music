@@ -46,6 +46,7 @@ import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.FileUtils
 import code.name.monkey.retromusic.util.LyricUtil
 import code.name.monkey.retromusic.util.UriUtil
+code.name.monkey.retromusic.util.PreferenceUtil
 import com.afollestad.materialdialogs.input.input
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -112,7 +113,7 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
         updateHelper = MusicProgressViewUpdateHelper(this, 500, 1000)
         updateTitleSong()
         setupLyricsView()
-        keepitlit()
+        keepItLit()
         loadLyrics()
         
         setupWakelock()
@@ -360,7 +361,7 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
 
     override fun onResume() {
         super.onResume()
-        keepitlit()
+        keepItLit()
         updateHelper.start()
     }
 
