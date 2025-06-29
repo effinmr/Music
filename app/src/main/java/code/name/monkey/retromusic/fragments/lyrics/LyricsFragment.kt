@@ -355,9 +355,9 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
 
     fun keepItLit() {
         if (PreferenceUtil.lyricsScreenOn) {
-            keepScreenOn(true)
+            (requireActivity() as AppCompatActivity).keepScreenOn(true)
         } else if (!PreferenceUtil.isScreenOnEnabled) {
-            keepScreenOn(false)
+            (requireActivity() as AppCompatActivity).keepScreenOn(false)
         }
     }
 
@@ -370,7 +370,7 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
     override fun onPause() {
         super.onPause()
         if (!PreferenceUtil.isScreenOnEnabled) {
-            keepScreenOn(false)
+            (requireActivity() as AppCompatActivity).keepScreenOn(false)
         }
         updateHelper.stop()
     }
@@ -378,7 +378,7 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
     override fun onDestroyView() {
         super.onDestroyView()
         if (!PreferenceUtil.isScreenOnEnabled) {
-            keepScreenOn(false)
+            (requireActivity() as AppCompatActivity).keepScreenOn(false)
         }
         if (MusicPlayerRemote.playingQueue.isNotEmpty())
             mainActivity.expandPanel()
