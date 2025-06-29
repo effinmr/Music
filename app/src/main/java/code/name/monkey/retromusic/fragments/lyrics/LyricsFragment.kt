@@ -47,6 +47,8 @@ import code.name.monkey.retromusic.util.FileUtils
 import code.name.monkey.retromusic.util.LyricUtil
 import code.name.monkey.retromusic.util.UriUtil
 import com.afollestad.materialdialogs.input.input
+import code.name.monkey.retromusic.util.PreferenceUtil
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jaudiotagger.audio.AudioFileIO
