@@ -64,7 +64,8 @@ class PlaylistsFragment :
                 adapter?.swapDataSet(listOf())
         }
         val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN or
+                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, 0) {
 
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -77,7 +78,7 @@ class PlaylistsFragment :
                 adapter?.notifyItemMoved(fromPosition, toPosition)
                 return true
             }
-            
+
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // No swipe action
             }
