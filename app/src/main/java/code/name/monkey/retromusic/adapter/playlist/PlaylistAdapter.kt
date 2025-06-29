@@ -131,6 +131,14 @@ class PlaylistAdapter(
         ATHUtil.resolveColor(activity, android.R.attr.colorControlNormal)
     )
 
+    fun swapItems(fromPosition: Int, toPosition: Int) {
+        val mutableList = dataSet.toMutableList()
+        val movedItem = mutableList.removeAt(fromPosition)
+        mutableList.add(toPosition, movedItem)
+        dataSet = mutableList
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
     override fun getItemCount(): Int {
         return dataSet.size
     }
