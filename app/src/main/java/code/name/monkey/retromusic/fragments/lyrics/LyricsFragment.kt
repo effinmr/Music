@@ -112,8 +112,9 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
         updateHelper = MusicProgressViewUpdateHelper(this, 500, 1000)
         updateTitleSong()
         setupLyricsView()
+        keepitlit()
         loadLyrics()
-
+        
         setupWakelock()
         setupViews()
         setupToolbar()
@@ -349,13 +350,25 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
         }
     }
 
+    override fun keepItLit() {
+        if (PreferenceUtil.lyricsScreenOn) {
+            mainActivity.keepScreenOn(true)
+        } else if (!PreferenceUtil.isScreenOnEnabled) {
+            mainActivity.keepScreenOn(false)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
+        keepitlit()
         updateHelper.start()
     }
 
     override fun onPause() {
         super.onPause()
+        if (!PreferenceUtil.isScreenOnEnabled) {
+            mainActivity.keepScreenOn(false)
+        }
         updateHelper.stop()
     }
 
@@ -363,6 +376,9 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
         super.onDestroyView()
         if (MusicPlayerRemote.playingQueue.isNotEmpty())
             mainActivity.expandPanel()
+        if (!PreferenceUtil.isScreenOnEnabled) {
+            mainActivity.keepScreenOn(false)
+        }
         _binding = null
     }
 
