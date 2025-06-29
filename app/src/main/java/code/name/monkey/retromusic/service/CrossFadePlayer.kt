@@ -10,6 +10,7 @@ import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.extensions.showToast
 import code.name.monkey.retromusic.extensions.uri
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
+import code.name.monkey.retromusic.helper.MusicPlayerRemote.playingCallback
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.service.AudioFader.Companion.createFadeAnimator
 import code.name.monkey.retromusic.service.playback.Playback.PlaybackCallbacks
@@ -40,6 +41,8 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
     private var crossFadeDuration = PreferenceUtil.crossFadeDuration
     var isCrossFading = false
 
+    private var isActuallyPlaying = false
+
     init {
         player1.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK)
         player2.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK)
@@ -55,6 +58,9 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
             if (isCrossFading) {
                 getNextPlayer()?.start()
             }
+            isActuallyPlaying = true // ADD THIS
+            callbacks?.onPlayStateChanged()
+            MusicPlayerRemote.playingCallback?.onPlayStateChanged()
             true
         } catch (e: IllegalStateException) {
             e.printStackTrace()
@@ -74,6 +80,7 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
         super.stop()
         getCurrentPlayer()?.reset()
         mIsInitialized = false
+        isActuallyPlaying = false
     }
 
     override fun pause(): Boolean {
@@ -90,6 +97,9 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
                 it.pause()
             }
         }
+        isActuallyPlaying = false // ADD THIS
+        callbacks?.onPlayStateChanged()
+        MusicPlayerRemote.playingCallback?.onPlayStateChanged()
         return true
     }
 
@@ -122,7 +132,7 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
         get() = mIsInitialized
 
     override val isPlaying: Boolean
-        get() = mIsInitialized && getCurrentPlayer()?.isPlaying == true
+        get() = isActuallyPlaying
 
     override fun setDataSource(
         song: Song,
@@ -242,6 +252,9 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
             isCrossFading = false
         }
         crossFadeAnimator?.start()
+        isActuallyPlaying = true
+        callbacks?.onPlayStateChanged()
+        MusicPlayerRemote.playingCallback?.onPlayStateChanged()
     }
 
     private fun endFade() {

@@ -29,6 +29,7 @@ import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.repository.SongRepository
 import code.name.monkey.retromusic.service.CastPlayer
 import code.name.monkey.retromusic.service.MusicService
+import code.name.monkey.retromusic.service.playback.Playback
 import code.name.monkey.retromusic.util.getExternalStorageDirectory
 import code.name.monkey.retromusic.util.logE
 import org.koin.core.component.KoinComponent
@@ -44,6 +45,9 @@ object MusicPlayerRemote : KoinComponent {
     var musicService: MusicService? = null
 
     private val songRepository by inject<SongRepository>()
+
+    @JvmStatic
+    var playingCallback: Playback.PlaybackCallbacks? = null
 
     @JvmStatic
     val isPlaying: Boolean
