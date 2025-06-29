@@ -8,6 +8,7 @@ import android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
 import androidx.core.content.getSystemService
 import androidx.core.view.*
 import androidx.fragment.app.FragmentActivity
