@@ -9,6 +9,7 @@ import code.name.monkey.retromusic.helper.SortOrder.PlaylistSortOrder.Companion.
 import code.name.monkey.retromusic.helper.SortOrder.PlaylistSortOrder.Companion.PLAYLIST_SONG_COUNT
 import code.name.monkey.retromusic.helper.SortOrder.PlaylistSortOrder.Companion.PLAYLIST_SONG_COUNT_DESC
 import code.name.monkey.retromusic.helper.SortOrder.PlaylistSortOrder.Companion.PLAYLIST_Z_A
+import code.name.monkey.retromusic.helper.SortOrder.PlaylistSortOrder.Companion.PLAYLIST_CUSTOM
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.PreferenceUtil
 
@@ -74,6 +75,10 @@ class RealRoomRepository(
             PLAYLIST_SONG_COUNT -> playlistDao.playlistsWithSongs().sortedBy { it.songs.size }
             PLAYLIST_SONG_COUNT_DESC -> playlistDao.playlistsWithSongs()
                 .sortedByDescending { it.songs.size }
+            PLAYLIST_CUSTOM -> playlistDao.playlistsWithSongs()
+                .sortedBy {
+                    it.playlistEntity.position
+                }
             else -> playlistDao.playlistsWithSongs().sortedBy {
                 it.playlistEntity.playlistName
             }
