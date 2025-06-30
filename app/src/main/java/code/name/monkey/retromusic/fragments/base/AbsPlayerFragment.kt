@@ -596,6 +596,8 @@ fun goToLyrics(activity: Activity) {
             collapsePanel()
         }
 
+        mainActivity.keepScreenOn(true)
+
         findNavController(R.id.fragment_container).navigate(
             R.id.lyrics_fragment,
             null,
