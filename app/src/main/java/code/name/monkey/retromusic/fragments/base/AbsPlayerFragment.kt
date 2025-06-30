@@ -203,6 +203,7 @@ abstract class AbsPlayerFragment(@LayoutRes layout: Int) : AbsMusicServiceFragme
             }
 
             R.id.action_show_lyrics -> {
+                mainActivity.keepScreenOn(true)
                 goToLyrics(requireActivity())
                 return true
             }
@@ -596,7 +597,7 @@ fun goToLyrics(activity: Activity) {
             collapsePanel()
         }
 
-        mainActivity.keepScreenOn(true)
+        keepScreenOn(true)
 
         findNavController(R.id.fragment_container).navigate(
             R.id.lyrics_fragment,
