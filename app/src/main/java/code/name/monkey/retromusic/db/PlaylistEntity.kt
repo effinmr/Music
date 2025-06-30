@@ -31,5 +31,5 @@ data class PlaylistEntity(
     val playlistName: String,
     
     @ColumnInfo(name = "position")
-    val position: Int = 0,
+    var position: Int = 0,
 ) : Parcelable
