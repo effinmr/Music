@@ -63,6 +63,9 @@ class PlaylistsFragment :
             else
                 adapter?.swapDataSet(listOf())
         }
+        if (PreferenceUtil.playlistSortOrder == PlaylistSortOrder.PLAYLIST_CUSTOM) {
+            setAndSaveSortOrder(PlaylistSortOrder.PLAYLIST_CUSTOM)
+        }
         val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN or
                     ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, 0) {
@@ -86,6 +89,7 @@ class PlaylistsFragment :
             override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
                 super.clearView(recyclerView, viewHolder)
                 updatePlaylistPositionsInDb()
+                setAndSaveSortOrder(PlaylistSortOrder.PLAYLIST_CUSTOM)
             }
         })
         itemTouchHelper.attachToRecyclerView(recyclerView)
