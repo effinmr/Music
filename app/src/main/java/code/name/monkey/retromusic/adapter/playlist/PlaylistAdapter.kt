@@ -196,9 +196,7 @@ class PlaylistAdapter(
         }
 
         override fun onLongClick(v: View?): Boolean {
-            v?.postDelayed({
-                toggleChecked(layoutPosition)
-            }, 1000)
+            toggleChecked(layoutPosition)
             return true
         }
     }
