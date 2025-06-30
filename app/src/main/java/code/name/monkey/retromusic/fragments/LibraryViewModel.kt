@@ -130,6 +130,16 @@ class LibraryViewModel(
             searchResults.postValue(result)
         }
 
+    fun updatePlaylistsOrder(playlists: List<PlaylistEntity>) {
+        viewModelScope.launch(IO) {
+            repository.updatePlaylists(playlists)
+        }
+    }
+
+    suspend fun getPlaylistsByCustomOrder(): List<PlaylistWithSongs> {
+        return repository.getPlaylistsByPosition()
+    }
+
     fun forceReload(reloadType: ReloadType) = viewModelScope.launch(IO) {
         when (reloadType) {
             Songs -> fetchSongs()
