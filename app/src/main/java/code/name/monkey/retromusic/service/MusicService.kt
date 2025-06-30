@@ -808,10 +808,12 @@ class MusicService : MediaBrowserServiceCompat(),
 
     fun playNextSong(force: Boolean) {
         playSongAt(getNextPosition(force))
+        play()
     }
 
     fun playPreviousSong(force: Boolean) {
         playSongAt(getPreviousPosition(force))
+        play()
     }
 
     var lastPlayTapTime = 0L
