@@ -56,6 +56,7 @@
 - Minimal Artist
 - Settings Search Bar
 - Built-in Equalizer
+- Playlist Drag-Drop
 - Pro Features
 -  Base 3 themes (Clearly White, Kinda Dark and AMOLED)
 -  Chromecast support
