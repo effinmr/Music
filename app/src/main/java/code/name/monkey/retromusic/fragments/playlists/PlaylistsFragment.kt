@@ -82,6 +82,11 @@ class PlaylistsFragment :
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // No swipe action
             }
+
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
+                updatePlaylistPositionsInDb()
+            }
         })
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
@@ -263,6 +268,16 @@ class PlaylistsFragment :
 
     private fun createId(menu: SubMenu, id: Int, title: Int, checked: Boolean) {
         menu.add(0, id, 0, title).isChecked = checked
+    }
+
+    private fun updatePlaylistPositionsInDb() {
+        val dataSet = adapter?.dataSet ?: return
+        viewLifecycleOwner.lifecycleScope.launch {
+            dataSet.forEachIndexed { index, playlistWithSongs ->
+                playlistWithSongs.playlistEntity = playlistWithSongs.playlistEntity.copy(position = index)
+            }
+            libraryViewModel.updatePlaylistPositions(dataSet.map { it.playlistEntity })
+        }
     }
 
     private fun importPlaylists(uris: List<Uri>) {
