@@ -274,7 +274,7 @@ class PlaylistsFragment :
         val dataSet = adapter?.dataSet ?: return
         viewLifecycleOwner.lifecycleScope.launch {
             dataSet.forEachIndexed { index, playlistWithSongs ->
-                playlistWithSongs.playlistEntity = playlistWithSongs.playlistEntity.copy(position = index)
+                playlistWithSongs.playlistEntity.position = index
             }
             libraryViewModel.updatePlaylistPositions(dataSet.map { it.playlistEntity })
         }
