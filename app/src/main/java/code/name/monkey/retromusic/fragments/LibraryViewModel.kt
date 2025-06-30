@@ -202,7 +202,7 @@ class LibraryViewModel(
     }
 
     fun updatePlaylistPositions(playlists: List<PlaylistEntity>) {
-        playlistRepository.updatePlaylists(playlists)
+        roomRepository.updatePlaylists(playlists)
     }
 
     fun deleteSongsFromPlaylist(playlists: List<PlaylistEntity>) = viewModelScope.launch(IO) {
