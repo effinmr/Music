@@ -227,6 +227,12 @@ class PlaylistsFragment :
             R.string.sort_order_num_songs_desc,
             order == PlaylistSortOrder.PLAYLIST_SONG_COUNT_DESC
         )
+        createId(
+            subMenu,
+            R.id.action_playlist_sort_order_custom,
+            R.string.sort_order_custom,
+            order == PlaylistSortOrder.PLAYLIST_CUSTOM
+        )
         subMenu.setGroupCheckable(0, true, true)
     }
 
@@ -236,6 +242,7 @@ class PlaylistsFragment :
             R.id.action_song_sort_order_desc -> PlaylistSortOrder.PLAYLIST_Z_A
             R.id.action_playlist_sort_order -> PlaylistSortOrder.PLAYLIST_SONG_COUNT
             R.id.action_playlist_sort_order_desc -> PlaylistSortOrder.PLAYLIST_SONG_COUNT_DESC
+            R.id.action_playlist_sort_order_custom -> PlaylistSortOrder.PLAYLIST_CUSTOM
             else -> PreferenceUtil.playlistSortOrder
         }
         if (sortOrder != PreferenceUtil.playlistSortOrder) {
