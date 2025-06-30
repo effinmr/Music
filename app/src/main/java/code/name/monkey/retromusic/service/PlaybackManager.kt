@@ -42,7 +42,7 @@ class PlaybackManager(val context: Context) {
     }
 
     fun play(onNotInitialized: () -> Unit) {
-        if (playback != null && !playback!!.isPlaying) {
+        if (playback != null && (!playback!!.isPlaying || playback is CrossFadePlayer)) {
             if (!playback!!.isInitialized) {
                 onNotInitialized()
             } else {
