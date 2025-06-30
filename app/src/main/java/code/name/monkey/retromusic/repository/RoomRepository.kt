@@ -43,6 +43,7 @@ interface RoomRepository {
     suspend fun isSongFavorite(context: Context, songId: Long): Boolean
     fun checkPlaylistExists(playListId: Long): LiveData<Boolean>
     fun getPlaylist(playlistId: Long): LiveData<PlaylistWithSongs>
+    suspend fun updatePlaylists(playlists: List<PlaylistEntity>)
 }
 
 class RealRoomRepository(
@@ -115,6 +116,11 @@ class RealRoomRepository(
         playlists.forEach {
             playlistDao.deletePlaylistSongs(it.playListId)
         }
+
+    @WorkerThread
+    override suspend fun updatePlaylists(playlists: List<PlaylistEntity>) {
+        playlistDao.updatePlaylists(playlists)
+    }
 
     override suspend fun favoritePlaylist(favorite: String): PlaylistEntity {
         val playlist: PlaylistEntity? = playlistDao.playlist(favorite).firstOrNull()
