@@ -132,7 +132,7 @@ class CrossFadePlayer(context: Context) : LocalPlayback(context) {
         get() = mIsInitialized
 
     override val isPlaying: Boolean
-        get() = isActuallyPlaying
+        get() = mIsInitialized && getCurrentPlayer()?.isPlaying == true
 
     override fun setDataSource(
         song: Song,
