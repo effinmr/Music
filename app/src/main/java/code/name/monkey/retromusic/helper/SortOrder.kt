@@ -210,7 +210,7 @@ class SortOrder {
             /* Playlist sort order number of songs */
             const val PLAYLIST_SONG_COUNT_DESC = "$PLAYLIST_SONG_COUNT DESC"
 
-            const val PLAYLIST_CUSTOM = "position ASC"
+            const val PLAYLIST_CUSTOM = "playlist_custom"
         }
     }
 }
