@@ -38,6 +38,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
+import code.name.monkey.retromusic.util.PreferenceUtil
 
 
 object MusicUtil : KoinComponent {
@@ -307,7 +308,11 @@ object MusicUtil : KoinComponent {
     }
 
     fun getYearString(year: String?): String {
-        return if (!year.isNullOrEmpty()) year else "-"
+        if (PreferenceUtil.fixYear) {
+            return if (!year.isNullOrEmpty()) year.substring(0, 4) else "-"
+        } else {
+            return if (!year.isNullOrEmpty()) year else "-"
+        }
     }
 
     fun indexOfSongInList(songs: List<Song>, songId: Long): Int {

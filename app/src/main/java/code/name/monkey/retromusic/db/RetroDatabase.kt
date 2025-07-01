@@ -14,11 +14,14 @@
  */
 package code.name.monkey.retromusic.db
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
+import code.name.monkey.retromusic.db.SongMetadataEntity
 
 @Database(
-    entities = [PlaylistEntity::class, SongEntity::class, HistoryEntity::class, PlayCountEntity::class],
+    entities = [PlaylistEntity::class, SongEntity::class, HistoryEntity::class, PlayCountEntity::class, SongMetadataEntity::class],
     version = 26,
     exportSchema = false
 )
@@ -26,4 +29,22 @@ abstract class RetroDatabase : RoomDatabase() {
     abstract fun playlistDao(): PlaylistDao
     abstract fun playCountDao(): PlayCountDao
     abstract fun historyDao(): HistoryDao
+    abstract fun songMetadataDao(): SongMetadataDao
+
+    companion object {
+        @Volatile
+        private var INSTANCE: RetroDatabase? = null
+
+        fun getInstance(context: Context): RetroDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    RetroDatabase::class.java,
+                    "retro_database"
+                ).build()
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
 }

@@ -875,6 +875,10 @@ object PreferenceUtil {
         get() = sharedPreferences.getBoolean(SHOW_SONG_ONLY, false)
         set(value) = sharedPreferences.edit { putBoolean(SHOW_SONG_ONLY, value) }
 
+    var fixYear: Boolean
+        get() = sharedPreferences.getBoolean(FIX_YEAR, false)
+        set(value) = sharedPreferences.edit { putBoolean(FIX_YEAR, value) }
+
     const val SHOW_NOW_PLAYING_QUEUE_BUTTON = "show_now_playing_queue_button"
     const val SHOW_OPTIONS_MENU = "show_options_menu"
     const val NOW_PLAYING_METADATA = "now_playing_metadata"

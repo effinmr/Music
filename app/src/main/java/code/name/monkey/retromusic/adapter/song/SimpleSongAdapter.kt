@@ -44,7 +44,7 @@ class SimpleSongAdapter(
         val fixedTrackNumber = MusicUtil.getFixedTrackNumber(dataSet[position].trackNumber)
 
         holder.imageText?.text = if (fixedTrackNumber > 0) fixedTrackNumber.toString() else "-"
-        holder.time?.text = MusicUtil.getReadableDurationString(dataSet[position].duration)
+        holder.time?.text = String.format("%s | %s", fixedTrackNumber, MusicUtil.getReadableDurationString(dataSet[position].duration))
 
         val songTextSize = PreferenceUtil.songTextSize.toFloat()
         holder.title?.setTextSize(TypedValue.COMPLEX_UNIT_SP, songTextSize)

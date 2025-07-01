@@ -24,6 +24,9 @@ import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.Constants
 import code.name.monkey.retromusic.Constants.IS_MUSIC
 import code.name.monkey.retromusic.Constants.baseProjection
+import code.name.monkey.retromusic.db.RetroDatabase
+import code.name.monkey.retromusic.db.SongMetadataEntity
+import code.name.monkey.retromusic.db.SongMetadataDao
 import code.name.monkey.retromusic.extensions.getInt
 import code.name.monkey.retromusic.extensions.getLong
 import code.name.monkey.retromusic.extensions.getString
@@ -34,7 +37,7 @@ import code.name.monkey.retromusic.providers.BlacklistStore
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.getExternalStoragePublicDirectory
 import java.text.Collator
-import android.media.MediaMetadataRetriever
+import kotlinx.coroutines.runBlocking
 
 /**
  * Created by hemanths on 10/08/17.
@@ -57,6 +60,10 @@ interface SongRepository {
 }
 
 class RealSongRepository(private val context: Context) : SongRepository {
+
+    private val metadataDao: SongMetadataDao = RetroDatabase.getInstance(context).songMetadataDao()
+
+    private var metadataMap: Map<Long, SongMetadataEntity>? = null
 
     override fun songs(hideDuplicates: Boolean): List<Song> {
         val allSongs = sortedSongs(makeSongCursor(null, null))
@@ -126,6 +133,7 @@ class RealSongRepository(private val context: Context) : SongRepository {
                     collator.compare(artist1, artist2)
                 }
             }
+            SortOrder.SongSortOrder.SONG_YEAR       -> songs.sortedByDescending { it.year ?: "0000-00-00" }
             SortOrder.SongSortOrder.SONG_ARTIST -> {
                 songs.sortedWith{ s1, s2 -> collator.compare(s1.artistName, s2.artistName) }
             }
@@ -167,9 +175,7 @@ class RealSongRepository(private val context: Context) : SongRepository {
         )
     }
 
-    private fun getSongFromCursorImpl(
-        cursor: Cursor
-    ): Song {
+    private fun parseMediaStoreSong(cursor: Cursor): Song {
         val id = cursor.getLong(AudioColumns._ID)
         val title = cursor.getString(AudioColumns.TITLE)
         val trackNumber = cursor.getInt(AudioColumns.TRACK)
@@ -205,6 +211,41 @@ class RealSongRepository(private val context: Context) : SongRepository {
             albumArtist ?: "",
             allArtists ?: ""
         )
+    }
+
+    private suspend fun getMetadata(id: Long): SongMetadataEntity? {
+        if (metadataMap == null) {
+            metadataMap = metadataDao.getAllMetadata().associateBy { it.id }
+        }
+        return metadataMap?.get(id)
+    }
+
+    private fun getSongFromCursorImpl(cursor: Cursor): Song {
+        val id = cursor.getLong(AudioColumns._ID)
+
+        val base = parseMediaStoreSong(cursor)
+
+        if (PreferenceUtil.fixYear) {
+            val meta = runBlocking { getMetadata(id) } // ✅ solves suspend issue
+            if (meta != null) {
+                return base.copy(
+                    title = meta.title ?: base.title,
+                    trackNumber  = meta.trackNumber ?: base.trackNumber,
+                    year         = meta.year ?: base.year,
+                    duration     = meta.duration ?: base.duration,
+                    data         = meta.data ?: base.data,
+                    dateModified = meta.dateModified ?: base.dateModified,
+                    albumId      = meta.albumId ?: base.albumId,
+                    albumName    = meta.albumName ?: base.albumName,
+                    artistId     = meta.artistId ?: base.artistId,
+                    artistName   = meta.artistName ?: base.artistName,
+                    composer     = meta.composer ?: base.composer,
+                    albumArtist  = meta.albumArtist ?: base.albumArtist,
+                    allArtists = base.allArtists
+                )
+            }
+        }
+        return base
     }
 
     @JvmOverloads

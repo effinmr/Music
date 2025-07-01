@@ -33,11 +33,20 @@ import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.logD
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers
+import code.name.monkey.retromusic.db.RetroDatabase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import androidx.lifecycle.MutableLiveData
+import android.os.Environment
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
+import android.util.Log
+import code.name.monkey.retromusic.repository.MetadataScanner
 
 class LibraryViewModel(
     private val repository: RealRepository,
@@ -54,6 +63,7 @@ class LibraryViewModel(
     private val searchResults = MutableLiveData<List<Any>>()
     private val fabMargin = MutableLiveData(0)
     private val songHistory = MutableLiveData<List<Song>>()
+    val scanProgress = MutableLiveData<String>()
     private var previousSongHistory = ArrayList<HistoryEntity>()
     val paletteColor: LiveData<Int> = _paletteColor
 
@@ -130,6 +140,52 @@ class LibraryViewModel(
             val result = repository.search(query, filter)
             searchResults.postValue(result)
         }
+
+    fun startMetadataScan(
+        context: Context,
+        onProgress: (String, Int, Int) -> Unit = { _, _, _ -> },
+        onComplete: () -> Unit = {}
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val songs = repository.songs(PreferenceUtil.hideDuplicateSongs)
+            val dao    = RetroDatabase.getInstance(context).songMetadataDao()
+            val scanner = MetadataScanner(dao)
+            
+            scanner.scanIfNotExists(songs) { title, idx, total ->
+                scanProgress.postValue("Scanning: $title ($idx/$total)")
+                onProgress(title, idx, total)
+            }
+            scanProgress.postValue("Scan complete")
+            onComplete()
+            reloadTabs()
+        }
+    }
+
+    private fun reloadTabs() {
+        forceReload(ReloadType.Songs)
+        forceReload(ReloadType.HomeSections)
+        forceReload(ReloadType.Artists)
+        forceReload(ReloadType.Albums)
+    }
+
+    private fun exportDatabaseToExternalStorage(context: Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val dbFile = context.getDatabasePath("retro_database")
+            val exportDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            if (!exportDir.exists()) exportDir.mkdirs()
+                
+            val backupFile = File(exportDir, "retromusic_backup.db")
+            dbFile.inputStream().use { input ->
+                backupFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+                
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, "DB saved to: ${backupFile.absolutePath}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     fun forceReload(reloadType: ReloadType) = viewModelScope.launch(IO) {
         when (reloadType) {
