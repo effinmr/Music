@@ -207,6 +207,7 @@
     <string name="free">Free</string>
     <string name="full">Full</string>
     <string name="full_card">Full card</string>
+    <string name="fix_year">Fix Year</string>
     <string name="general_settings_summary">Change the theme and colors of the app</string>
     <string name="general_settings_title">Apperance</string>
     <string name="genre">Genre</string>
@@ -654,8 +655,11 @@
     <string name="pref_summary_auto_hide_mini_player">Automatically hide the mini player when scrolling down and show it when scrolling up.</string>
     <string name="pref_summary_offline_mode">Complete Offline Mode</string>
 
-    <string name="pref_title_show_song_only">"Minimal Artist"</string>
+    <string name="pref_title_show_song_only">Minimal Artist</string>
     <string name="pref_summary_show_song_only">Show Songs/Albums only in Artist</string>
+
+    <string name="pref_title_fix_year">Fix Year</string>
+    <string name="pref_summary_fix_year">Fix year when sorting (slow)</string>
 
     <string name="pref_title_swap_shuffle_repeat">Swap Shuffle and Repeat Buttons</string>
     <string name="pref_summary_swap_shuffle_repeat">Swap the positions of the shuffle and repeat buttons on the now playing screen.</string>

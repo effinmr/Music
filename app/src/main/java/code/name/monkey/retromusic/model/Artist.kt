@@ -85,17 +85,24 @@ data class Artist(
                     }
 
                     SortOrder.ArtistSongSortOrder.SONG_ALBUM -> { o1, o2 ->
-                        collator.compare(o1.albumName, o2.albumName)
+                        val cmp = collator.compare(o1.albumName, o2.albumName)
+                        if (cmp == 0) o1.trackNumber.compareTo(o2.trackNumber) else cmp
                     }
 
                     SortOrder.ArtistSongSortOrder.SONG_YEAR -> { o1, o2 ->
-                        val year1 = o1.year?.toIntOrNull() ?: 0
-                        val year2 = o2.year?.toIntOrNull() ?: 0
-                        val yearComparison = year2.compareTo(year1)
-                        if (yearComparison == 0) {
-                            o1.trackNumber.compareTo(o2.trackNumber)
+                        if (PreferenceUtil.fixYear) {
+                            // Compare full YYYY-MM-DD strings
+                            val y1 = o1.year ?: "0000-00-00"
+                            val y2 = o2.year ?: "0000-00-00"
+                            val cmp = y2.compareTo(y1)
+                            if (cmp == 0) o1.trackNumber.compareTo(o2.trackNumber) else cmp
                         } else {
-                            yearComparison
+                            // Fallback to integer‑year sort
+                            val year1 = o1.year?.toIntOrNull() ?: 0
+                            val year2 = o2.year?.toIntOrNull() ?: 0
+                            val yearComparison = year2.compareTo(year1)
+                            val diff = year2.compareTo(year1)
+                            if (diff == 0) o1.trackNumber.compareTo(o2.trackNumber) else diff
                         }
                     }
 
@@ -125,15 +132,27 @@ data class Artist(
                     }
 
                     SortOrder.ArtistAlbumSortOrder.ALBUM_YEAR_ASC -> { o1, o2 ->
-                        val year1 = o1.year?.toIntOrNull() ?: 0
-                        val year2 = o2.year?.toIntOrNull() ?: 0
-                        year1.compareTo(year2)
+                        if (PreferenceUtil.fixYear) {
+                            val y1 = o1.year ?: "0000-00-00"
+                            val y2 = o2.year ?: "0000-00-00"
+                            y1.compareTo(y2)
+                        } else {
+                            val year1 = o1.year?.toIntOrNull() ?: 0
+                            val year2 = o2.year?.toIntOrNull() ?: 0
+                            year1.compareTo(year2)
+                        }
                     }
 
                     SortOrder.ArtistAlbumSortOrder.ALBUM_YEAR -> { o1, o2 ->
-                        val year1 = o1.year?.toIntOrNull() ?: 0
-                        val year2 = o2.year?.toIntOrNull() ?: 0
-                        year2.compareTo(year1)
+                        if (PreferenceUtil.fixYear) {
+                            val y1 = o1.year ?: "0000-00-00"
+                            val y2 = o2.year ?: "0000-00-00"
+                            y2.compareTo(y1)
+                        } else {
+                            val year1 = o1.year?.toIntOrNull() ?: 0
+                            val year2 = o2.year?.toIntOrNull() ?: 0
+                            year2.compareTo(year1)
+                        }
                     }
 
                     else -> {

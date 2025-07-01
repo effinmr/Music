@@ -22,12 +22,19 @@ import androidx.preference.Preference
 import code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
 import code.name.monkey.retromusic.LANGUAGE_NAME
 import code.name.monkey.retromusic.LAST_ADDED_CUTOFF
+import code.name.monkey.retromusic.FIX_YEAR
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.extensions.installLanguageAndRecreate
 import code.name.monkey.retromusic.fragments.LibraryViewModel
 import code.name.monkey.retromusic.fragments.ReloadType.HomeSections
 import code.name.monkey.retromusic.util.PreferenceUtil
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import androidx.navigation.fragment.findNavController
+import android.app.ProgressDialog
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * @author Hemanth S (h4h13).
@@ -72,6 +79,39 @@ class OtherSettingsFragment : AbsSettingsFragment() {
                         )
                     )
                 }
+            }
+            true
+        }
+
+        val libraryPreference: Preference? = findPreference(FIX_YEAR)
+        libraryPreference?.setOnPreferenceChangeListener { prefs, newValue ->
+
+            if (newValue as? Boolean == true) {
+                 val progressDialog = ProgressDialog(requireContext()).apply {
+                     setTitle("Scanning songs")
+                     setMessage("Please wait...")
+                     setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+                     setCancelable(false)
+                     show()
+                 }
+                
+                libraryViewModel.startMetadataScan(
+                    requireContext(),
+                    onProgress = { songTitle, index, total ->
+                        progressDialog.max = total
+                        progressDialog.progress = index
+                    },
+                    onComplete = {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            progressDialog.dismiss()
+                            Toast.makeText(requireContext(), "Scan completed!", Toast.LENGTH_SHORT).show()
+
+                            findNavController().previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set("data_changed", true)
+                        }
+                    }
+                )
             }
             true
         }

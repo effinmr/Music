@@ -35,6 +35,29 @@ open class Song(
     open val allArtists: String? = null
 ) : Parcelable {
 
+    // Manual copy function
+    fun copy(
+        id: Long = this.id,
+        title: String = this.title,
+        trackNumber: Int = this.trackNumber,
+        year: String? = this.year,
+        duration: Long = this.duration,
+        data: String = this.data,
+        dateModified: Long = this.dateModified,
+        albumId: Long = this.albumId,
+        albumName: String = this.albumName,
+        artistId: Long = this.artistId,
+        artistName: String = this.artistName,
+        composer: String? = this.composer,
+        albumArtist: String? = this.albumArtist,
+        allArtists: String? = this.allArtists
+    ): Song {
+        return Song(
+            id, title, trackNumber, year, duration, data, dateModified,
+            albumId, albumName, artistId, artistName, composer, albumArtist, allArtists
+        )
+    }
+
 
     // need to override manually because is open and cannot be a data class
     override fun equals(other: Any?): Boolean {
