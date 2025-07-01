@@ -212,6 +212,9 @@ class HomeFragment :
         )
         //Setting up cast button
         requireContext().setUpMediaRouteButton(menu)
+
+        val castButton = menu.findItem(R.id.action_cast)
+        castButton.isVisible = PreferenceUtil.showCastButton
     }
 
     override fun scrollToTop() {
