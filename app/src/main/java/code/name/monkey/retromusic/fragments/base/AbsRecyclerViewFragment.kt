@@ -69,6 +69,12 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
         setUpRecyclerView()
         setupToolbar()
         binding.shuffleButton.fitsSystemWindows = PreferenceUtil.isFullScreenMode
+
+        if (!PreferenceUtil.showSongsSearchButton) {
+            toolbar.navigationIcon = null
+            toolbar.setNavigationOnClickListener(null)
+        }
+        
         // Add listeners when shuffle is visible
         if (isShuffleVisible) {
             binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
