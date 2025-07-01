@@ -16,7 +16,31 @@ val MIGRATION_25_26 = object : Migration(25, 26) {
     }
 }
 
+val MIGRATION_26_27 = object : Migration(26, 27) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("""
+            CREATE TABLE IF NOT EXISTS song_metadata (
+                id INTEGER PRIMARY KEY NOT NULL,
+                title TEXT,
+                trackNumber INTEGER,
+                year TEXT,
+                duration INTEGER,
+                data TEXT,
+                dateModified INTEGER,
+                artistId INTEGER,
+                albumId INTEGER,
+                albumName TEXT,
+                artistName TEXT,
+                composer TEXT,
+                albumArtist TEXT,
+                allArtists TEXT
+            )
+        """.trimIndent())
+    }
+}
+
 val allMigrations = arrayOf(
     MIGRATION_23_24,
-    MIGRATION_25_26
+    MIGRATION_25_26,
+    MIGRATION_26_27
 )
