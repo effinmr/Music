@@ -177,14 +177,20 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
                 when (newState) {
                     STATE_EXPANDED -> {
                         onPanelExpanded()
-                        if (PreferenceUtil.showLyrics && PreferenceUtil.lyricsScreenOn || PreferenceUtil.isScreenOnEnabled) {
+                        if (PreferenceUtil.isScreenOnEnabled ||
+                                ((currentFragment(R.id.fragment_container) is LyricsFragment) && PreferenceUtil.lyricsScreenOn) ||
+                                (PreferenceUtil.showLyrics && PreferenceUtil.lyricsScreenOn)
+                           ) {
                             keepScreenOn(true)
                         }
                     }
 
                     STATE_COLLAPSED -> {
                         onPanelCollapsed()
-                        if (!PreferenceUtil.isScreenOnEnabled && !(PreferenceUtil.lyricsScreenOn && PreferenceUtil.showLyrics)) {
+                        if (!PreferenceUtil.isScreenOnEnabled &&
+                                !((currentFragment(R.id.fragment_container) is LyricsFragment) && PreferenceUtil.lyricsScreenOn) &&
+                                !(PreferenceUtil.showLyrics && PreferenceUtil.lyricsScreenOn)
+                           ) {
                             keepScreenOn(false)
                         }
                     }
@@ -320,8 +326,13 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
             }
 
             SCREEN_ON_LYRICS -> {
-                if ((PreferenceUtil.showLyrics && PreferenceUtil.lyricsScreenOn) || PreferenceUtil.isScreenOnEnabled) {
+                if (PreferenceUtil.isScreenOnEnabled ||
+                        ((currentFragment(R.id.fragment_container) is LyricsFragment) && PreferenceUtil.lyricsScreenOn) ||
+                        (PreferenceUtil.showLyrics && PreferenceUtil.lyricsScreenOn)
+                   ) {
                     keepScreenOn(true)
+                } else {
+                    keepScreenOn(false)
                 }
             }
 
