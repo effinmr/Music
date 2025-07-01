@@ -161,7 +161,7 @@ class HomeFragment :
     }
 
     private fun setupTitle() {
-        if (!PreferenceUtil.showSongsSearchButton) {
+        if (PreferenceUtil.showSongsSearchButton) {
             binding.toolbar.setNavigationOnClickListener {
                 findNavController().navigate(R.id.action_search, null, navOptions)
             }
