@@ -60,6 +60,8 @@ class HomeFragment :
     private var _binding: HomeBinding? = null
     private val binding get() = _binding!!
 
+    val toolbar: Toolbar get() = binding.appBarLayout.toolbar
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val homeBinding = FragmentHomeBinding.bind(view)
@@ -93,6 +95,10 @@ class HomeFragment :
         view.doOnPreDraw { startPostponedEnterTransition() }
         view.doOnLayout {
             adjustPlaylistButtons()
+        }
+        if (!PreferenceUtil.showSongsSearchButton) {
+            toolbar.navigationIcon = null
+            toolbar.setNavigationOnClickListener(null)
         }
     }
 
@@ -161,10 +167,9 @@ class HomeFragment :
     }
 
     private fun setupTitle() {
-        if (PreferenceUtil.showSongsSearchButton) {
-            binding.toolbar.setNavigationOnClickListener {
-                findNavController().navigate(R.id.action_search, null, navOptions)
-            }
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigate(R.id.action_search, null, navOptions)
+        }
         val hexColor = String.format("#%06X", 0xFFFFFF and accentColor())
         val appName = "Effin <font color=$hexColor>Music</font>".parseAsHtml()
         binding.appBarLayout.title = appName
