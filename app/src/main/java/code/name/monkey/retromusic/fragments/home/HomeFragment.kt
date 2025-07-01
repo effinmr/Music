@@ -94,6 +94,10 @@ class HomeFragment :
         view.doOnLayout {
             adjustPlaylistButtons()
         }
+        if (!PreferenceUtil.showSongsSearchButton) {
+            toolbar.navigationIcon = null
+            toolbar.setNavigationOnClickListener(null)
+        }
     }
 
     private fun adjustPlaylistButtons() {
