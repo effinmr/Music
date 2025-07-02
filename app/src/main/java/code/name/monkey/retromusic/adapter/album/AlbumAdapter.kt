@@ -38,6 +38,8 @@ import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import com.bumptech.glide.Glide
 import me.zhanghai.android.fastscroll.PopupTextProvider
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 open class AlbumAdapter(
     override val activity: FragmentActivity,
@@ -121,12 +123,29 @@ open class AlbumAdapter(
         if (holder.image == null) {
             return
         }
+
+        val overrideSize = when (PreferenceUtil.albumGridSize) {
+            2 -> 500
+            3 -> 300
+            4 -> 250
+            else -> 200
+        }
+        
         val song = album.safeGetFirstSong()
-        Glide.with(activity)
+        Glide.with(holder.image!!)
             .asBitmapPalette()
             .albumCoverOptions(song)
             //.checkIgnoreMediaStore()
             .load(RetroGlideExtension.getSongModel(song))
+            .apply {
+                if (PreferenceUtil.fastImage) {
+                    format(DecodeFormat.PREFER_RGB_565)
+                    diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    skipMemoryCache(false)
+                    .override(overrideSize, overrideSize)
+                    .dontAnimate()
+                }
+            }
             .into(object : RetroMusicColoredTarget(holder.image!!) {
                 override fun onColorReady(colors: MediaNotificationProcessor) {
                     setColors(colors, holder)
