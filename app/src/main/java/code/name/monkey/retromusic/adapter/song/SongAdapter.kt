@@ -48,6 +48,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import me.zhanghai.android.fastscroll.PopupTextProvider
 import code.name.monkey.retromusic.glide.palette.BitmapPaletteWrapper
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 /**
  * Created by hemanths on 13/08/17.
@@ -150,6 +152,13 @@ open class SongAdapter(
             .asBitmapPalette()
             .songCoverOptions(song)
             .load(RetroGlideExtension.getSongModel(song))
+            .apply {
+                if (PreferenceUtil.fastImage) {
+                    format(DecodeFormat.PREFER_RGB_565)
+                    diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    skipMemoryCache(false)
+                }
+            }
 
         val customArtworkUri = PreferenceUtil.customFallbackArtworkUri
         if (!customArtworkUri.isNullOrEmpty()) {
@@ -157,6 +166,13 @@ open class SongAdapter(
                 .asBitmapPalette()
                 .songCoverOptions(song) // Use songCoverOptions to apply default error/placeholder if custom URI fails
                 .load(Uri.parse(customArtworkUri))
+                .apply {
+                    if (PreferenceUtil.fastImage) {
+                        format(DecodeFormat.PREFER_RGB_565)
+                        diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        skipMemoryCache(false)
+                    }
+                }
 
             primaryRequest.error(fallbackRequest)
         }

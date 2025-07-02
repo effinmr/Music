@@ -41,6 +41,8 @@ import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import com.bumptech.glide.Glide
 import me.zhanghai.android.fastscroll.PopupTextProvider
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class ArtistAdapter(
     override val activity: FragmentActivity,
@@ -121,10 +123,18 @@ class ArtistAdapter(
         if (holder.image == null) {
             return
         }
+        
         Glide.with(activity)
             .asBitmapPalette()
             .artistImageOptions(artist)
             .load(RetroGlideExtension.getArtistModel(artist))
+            .apply {
+                if (PreferenceUtil.fastImage) {
+                    format(DecodeFormat.PREFER_RGB_565)
+                    diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    skipMemoryCache(false)
+                }
+            }
             .transition(RetroGlideExtension.getDefaultTransition())
             .into(object : RetroMusicColoredTarget(holder.image!!) {
                 override fun onColorReady(colors: MediaNotificationProcessor) {
