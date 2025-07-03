@@ -356,7 +356,7 @@ class SongsFragment : AbsRecyclerViewCustomGridSizeFragment<SongAdapter, GridLay
 
     override fun onPause() {
         super.onPause()
-        setTransparent
+        setTransparent()
         adapter?.actionMode?.finish()
     }
 
