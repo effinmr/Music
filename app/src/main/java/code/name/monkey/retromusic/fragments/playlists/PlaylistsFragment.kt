@@ -50,6 +50,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import code.name.monkey.retromusic.extensions.setColorSurface
+import code.name.monkey.retromusic.extensions.setTransparent
 
 class PlaylistsFragment :
     AbsRecyclerViewCustomGridSizeFragment<PlaylistAdapter, GridLayoutManager>(),
@@ -57,6 +59,7 @@ class PlaylistsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setColorSurface()
         libraryViewModel.getPlaylists().observe(viewLifecycleOwner) {
             if (it.isNotEmpty())
                 adapter?.swapDataSet(it)
@@ -431,5 +434,15 @@ class PlaylistsFragment :
             R.id.playlistDetailsFragment,
             bundleOf(EXTRA_PLAYLIST_ID to playlistWithSongs.playlistEntity.playListId)
         )
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setColorSurface()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        setTransparent()
     }
 }
