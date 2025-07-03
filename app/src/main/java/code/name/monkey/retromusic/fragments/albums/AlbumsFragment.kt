@@ -366,6 +366,11 @@ class AlbumsFragment : AbsRecyclerViewCustomGridSizeFragment<AlbumAdapter, GridL
         libraryViewModel.forceReload(ReloadType.Albums)
     }
 
+    override fun onStart() {
+        super.onStart()
+        setColorSurface()
+    }
+
     override fun onPause() {
         super.onPause()
         setTransparent()
