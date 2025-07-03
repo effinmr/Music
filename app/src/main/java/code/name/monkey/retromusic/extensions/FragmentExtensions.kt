@@ -27,6 +27,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import code.name.monkey.retromusic.util.PreferenceUtil
 import com.google.android.material.appbar.MaterialToolbar
+import code.name.monkey.retromusic.extensions.surfacecolor
+import android.graphics.Color
+
 
 fun Fragment.getIntRes(@IntegerRes int: Int): Int {
     return resources.getInteger(int)
