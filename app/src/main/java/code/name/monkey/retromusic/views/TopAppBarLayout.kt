@@ -45,10 +45,7 @@ class TopAppBarLayout @JvmOverloads constructor(
                     padding(horizontal = true)
                 }
             }
-            statusBarForeground = MaterialShapeDrawable().apply {
-                fillColor = ColorStateList.valueOf(context.surfaceColor())
-                elevation = 0f // Or any elevation you want
-            }
+            statusBarForeground = null
         }
     }
 
