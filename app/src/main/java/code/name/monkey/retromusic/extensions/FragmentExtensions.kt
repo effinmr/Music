@@ -101,11 +101,7 @@ fun Fragment.applyToolbar(toolbar: MaterialToolbar) {
 }
 
 fun Fragment.setColorSurface() {
-    requireActivity().window.decorView.setOnApplyWindowInsetsListener { view, insets ->
-        val statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars())
-        view.setBackgroundColor(surfaceColor())
-        view.setPadding(0, statusBarInsets.top, 0, 0)
-        insets
+    return
     }
 }
 
