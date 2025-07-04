@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/colorSurface"
-    android:visibility="gone"
     app:layout_scrollFlags="scroll|enterAlways"
     app:navigationIcon="@drawable/ic_search"
     app:popupTheme="?attr/toolbarPopupTheme"
