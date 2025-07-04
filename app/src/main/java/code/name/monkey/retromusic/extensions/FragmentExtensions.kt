@@ -31,6 +31,8 @@ import code.name.monkey.retromusic.extensions.surfaceColor
 import android.graphics.Color
 import code.name.monkey.retromusic.R
 import android.view.View
+import android.view.WindowInsets
+import androidx.core.view.ViewCompat
 
 
 fun Fragment.getIntRes(@IntegerRes int: Int): Int {
@@ -99,9 +101,12 @@ fun Fragment.applyToolbar(toolbar: MaterialToolbar) {
 }
 
 fun Fragment.setColorSurface() {
-    val window = requireActivity().window
-    val statusBar = window.decorView.rootView.findViewById<View>(R.id.status_bar)
-    statusBar.setBackgroundColor(surfaceColor())
+    requireActivity().window.decorView.setOnApplyWindowInsetsListener { view, insets ->
+        val statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars())
+        view.setBackgroundColor(surfaceColor())
+        view.setPadding(0, statusBarInsets.top, 0, 0)
+        insets
+    }
 }
 
 fun Fragment.setTransparent() {
