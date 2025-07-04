@@ -383,6 +383,7 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
     open fun onPanelCollapsed() {
         setMiniPlayerAlphaProgress(0F)
         // restore values
+        window.statusBarColor = surfaceColor()
         animateNavigationBarColor(surfaceColor())
         setLightStatusBarAuto()
         setLightNavigationBarAuto()
