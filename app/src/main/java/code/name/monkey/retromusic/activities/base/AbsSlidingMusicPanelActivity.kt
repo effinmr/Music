@@ -74,6 +74,7 @@ import code.name.monkey.retromusic.extensions.setTaskDescriptionColor
 import code.name.monkey.retromusic.extensions.show
 import code.name.monkey.retromusic.extensions.surfaceColor
 import code.name.monkey.retromusic.extensions.whichFragment
+import code.name.monkey.retromusic.extensions.setDrawBehindSystemBars
 import code.name.monkey.retromusic.fragments.LibraryViewModel
 import code.name.monkey.retromusic.fragments.NowPlayingScreen
 import code.name.monkey.retromusic.fragments.NowPlayingScreen.*
@@ -391,6 +392,7 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
 
     open fun onPanelExpanded() {
         setMiniPlayerAlphaProgress(1F)
+        setDrawBehindSystemBars()
         onPaletteColorChanged()
         //playerFragment?.onShow()
     }
