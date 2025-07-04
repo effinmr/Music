@@ -14,6 +14,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.shape.MaterialShapeDrawable
 import dev.chrisbanes.insetter.applyInsetter
 import android.graphics.drawable.ColorDrawable
+import code.name.monkey.retromusic.extensions.surfaceColor
 
 class TopAppBarLayout @JvmOverloads constructor(
     context: Context,
