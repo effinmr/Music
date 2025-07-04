@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="elevationOverlay">@color/elevationOverlayDark</color>
+    <color name="elevationOverlay">@color/md_white_1000</color>
 </resources>
