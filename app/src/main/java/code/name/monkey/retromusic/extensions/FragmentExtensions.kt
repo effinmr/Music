@@ -102,7 +102,6 @@ fun Fragment.applyToolbar(toolbar: MaterialToolbar) {
 
 fun Fragment.setColorSurface() {
     return
-    }
 }
 
 fun Fragment.setTransparent() {
