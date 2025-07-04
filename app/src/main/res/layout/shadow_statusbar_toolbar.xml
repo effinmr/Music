@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:visibility="gone">
 
     <LinearLayout
         android:id="@+id/dummy_statusbar_actionbar"
@@ -20,11 +19,4 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/dummy_statusbar_actionbar"
-        android:layout_alignBottom="@id/dummy_statusbar_actionbar"
-        android:background="@drawable/shadow_down_strong" />
 </RelativeLayout>
