@@ -97,7 +97,8 @@ fun Fragment.applyToolbar(toolbar: MaterialToolbar) {
 }
 
 fun Fragment.setColorSurface() {
-    requireActivity().window.statusBarColor = surfaceColor()
+    val statusBar = window.decorView.rootView.findViewById<View>(R.id.status_bar)
+    statusBar.setBackgroundColor(surfaceColor())
 }
 
 fun Fragment.setTransparent() {
