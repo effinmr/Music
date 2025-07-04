@@ -21,9 +21,9 @@
         <item name="roundSelector">@drawable/round_selector</item>
         <item name="rectSelector">@drawable/rect_selector</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.ActionButton.Overflow</item>
-        <item name="colorSurface">@color/darkColorSurface</item>
+        <item name="colorSurface">@color/md_white_1000</item>
         <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
-        <item name="elevationOverlayColor">@color/elevationOverlayDark</item>
+        <item name="elevationOverlayColor">@color/md_white_1000</item>
         <item name="popupMenuBackground">@drawable/popup_background</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
