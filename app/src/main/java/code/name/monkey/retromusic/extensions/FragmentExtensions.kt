@@ -29,6 +29,8 @@ import code.name.monkey.retromusic.util.PreferenceUtil
 import com.google.android.material.appbar.MaterialToolbar
 import code.name.monkey.retromusic.extensions.surfaceColor
 import android.graphics.Color
+import code.name.monkey.retromusic.R
+import android.view.View
 
 
 fun Fragment.getIntRes(@IntegerRes int: Int): Int {
@@ -97,6 +99,7 @@ fun Fragment.applyToolbar(toolbar: MaterialToolbar) {
 }
 
 fun Fragment.setColorSurface() {
+    val window = requireActivity().window
     val statusBar = window.decorView.rootView.findViewById<View>(R.id.status_bar)
     statusBar.setBackgroundColor(surfaceColor())
 }
