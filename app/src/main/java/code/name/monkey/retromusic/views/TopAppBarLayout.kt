@@ -45,6 +45,8 @@ class TopAppBarLayout @JvmOverloads constructor(
                 }
             }
             statusBarForeground = ColorDrawable(context.surfaceColor())
+            simpleAppbarBinding?.root?.setBackgroundColor(context.surfaceColor())
+
         }
     }
 
