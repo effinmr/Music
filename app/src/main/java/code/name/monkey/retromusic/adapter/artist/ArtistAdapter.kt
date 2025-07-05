@@ -125,20 +125,20 @@ class ArtistAdapter(
         }
 
         val overrideSize = when (PreferenceUtil.artistGridSize) {
-            2 -> 300
-            3 -> 250
-            4 -> 200
-            else -> 150
+            2 -> 500
+            3 -> 300
+            4 -> 250
+            else -> 200
         }
         
-        Glide.with(activity)
+        Glide.with(holder.image!!)
             .asBitmapPalette()
             .artistImageOptions(artist)
             .load(RetroGlideExtension.getArtistModel(artist))
             .apply {
                 if (PreferenceUtil.fastImage) {
                     format(DecodeFormat.PREFER_RGB_565)
-                    diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     skipMemoryCache(false)
                     .override(overrideSize, overrideSize)
                     .dontAnimate()

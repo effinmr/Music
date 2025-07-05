@@ -125,14 +125,14 @@ open class AlbumAdapter(
         }
 
         val overrideSize = when (PreferenceUtil.albumGridSize) {
-            2 -> 300
-            3 -> 250
-            4 -> 200
-            else -> 150
+            2 -> 500
+            3 -> 300
+            4 -> 250
+            else -> 200
         }
         
         val song = album.safeGetFirstSong()
-        Glide.with(activity)
+        Glide.with(holder.image!!)
             .asBitmapPalette()
             .albumCoverOptions(song)
             //.checkIgnoreMediaStore()
@@ -140,7 +140,7 @@ open class AlbumAdapter(
             .apply {
                 if (PreferenceUtil.fastImage) {
                     format(DecodeFormat.PREFER_RGB_565)
-                    diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     skipMemoryCache(false)
                     .override(overrideSize, overrideSize)
                     .dontAnimate()
