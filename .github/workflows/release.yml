@@ -50,5 +50,5 @@ jobs:
         with:
           name: app-signed-release.apk-${{ github.run_number }}
           path: |
-            ${{steps.sign_app.outputs.signedFile}}
-            ${{steps.sign_fdroid.outputs.signedFile}}
+            ${{steps.sign_app.outputs.signedFile}}/*.apk
+            ${{steps.sign_fdroid.outputs.signedFile}}/*.apk
