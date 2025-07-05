@@ -14,12 +14,18 @@
  */
 package code.name.monkey.retromusic.adapter.song
 
+import android.content.ContentUris
 import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import android.util.Size
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.text.TextUtils
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -33,6 +39,7 @@ import code.name.monkey.retromusic.glide.RetroGlideExtension
 import code.name.monkey.retromusic.glide.RetroGlideExtension.asBitmapPalette
 import code.name.monkey.retromusic.glide.RetroGlideExtension.songCoverOptions
 import code.name.monkey.retromusic.glide.RetroMusicColoredTarget
+import code.name.monkey.retromusic.glide.palette.BitmapPaletteWrapper
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.helper.SortOrder
 import code.name.monkey.retromusic.helper.menu.SongMenuHelper
@@ -40,16 +47,13 @@ import code.name.monkey.retromusic.helper.menu.SongsMenuHelper
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.MusicUtil
 import code.name.monkey.retromusic.util.PreferenceUtil
-import android.text.TextUtils
 import code.name.monkey.retromusic.util.RetroUtil
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
-import android.net.Uri
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
-import me.zhanghai.android.fastscroll.PopupTextProvider
-import code.name.monkey.retromusic.glide.palette.BitmapPaletteWrapper
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import me.zhanghai.android.fastscroll.PopupTextProvider
 
 /**
  * Created by hemanths on 13/08/17.
@@ -155,44 +159,28 @@ open class SongAdapter(
             else -> 200
         }
 
-        val primaryRequest = Glide.with(holder.image!!)
-            .asBitmapPalette()
-            .songCoverOptions(song)
-            .load(RetroGlideExtension.getSongModel(song))
-            .apply {
-                if (PreferenceUtil.fastImage) {
-                    format(DecodeFormat.PREFER_RGB_565)
-                    diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    skipMemoryCache(false)
-                    .override(overrideSize, overrideSize)
-                    .dontAnimate()
-                }
+        val albumId = song.albumId
+        val albumUri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId)
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            try {
+                val thumbnail = holder.image!!.context.contentResolver.loadThumbnail(albumUri, Size(overrideSize, overrideSize), null)
+                holder.image!!.setImageBitmap(thumbnail)
+                return // Fast system thumbnail loaded
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-
-        val customArtworkUri = PreferenceUtil.customFallbackArtworkUri
-        if (!customArtworkUri.isNullOrEmpty()) {
-            val fallbackRequest: RequestBuilder<BitmapPaletteWrapper> = Glide.with(holder.image!!)
-                .asBitmapPalette()
-                .songCoverOptions(song) // Use songCoverOptions to apply default error/placeholder if custom URI fails
-                .load(Uri.parse(customArtworkUri))
-                .apply {
-                    if (PreferenceUtil.fastImage) {
-                        format(DecodeFormat.PREFER_RGB_565)
-                        diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        skipMemoryCache(false)
-                        .override(overrideSize, overrideSize)
-                        .dontAnimate()
-                    }
-                }
-
-            primaryRequest.error(fallbackRequest)
         }
-
-        primaryRequest.into(object : RetroMusicColoredTarget(holder.image!!) {
-            override fun onColorReady(colors: MediaNotificationProcessor) {
-                setColors(colors, holder)
-            }
-        })
+        
+        val albumArtUri = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId)
+        Glide.with(holder.image!!)
+            .load(albumArtUri)
+            .override(overrideSize, overrideSize)
+            .format(DecodeFormat.PREFER_RGB_565)
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            .skipMemoryCache(false)
+            .dontAnimate()
+            .into(holder.image!!)
     }
 
     private fun getSongTitle(song: Song): String {
