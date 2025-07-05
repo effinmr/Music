@@ -27,6 +27,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import code.name.monkey.retromusic.util.PreferenceUtil
 import com.google.android.material.appbar.MaterialToolbar
+import code.name.monkey.retromusic.extensions.surfaceColor
+import android.graphics.Color
+
 
 fun Fragment.getIntRes(@IntegerRes int: Int): Int {
     return resources.getInteger(int)
@@ -91,6 +94,14 @@ fun Fragment.getDrawableCompat(@DrawableRes drawableRes: Int): Drawable {
 
 fun Fragment.applyToolbar(toolbar: MaterialToolbar) {
     (requireActivity() as AppCompatActivity).applyToolbar(toolbar)
+}
+
+fun Fragment.setColorSurface() {
+    requireActivity().window.statusBarColor = surfaceColor()
+}
+
+fun Fragment.setTransparent() {
+    requireActivity().window.statusBarColor = Color.TRANSPARENT
 }
 
 fun Fragment.dip(@DimenRes id: Int): Int {

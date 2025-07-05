@@ -33,12 +33,15 @@ import code.name.monkey.retromusic.interfaces.IAlbumClickListener
 import code.name.monkey.retromusic.service.MusicService
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.RetroUtil
+import code.name.monkey.retromusic.extensions.setColorSurface
+import code.name.monkey.retromusic.extensions.setTransparent
 
 class AlbumsFragment : AbsRecyclerViewCustomGridSizeFragment<AlbumAdapter, GridLayoutManager>(),
     IAlbumClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setColorSurface()
         libraryViewModel.getAlbums().observe(viewLifecycleOwner) {
             if (it.isNotEmpty())
                 adapter?.swapDataSet(it)
@@ -359,11 +362,18 @@ class AlbumsFragment : AbsRecyclerViewCustomGridSizeFragment<AlbumAdapter, GridL
 
     override fun onResume() {
         super.onResume()
+        setColorSurface()
         libraryViewModel.forceReload(ReloadType.Albums)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setColorSurface()
     }
 
     override fun onPause() {
         super.onPause()
+        setTransparent()
         adapter?.actionMode?.finish()
     }
 }

@@ -125,13 +125,13 @@ class ArtistAdapter(
         }
 
         val overrideSize = when (PreferenceUtil.artistGridSize) {
-            2 -> 500
-            3 -> 300
-            4 -> 250
-            else -> 200
+            2 -> 300
+            3 -> 250
+            4 -> 200
+            else -> 150
         }
         
-        Glide.with(holder.image!!)
+        Glide.with(activity)
             .asBitmapPalette()
             .artistImageOptions(artist)
             .load(RetroGlideExtension.getArtistModel(artist))

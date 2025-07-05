@@ -125,14 +125,14 @@ open class AlbumAdapter(
         }
 
         val overrideSize = when (PreferenceUtil.albumGridSize) {
-            2 -> 500
-            3 -> 300
-            4 -> 250
-            else -> 200
+            2 -> 300
+            3 -> 250
+            4 -> 200
+            else -> 150
         }
         
         val song = album.safeGetFirstSong()
-        Glide.with(holder.image!!)
+        Glide.with(activity)
             .asBitmapPalette()
             .albumCoverOptions(song)
             //.checkIgnoreMediaStore()

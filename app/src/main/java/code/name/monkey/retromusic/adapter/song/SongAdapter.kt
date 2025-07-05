@@ -149,13 +149,13 @@ open class SongAdapter(
         }
 
         val overrideSize = when (PreferenceUtil.songGridSize) {
-            2 -> 500
-            3 -> 300
-            4 -> 250
-            else -> 200
+            2 -> 300
+            3 -> 250
+            4 -> 200
+            else -> 150
         }
 
-        val primaryRequest = Glide.with(holder.image!!)
+        val primaryRequest = Glide.with(activity)
             .asBitmapPalette()
             .songCoverOptions(song)
             .load(RetroGlideExtension.getSongModel(song))
@@ -171,7 +171,7 @@ open class SongAdapter(
 
         val customArtworkUri = PreferenceUtil.customFallbackArtworkUri
         if (!customArtworkUri.isNullOrEmpty()) {
-            val fallbackRequest: RequestBuilder<BitmapPaletteWrapper> = Glide.with(holder.image!!)
+            val fallbackRequest: RequestBuilder<BitmapPaletteWrapper> = Glide.with(activity)
                 .asBitmapPalette()
                 .songCoverOptions(song) // Use songCoverOptions to apply default error/placeholder if custom URI fails
                 .load(Uri.parse(customArtworkUri))
