@@ -21,13 +21,24 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Release APK
-        run: ./gradlew assembleNormalRelease
+        run: ./gradlew assembleRelease
       
       - uses: ilharp/sign-android-release@v2
-        name: Sign app APK
+        name: Sign Normal APK
         id: sign_app
         with:
           releaseDir: app/build/outputs/apk/normal/release
+          signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
+          keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          buildToolsVersion: 36.0.0
+
+      - uses: ilharp/sign-android-release@v2
+        name: Sign F-Droid APK
+        id: sign_fdroid
+        with:
+          releaseDir: app/build/outputs/apk/fdroid/release
           signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
           keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -38,4 +49,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-signed-release.apk-${{ github.run_number }}
-          path: ${{steps.sign_app.outputs.signedFile}}
+          path: |
+            ${{steps.sign_app.outputs.signedFile}}
+            ${{steps.sign_fdroid.outputs.signedFile}}
