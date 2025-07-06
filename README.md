@@ -57,6 +57,7 @@
 - Settings Search Bar
 - Built-in Equalizer
 - Playlist Drag-Drop
+- Sort by Recording date
 - Custom Library
 - Pro Features
 -  Base 3 themes (Clearly White, Kinda Dark and AMOLED)
