@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingBottom="16dp">
+                    android:paddingBottom="8dp">
                     
                     <!-- Preset selector -->
                     <com.google.android.material.textview.MaterialTextView
@@ -72,7 +72,7 @@
                         android:gravity="center_vertical"
                         android:drawableEnd="@drawable/ic_dropdown_white"
                         android:drawablePadding="8dp"
-                        android:paddingBottom="16dp" />
+                        android:paddingBottom="8dp" />
                     
                     <ImageButton
                         android:id="@+id/resetButton"
@@ -88,145 +88,215 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="16dp">
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="-15 dB" />
+                        android:text="60 Hz"
+                        android:textSize="16sp"
+                        android:paddingBottom="4dp"
+                        android:layout_gravity="center_horizontal" />
 
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/bandSlider1"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:valueFrom="-15"
-                        android:valueTo="15"
-                        android:value="0"
-                        android:stepSize="0.1" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+15 dB" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-15 dB" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/bandSlider1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:valueFrom="-15"
+                            android:valueTo="15"
+                            android:value="0"
+                            android:stepSize="0.1" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+15 dB" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- Band 2 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="16dp">
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="-15 dB" />
+                        android:text="230 Hz"
+                        android:textSize="16sp"
+                        android:paddingBottom="4dp"
+                        android:layout_gravity="center_horizontal" />
 
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/bandSlider2"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:valueFrom="-15"
-                        android:valueTo="15"
-                        android:value="0"
-                        android:stepSize="0.1" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+15 dB" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-15 dB" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/bandSlider2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:valueFrom="-15"
+                            android:valueTo="15"
+                            android:value="0"
+                            android:stepSize="0.1" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+15 dB" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- Band 3 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="16dp">
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="-15 dB" />
+                        android:text="910 Hz"
+                        android:textSize="16sp"
+                        android:paddingBottom="4dp"
+                        android:layout_gravity="center_horizontal" />
 
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/bandSlider3"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:valueFrom="-15"
-                        android:valueTo="15"
-                        android:value="0"
-                        android:stepSize="0.1" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+15 dB" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-15 dB" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/bandSlider3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:valueFrom="-15"
+                            android:valueTo="15"
+                            android:value="0"
+                            android:stepSize="0.1" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+15 dB" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- Band 4 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="16dp">
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="-15 dB" />
+                        android:text="3.6 kHz"
+                        android:textSize="16sp"
+                        android:paddingBottom="4dp"
+                        android:layout_gravity="center_horizontal" />
 
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/bandSlider4"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:valueFrom="-15"
-                        android:valueTo="15"
-                        android:value="0"
-                        android:stepSize="0.1" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+15 dB" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-15 dB" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/bandSlider4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:valueFrom="-15"
+                            android:valueTo="15"
+                            android:value="0"
+                            android:stepSize="0.1" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+15 dB" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- Band 5 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="16dp">
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="-15 dB" />
+                        android:text="14 kHz"
+                        android:textSize="16sp"
+                        android:paddingBottom="4dp"
+                        android:layout_gravity="center_horizontal" />
 
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/bandSlider5"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:valueFrom="-15"
-                        android:valueTo="15"
-                        android:value="0"
-                        android:stepSize="0.1" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+15 dB" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-15 dB" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/bandSlider5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:valueFrom="-15"
+                            android:valueTo="15"
+                            android:value="0"
+                            android:stepSize="0.1" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+15 dB" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- Virtualizer -->

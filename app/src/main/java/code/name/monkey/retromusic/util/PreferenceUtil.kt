@@ -900,7 +900,7 @@ object PreferenceUtil {
 
     val showCastButton: Boolean
         get() = sharedPreferences.getBoolean(
-            SHOW_CAST_BUTTON, true // Default to true, as it's visible by default
+            SHOW_CAST_BUTTON, false // Default to true, as it's visible by default
         )
 
     val showSongMenuGrid: Boolean

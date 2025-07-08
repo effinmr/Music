@@ -255,14 +255,26 @@
     </string-array>
 
     <string-array name="equalizer_presets">
-        <item>Normal</item>
-        <item>Rock</item>
-        <item>Pop</item>
-        <item>Jazz</item>
-        <item>Classic</item>
+        <item>Flat</item>
+        <item>Bass Boost</item>
+        <item>Treble Boost</item>
+        <item>Hip Hop</item>
+        <item>Live</item>
+        <item>Treble Reducer</item>
+        <item>Bass Reducer</item>
+        <item>Vocal Boost</item>
+        <item>Bright</item>
+        <item>Soft</item>
+        <item>Loud</item>
+        <item>Surround</item>
+        <item>U Shape</item>
+        <item>Inverted U</item>
+        <item>Warm</item>
+        <item>Cold</item>
+        <item>Flat Boost</item>
+        <item>Flat Cut</item>
         <item>Dance</item>
-        <item>Hip-Hop</item>
-        <item>Full Bass</item>
-        <item>Full Treble</item>
+        <item>Mid Boost</item>
+        <item>Deep V</item>
     </string-array>
 </resources>

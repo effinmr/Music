@@ -79,11 +79,23 @@ class MultiPlayer(context: Context) : LocalPlayback(context) {
     private fun applyEqualizerPreferences() {
         val prefs = context.getSharedPreferences("equalizer_prefs", Context.MODE_PRIVATE)
         val isEnabled = prefs.getBoolean("equalizer_enabled", false)
+
+        if (!isEnabled) return
+        
         setEqualizerEnabled(isEnabled)
         for (i in 0 until (equalizer?.numberOfBands ?: 0)) {
             val level = prefs.getFloat("band_$i", 0f)
             setEqualizerBandLevel(i.toShort(), (level * 100).toInt().toShort())
         }
+
+        val virtualizerStrength = (prefs.getFloat("virtualizer_strength", 0f) * 10).toInt().toShort()
+        setVirtualizerStrength(virtualizerStrength)
+        
+        val bassBoostStrength = (prefs.getFloat("bass_boost_strength", 0f) * 10).toInt().toShort()
+        setBassBoostStrength(bassBoostStrength)
+
+        val amplifierStrength = (prefs.getFloat("amplifier_strength", 0f) * 10).toInt().toShort()
+        setAmplifierStrength(amplifierStrength)
     }
 
     private val preferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
@@ -208,6 +220,7 @@ class MultiPlayer(context: Context) : LocalPlayback(context) {
                 setNextDataSource(null)
                 initAudioEffects()
                 openAudioEffectSession()
+                applyEqualizerPreferences()
             }
             completion(isInitialized)
         }

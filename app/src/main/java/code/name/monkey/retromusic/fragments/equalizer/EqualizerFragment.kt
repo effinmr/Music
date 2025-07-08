@@ -172,15 +172,27 @@ class EqualizerFragment : Fragment(R.layout.fragment_equalizer) {
 
     private fun applyPreset(position: Int) {
         when (position) {
-            0 -> setBandValues(0f, 0f, 0f, 0f, 0f)
-            1 -> setBandValues(5f, 3f, 0f, -2f, -4f)
-            2 -> setBandValues(3f, 2f, 0f, -2f, -3f)
-            3 -> setBandValues(4f, 3f, 0f, -3f, -5f)
-            4 -> setBandValues(2f, 1f, 0f, -1f, -2f)
-            5 -> setBandValues(6f, 4f, -2f, -4f, -6f)
-            6 -> setBandValues(4f, 2f, 0f, 2f, 4f)
-            7 -> setBandValues(5f, 5f, 5f, 5f, 5f)
-            8 -> setBandValues(-5f, -5f, -5f, -5f, -5f)
+            0 -> setBandValues(0f, 0f, 0f, 0f, 0f) // Flat
+            1 -> setBandValues(10f, 6f, 0f, -2f, -4f) // Bass Boost
+            2 -> setBandValues(-4f, -2f, 0f, 6f, 10f) // Treble Boost
+            3 -> setBandValues(8f, 6f, -2f, 4f, 6f) // Hip Hop
+            4 -> setBandValues(3f, 6f, 0f, 6f, 3f) // Live
+            5 -> setBandValues(8f, 5f, 0f, -5f, -8f) // Treble Reducer
+            6 -> setBandValues(-10f, -5f, 0f, 5f, 8f) // Bass Reducer
+            7 -> setBandValues(-2f, 3f, 6f, 3f, -2f) // Vocal Boost
+            8 -> setBandValues(-5f, -2f, 3f, 8f, 12f) // Bright
+            9 -> setBandValues(2f, 2f, 0f, 2f, 2f) // Soft
+            10 -> setBandValues(8f, 6f, 0f, 6f, 8f) // Loud
+            11 -> setBandValues(-8f, -4f, 0f, 4f, 8f) // Surround
+            12 -> setBandValues(5f, 0f, -5f, 0f, 5f) // U Shape
+            13 -> setBandValues(-5f, 0f, 5f, 0f, -5f) // Inverted U
+            14 -> setBandValues(6f, 3f, -3f, -3f, -6f) // Warm
+            15 -> setBandValues(-6f, -3f, 3f, 3f, 6f) // Cold
+            16 -> setBandValues(4f, 4f, 4f, 4f, 4f) // Flat Boost
+            17 -> setBandValues(-4f, -4f, -4f, -4f, -4f) // Flat Cut
+            18 -> setBandValues(10f, -5f, 0f, 5f, -10f) // Dance
+            19 -> setBandValues(0f, -3f, 6f, -3f, 0f) // Mid Boost
+            20 -> setBandValues(-6f, 0f, 6f, 0f, -6f) // Deep V
         }
     }
 

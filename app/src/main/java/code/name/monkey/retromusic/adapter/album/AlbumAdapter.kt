@@ -130,9 +130,15 @@ open class AlbumAdapter(
             4 -> 250
             else -> 200
         }
+
+        val glideWith = if (PreferenceUtil.fastImage) {
+            Glide.with(holder.image!!)
+        } else {
+            Glide.with(activity)
+        }
         
         val song = album.safeGetFirstSong()
-        Glide.with(holder.image!!)
+        glideWith
             .asBitmapPalette()
             .albumCoverOptions(song)
             //.checkIgnoreMediaStore()

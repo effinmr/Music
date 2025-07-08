@@ -25,6 +25,7 @@ import com.bumptech.glide.signature.ObjectKey
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.Dispatcher
 import java.io.InputStream
 import java.util.concurrent.TimeUnit
 
@@ -55,20 +56,20 @@ class Factory(
     val context: Context
 ) : ModelLoaderFactory<ArtistImage, InputStream> {
 
-    private var deezerService = DeezerService.invoke(
-        DeezerService.createDefaultOkHttpClient(context)
-            .connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
-            .readTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
-            .writeTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
-            .addInterceptor(createLogInterceptor())
-            .build()
-    )
+    private val dispatcher = Dispatcher().apply {
+        maxRequests = 4
+        maxRequestsPerHost = 2
+    }
 
-    private var okHttp = OkHttpClient.Builder()
+    private val okHttp = OkHttpClient.Builder()
+        .dispatcher(dispatcher)
         .connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
         .readTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
         .writeTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+        .addInterceptor(createLogInterceptor())
         .build()
+
+    private val deezerService = DeezerService.invoke(okHttp)
 
     private fun createLogInterceptor(): Interceptor {
         val interceptor = HttpLoggingInterceptor()
@@ -88,6 +89,6 @@ class Factory(
 
     companion object {
         // we need these very low values to make sure our artist image loading calls doesn't block the image loading queue
-        private const val TIMEOUT: Long = 500
+        private const val TIMEOUT: Long = 1500
     }
 }
