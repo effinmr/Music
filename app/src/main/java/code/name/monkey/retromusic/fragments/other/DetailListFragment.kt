@@ -45,6 +45,8 @@ import code.name.monkey.retromusic.util.RetroUtil
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
+import code.name.monkey.retromusic.extensions.surfaceColor
+import android.graphics.drawable.ColorDrawable
 
 
 class DetailListFragment : AbsMainActivityFragment(R.layout.fragment_playlist_detail),
@@ -94,8 +96,7 @@ class DetailListFragment : AbsMainActivityFragment(R.layout.fragment_playlist_de
             TOP_PLAYED_PLAYLIST -> topPlayed()
         }
 
-        binding.appBarLayout.statusBarForeground =
-            MaterialShapeDrawable.createWithElevationOverlay(requireContext())
+        binding.appBarLayout.background = ColorDrawable(surfaceColor())
     }
 
     private fun lastAddedSongs() {

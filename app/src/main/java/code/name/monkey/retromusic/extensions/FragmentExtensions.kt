@@ -96,14 +96,6 @@ fun Fragment.applyToolbar(toolbar: MaterialToolbar) {
     (requireActivity() as AppCompatActivity).applyToolbar(toolbar)
 }
 
-fun Fragment.setColorSurface() {
-    requireActivity().window.statusBarColor = surfaceColor()
-}
-
-fun Fragment.setTransparent() {
-    requireActivity().window.statusBarColor = Color.TRANSPARENT
-}
-
 fun Fragment.dip(@DimenRes id: Int): Int {
     return resources.getDimensionPixelSize(id)
 }

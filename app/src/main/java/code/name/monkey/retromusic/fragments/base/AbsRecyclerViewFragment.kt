@@ -43,6 +43,8 @@ import code.name.monkey.retromusic.util.ThemedFastScroller.create
 import com.google.android.material.transition.MaterialFadeThrough
 import me.zhanghai.android.fastscroll.FastScroller
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
+import code.name.monkey.retromusic.extensions.surfaceColor
+import android.graphics.drawable.ColorDrawable
 
 abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : RecyclerView.LayoutManager> :
     AbsMainActivityFragment(R.layout.fragment_main_recycler), IScrollHelper {
@@ -122,6 +124,7 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
                 bottomMargin = it
             }
         }
+        binding.appBarLayout.background = ColorDrawable(surfaceColor())
     }
 
     open fun onShuffleClicked() {

@@ -73,6 +73,8 @@ import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.Collator
+import code.name.monkey.retromusic.extensions.surfaceColor
+import android.graphics.drawable.ColorDrawable
 
 class AlbumDetailsFragment : AbsMainActivityFragment(R.layout.fragment_album_details),
     IAlbumClickListener {
@@ -163,8 +165,7 @@ class AlbumDetailsFragment : AbsMainActivityFragment(R.layout.fragment_album_det
             }
         }
 
-        binding.appBarLayout?.statusBarForeground =
-            MaterialShapeDrawable.createWithElevationOverlay(requireContext())
+        binding.appBarLayout?.background = ColorDrawable(surfaceColor())
     }
 
     override fun onDestroy() {

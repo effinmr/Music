@@ -54,8 +54,8 @@ import code.name.monkey.retromusic.util.PreferenceUtil.userName
 import com.bumptech.glide.Glide
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
-import code.name.monkey.retromusic.extensions.setColorSurface
-import code.name.monkey.retromusic.extensions.setTransparent
+import code.name.monkey.retromusic.extensions.surfaceColor
+import android.graphics.drawable.ColorDrawable
 
 class HomeFragment :
     AbsMainActivityFragment(R.layout.fragment_home), IScrollHelper {
@@ -67,7 +67,6 @@ class HomeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setColorSurface()
         val homeBinding = FragmentHomeBinding.bind(view)
         _binding = HomeBinding(homeBinding)
         mainActivity.setSupportActionBar(binding.toolbar)
@@ -104,6 +103,7 @@ class HomeFragment :
             toolbar.navigationIcon = null
             toolbar.setNavigationOnClickListener(null)
         }
+        binding.appBarLayout.background = ColorDrawable(surfaceColor())
     }
 
     private fun adjustPlaylistButtons() {
@@ -325,21 +325,9 @@ class HomeFragment :
 
     override fun onResume() {
         super.onResume()
-        setColorSurface()
         checkForMargins()
         libraryViewModel.forceReload(ReloadType.HomeSections)
         exitTransition = null
-    }
-
-    
-    override fun onStart() {
-        super.onStart()
-        setColorSurface()
-    } 
-
-    override fun onPause() {
-        super.onPause()
-        setTransparent()
     }
 
     override fun onDestroyView() {

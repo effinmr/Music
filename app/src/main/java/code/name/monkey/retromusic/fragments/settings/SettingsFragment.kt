@@ -27,8 +27,8 @@ import code.name.monkey.retromusic.databinding.FragmentSettingsBinding
 import code.name.monkey.retromusic.extensions.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
-import code.name.monkey.retromusic.extensions.setColorSurface
-import code.name.monkey.retromusic.extensions.setTransparent
+import android.graphics.drawable.ColorDrawable
+import code.name.monkey.retromusic.extensions.surfaceColor
 
 class SettingsFragment : Fragment(R.layout.fragment_settings), ColorCallback {
     private var _binding: FragmentSettingsBinding? = null
@@ -36,8 +36,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ColorCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentSettingsBinding.bind(view)
-        setColorSurface()
         setupToolbar()
+        binding.appBarLayout.background = ColorDrawable(surfaceColor())
     }
 
     private fun setupToolbar() {
@@ -78,16 +78,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ColorCallback {
         if (VersionUtils.hasNougatMR())
             DynamicShortcutManager(requireContext()).updateDynamicShortcuts()
         activity?.recreate()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        setColorSurface()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        setTransparent()
     }
 
     override fun onDestroyView() {

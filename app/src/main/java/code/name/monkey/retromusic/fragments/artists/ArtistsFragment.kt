@@ -36,8 +36,6 @@ import code.name.monkey.retromusic.service.MusicService
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.RetroUtil
 import android.content.SharedPreferences
-import code.name.monkey.retromusic.extensions.setColorSurface
-import code.name.monkey.retromusic.extensions.setTransparent
 
 class ArtistsFragment : AbsRecyclerViewCustomGridSizeFragment<ArtistAdapter, GridLayoutManager>(),
     IArtistClickListener, IAlbumArtistClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -54,7 +52,6 @@ class ArtistsFragment : AbsRecyclerViewCustomGridSizeFragment<ArtistAdapter, Gri
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setColorSurface()
         updateFabIcon()
         libraryViewModel.getArtists().observe(viewLifecycleOwner) {
             if (it.isNotEmpty())
@@ -377,19 +374,8 @@ class ArtistsFragment : AbsRecyclerViewCustomGridSizeFragment<ArtistAdapter, Gri
 
     override fun onResume() {
         super.onResume()
-        setColorSurface()
         updateFabIcon()
         libraryViewModel.forceReload(ReloadType.Artists)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        setTransparent()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        setColorSurface()
     }
 
     private fun updateFabIcon() {

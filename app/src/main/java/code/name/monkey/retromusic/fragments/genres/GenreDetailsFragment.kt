@@ -38,6 +38,8 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.transition.MaterialSharedAxis
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import code.name.monkey.retromusic.extensions.surfaceColor
+import android.graphics.drawable.ColorDrawable
 
 class GenreDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playlist_detail) {
     private val arguments by navArgs<GenreDetailsFragmentArgs>()
@@ -68,8 +70,7 @@ class GenreDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playlist_
         view.doOnPreDraw {
             startPostponedEnterTransition()
         }
-        binding.appBarLayout.statusBarForeground =
-            MaterialShapeDrawable.createWithElevationOverlay(requireContext())
+        binding.appBarLayout.background = ColorDrawable(surfaceColor())
     }
 
     private fun setupRecyclerView() {

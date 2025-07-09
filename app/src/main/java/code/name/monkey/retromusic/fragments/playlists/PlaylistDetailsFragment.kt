@@ -44,6 +44,8 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import code.name.monkey.retromusic.extensions.surfaceColor
+import android.graphics.drawable.ColorDrawable
 
 
 class PlaylistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playlist_detail_new) {
@@ -104,8 +106,7 @@ class PlaylistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playli
         }
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-        binding.appBarLayout.statusBarForeground =
-            MaterialShapeDrawable.createWithElevationOverlay(requireContext())
+        binding.appBarLayout.background = ColorDrawable(surfaceColor())
     }
 
     private fun setupButtons() {

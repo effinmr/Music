@@ -44,6 +44,8 @@ import com.google.android.material.transition.MaterialFadeThrough
 import kotlinx.coroutines.Job
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.util.*
+import code.name.monkey.retromusic.extensions.surfaceColor
+import android.graphics.drawable.ColorDrawable
 
 
 class SearchFragment : AbsMainActivityFragment(R.layout.fragment_search),
@@ -116,8 +118,7 @@ class SearchFragment : AbsMainActivityFragment(R.layout.fragment_search),
                 binding.keyboardPopup.show()
             }
         }
-        binding.appBarLayout.statusBarForeground =
-            MaterialShapeDrawable.createWithElevationOverlay(requireContext())
+        binding.appBarLayout.background = ColorDrawable(surfaceColor())
     }
 
     private fun setupChips() {

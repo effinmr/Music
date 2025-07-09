@@ -31,14 +31,11 @@ import android.content.SharedPreferences
 import code.name.monkey.retromusic.*
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.RetroUtil
-import code.name.monkey.retromusic.extensions.setColorSurface
-import code.name.monkey.retromusic.extensions.setTransparent
 
 class SongsFragment : AbsRecyclerViewCustomGridSizeFragment<SongAdapter, GridLayoutManager>(),
     SharedPreferences.OnSharedPreferenceChangeListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setColorSurface()
         updateFabIcon()
         if (!PreferenceUtil.showSongsSearchButton) {
             toolbar.navigationIcon = null
@@ -349,20 +346,17 @@ class SongsFragment : AbsRecyclerViewCustomGridSizeFragment<SongAdapter, GridLay
 
     override fun onResume() {
         super.onResume()
-        setColorSurface()
         updateFabIcon()
         libraryViewModel.forceReload(ReloadType.Songs)
     }
 
     override fun onPause() {
         super.onPause()
-        setTransparent()
         adapter?.actionMode?.finish()
     }
 
     override fun onStart() {
         super.onStart()
-        setColorSurface()
         PreferenceUtil.registerOnSharedPreferenceChangedListener(this)
     }
 

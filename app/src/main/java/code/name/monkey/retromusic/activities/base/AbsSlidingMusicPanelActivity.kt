@@ -381,7 +381,6 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
     }
 
     open fun onPanelCollapsed() {
-        window.statusBarColor = surfaceColor()
         setMiniPlayerAlphaProgress(0F)
         // restore values
         animateNavigationBarColor(surfaceColor())
@@ -392,7 +391,6 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
     }
 
     open fun onPanelExpanded() {
-        setDrawBehindSystemBars()
         setMiniPlayerAlphaProgress(1F)
         onPaletteColorChanged()
         //playerFragment?.onShow()

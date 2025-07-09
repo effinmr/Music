@@ -52,6 +52,8 @@ import org.koin.android.ext.android.get
 import java.util.*
 import android.content.SharedPreferences
 import androidx.core.view.isGone
+import code.name.monkey.retromusic.extensions.surfaceColor
+import android.graphics.drawable.ColorDrawable
 
 abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_artist_details),
     IAlbumClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -123,8 +125,7 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
         }
         setupSongSortButton()
         setupAlbumSortButton()
-        binding.appBarLayout?.statusBarForeground =
-            MaterialShapeDrawable.createWithElevationOverlay(requireContext())
+        binding.appBarLayout?.background = ColorDrawable(surfaceColor())
     }
 
     override fun onDestroyView() {
