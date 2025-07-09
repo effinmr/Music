@@ -1,7 +1,7 @@
 package code.name.monkey.retromusic.fragments.backup
 
-import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -21,7 +21,6 @@ import code.name.monkey.retromusic.extensions.accentOutlineColor
 import code.name.monkey.retromusic.extensions.materialDialog
 import code.name.monkey.retromusic.extensions.showToast
 import code.name.monkey.retromusic.helper.BackupHelper
-import code.name.monkey.retromusic.helper.sanitize
 import code.name.monkey.retromusic.util.Share
 import com.afollestad.materialdialogs.input.input
 import kotlinx.coroutines.Dispatchers
@@ -36,18 +35,29 @@ class BackupFragment : Fragment(R.layout.fragment_backup), BackupAdapter.BackupC
     private var _binding: FragmentBackupBinding? = null
     private val binding get() = _binding!!
 
+    private val createDocumentLauncher = registerForActivityResult(
+        ActivityResultContracts.CreateDocument("application/octet-stream")
+    ) { uri: Uri? ->
+        uri?.let {
+            lifecycleScope.launch {
+                BackupHelper.createBackup(requireContext(), uri = it)
+                backupViewModel.loadBackups()
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentBackupBinding.bind(view)
         initAdapter()
         setupRecyclerview()
+
         backupViewModel.backupsLiveData.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty())
-                backupAdapter?.swapDataset(it)
-            else
-                backupAdapter?.swapDataset(listOf())
+            backupAdapter?.swapDataset(it.ifEmpty { listOf() })
         }
+
         backupViewModel.loadBackups()
+
         val openFilePicker = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
             lifecycleScope.launch(Dispatchers.IO) {
                 it?.let {
@@ -57,11 +67,15 @@ class BackupFragment : Fragment(R.layout.fragment_backup), BackupAdapter.BackupC
                 }
             }
         }
+
         binding.createBackup.accentOutlineColor()
         binding.restoreBackup.accentColor()
+
         binding.createBackup.setOnClickListener {
-            showCreateBackupDialog()
+            val name = BackupHelper.getTimeStamp() + BackupHelper.APPEND_EXTENSION
+            createDocumentLauncher.launch(name)
         }
+
         binding.restoreBackup.setOnClickListener {
             openFilePicker.launch(arrayOf("application/octet-stream"))
         }
@@ -83,27 +97,10 @@ class BackupFragment : Fragment(R.layout.fragment_backup), BackupAdapter.BackupC
         binding.backupRecyclerview.isVisible = !isEmpty
     }
 
-    fun setupRecyclerview() {
+    private fun setupRecyclerview() {
         binding.backupRecyclerview.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = backupAdapter
-        }
-    }
-
-    @SuppressLint("CheckResult")
-    private fun showCreateBackupDialog() {
-        materialDialog().show {
-            title(res = R.string.action_rename)
-            input(prefill = BackupHelper.getTimeStamp()) { _, text ->
-                // Text submitted with the action button
-                lifecycleScope.launch {
-                    BackupHelper.createBackup(requireContext(), text.sanitize())
-                    backupViewModel.loadBackups()
-                }
-            }
-            positiveButton(android.R.string.ok)
-            negativeButton(R.string.action_cancel)
-            setTitle(R.string.title_new_backup)
         }
     }
 
@@ -115,13 +112,12 @@ class BackupFragment : Fragment(R.layout.fragment_backup), BackupAdapter.BackupC
         }
     }
 
-    @SuppressLint("CheckResult")
     override fun onBackupMenuClicked(file: File, menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.action_delete -> {
                 try {
                     file.delete()
-                } catch (exception: SecurityException) {
+                } catch (e: SecurityException) {
                     showToast(R.string.error_delete_backup)
                 }
                 backupViewModel.loadBackups()
@@ -135,9 +131,7 @@ class BackupFragment : Fragment(R.layout.fragment_backup), BackupAdapter.BackupC
                 materialDialog().show {
                     title(res = R.string.action_rename)
                     input(prefill = file.nameWithoutExtension) { _, text ->
-                        // Text submitted with the action button
-                        val renamedFile =
-                            File(file.parent, "$text${BackupHelper.APPEND_EXTENSION}")
+                        val renamedFile = File(file.parent, "$text${BackupHelper.APPEND_EXTENSION}")
                         if (!renamedFile.exists()) {
                             file.renameTo(renamedFile)
                             backupViewModel.loadBackups()
@@ -147,7 +141,6 @@ class BackupFragment : Fragment(R.layout.fragment_backup), BackupAdapter.BackupC
                     }
                     positiveButton(android.R.string.ok)
                     negativeButton(R.string.action_cancel)
-                    setTitle(R.string.action_rename)
                 }
                 return true
             }

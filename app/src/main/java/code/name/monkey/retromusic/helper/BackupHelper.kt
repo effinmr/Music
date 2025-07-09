@@ -1,6 +1,7 @@
 package code.name.monkey.retromusic.helper
 
 import android.content.Context
+import android.net.Uri
 import android.os.Environment
 import code.name.monkey.retromusic.BuildConfig
 import code.name.monkey.retromusic.R
@@ -41,6 +42,38 @@ object BackupHelper : KoinComponent {
         zipItems.addAll(getCustomArtistZipItems(context))
         zipAll(context, zipItems, backupFile)
         // Clean Cache Playlist Directory
+        File(context.filesDir, PLAYLISTS_PATH).deleteRecursively()
+    }
+
+    suspend fun createBackup(context: Context, uri: Uri) {
+        val zipItems = mutableListOf<ZipItem>().apply {
+            addAll(getPlaylistZipItems(context))
+            addAll(getSettingsZipItems(context))
+            getUserImageZipItems(context)?.let { addAll(it) }
+            addAll(getCustomArtistZipItems(context))
+        }
+
+        withContext(Dispatchers.IO) {
+            runCatching {
+                context.contentResolver.openOutputStream(uri)?.buffered()?.zipOutputStream()?.use { out ->
+                    for (zipItem in zipItems) {
+                        File(zipItem.filePath).inputStream().buffered().use { origin ->
+                            out.putNextEntry(ZipEntry(zipItem.zipPath))
+                            origin.copyTo(out)
+                        }
+                    }
+                }
+            }.onFailure {
+                withContext(Dispatchers.Main) {
+                    context.showToast(R.string.error_create_backup)
+                }
+            }.onSuccess {
+                withContext(Dispatchers.Main) {
+                    context.showToast(R.string.message_backup_create_success)
+                }
+            }
+        }
+
         File(context.filesDir, PLAYLISTS_PATH).deleteRecursively()
     }
 
