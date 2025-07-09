@@ -56,6 +56,8 @@
     <dimen name="adaptive_icon_padding">12dp</dimen>
     <dimen name="about_card_radius">16dp</dimen>
 
+    <dimen name="fixed_time_width">40dp</dimen> <!-- adjust as needed -->
+
     <dimen name="normal_lyrics_padding">20dp</dimen>
     <dimen name="lyrics_text_size">18sp</dimen>
     <dimen name="indicator_radius">10dp</dimen>

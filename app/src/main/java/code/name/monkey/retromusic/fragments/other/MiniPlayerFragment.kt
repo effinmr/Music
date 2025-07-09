@@ -168,17 +168,14 @@ open class MiniPlayerFragment : AbsMusicServiceFragment(R.layout.fragment_mini_p
                 val remaining = total - progress
                 binding.miniPlayerTime.text = RetroUtil.getFormattedDuration(remaining.toLong())
                 binding.miniPlayerTime.isVisible = true
-                // Log for debugging
-                android.util.Log.d("MiniPlayerFragment", "onUpdateProgressViews - Remaining Time: total=${total}, progress=${progress}, remaining=${remaining}, Displayed Time: ${binding.miniPlayerTime.text}")
             }
-            MINI_PLAYER_TIME_TOTAL -> updateTime()
             MINI_PLAYER_TIME_ELAPSED -> {
                 binding.miniPlayerTime.text = RetroUtil.getFormattedDuration(progress.toLong())
                 binding.miniPlayerTime.isVisible = true
-                // Log for debugging
-                android.util.Log.d("MiniPlayerFragment", "onUpdateProgressViews - Elapsed Time: total=${total}, progress=${progress}, Displayed Time: ${binding.miniPlayerTime.text}")
             }
-            MINI_PLAYER_TIME_DISABLED -> updateTime()
+            MINI_PLAYER_TIME_DISABLED -> {
+                binding.miniPlayerTime.visibility = View.GONE
+            }
         }
     }
 
@@ -268,18 +265,19 @@ open class MiniPlayerFragment : AbsMusicServiceFragment(R.layout.fragment_mini_p
                 0
             }
         }
-        // Update display visibility and text based on preference
-        when (PreferenceUtil.miniPlayerTime) {
-            MINI_PLAYER_TIME_DISABLED -> {
-                binding.miniPlayerTime.isVisible = false
-            }
-            else -> {
-                 // For Total, Elapsed, or initial Remaining (before first progress update)
-                binding.miniPlayerTime.text = RetroUtil.getFormattedDuration(time.toLong())
-                binding.miniPlayerTime.isVisible = true
-                // Log for debugging
-                 android.util.Log.d("MiniPlayerFragment", "updateTime - Other Modes/Initial: miniPlayerTime: ${PreferenceUtil.miniPlayerTime}, currentSong.duration: ${currentSong.duration}, MusicPlayerRemote.position: ${MusicPlayerRemote.position}, Calculated Time: ${time}, Displayed Time: ${binding.miniPlayerTime.text}")
-            }
+        val timeVisible = PreferenceUtil.miniPlayerTime != MINI_PLAYER_TIME_DISABLED
+        
+        binding.miniPlayerTime.visibility = if (timeVisible) View.VISIBLE else View.GONE
+        
+        val timeLayoutParams = binding.miniPlayerTime.layoutParams
+        timeLayoutParams.width = if (timeVisible)
+            resources.getDimensionPixelSize(R.dimen.fixed_time_width)
+        else
+            0
+        binding.miniPlayerTime.layoutParams = timeLayoutParams
+        
+        if (timeVisible) {
+            binding.miniPlayerTime.text = RetroUtil.getFormattedDuration(time.toLong())
         }
     }
 }

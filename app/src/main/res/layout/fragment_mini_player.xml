@@ -51,16 +51,6 @@
         android:textColor="?android:attr/textColorPrimary"
         tools:text="@tools:sample/lorem/random" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/actionPrevious"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_vertical"
-        android:background="?roundSelector"
-        android:padding="6dp"
-        app:srcCompat="@drawable/ic_skip_previous"
-        app:tint="?attr/colorControlNormal" />
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/miniPlayerTime"
         android:layout_width="wrap_content"
@@ -71,6 +61,16 @@
         android:textAppearance="@style/TextViewNormal"
         android:textColor="?android:attr/textColorSecondary"
         tools:text="0:00" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/actionPrevious"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:background="?roundSelector"
+        android:padding="6dp"
+        app:srcCompat="@drawable/ic_skip_previous"
+        app:tint="?attr/colorControlNormal" />
 
     <FrameLayout
         android:layout_width="wrap_content"
