@@ -122,7 +122,7 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
             binding.appBarLayout.visibility = View.GONE
             ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
                 val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-                view.setPadding(0, statusBarHeight, 0, 0)
+                view.translationY = statusBarHeight.toFloat()
                 insets
             }
         }
