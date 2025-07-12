@@ -124,7 +124,7 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
                 }
                 statusBarView.requestLayout()
                 view.updatePadding(top = top)
-                statusBarView.translationY = -top.toFloat()
+                //statusBarView.translationY = -top.toFloat()
                 insets
             }
             ViewCompat.requestApplyInsets(binding.recyclerView)
