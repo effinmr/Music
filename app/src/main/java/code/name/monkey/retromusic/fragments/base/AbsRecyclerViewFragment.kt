@@ -116,7 +116,7 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
             binding.appBarLayout.visibility = View.GONE
             val statusBar = requireView().findViewById<View>(R.id.status_bar)
             statusBar.setBackgroundColor(surfaceColor())
-            //statusBar.elevation = 0f
+            statusBar.translationZ = 1f
             ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { view, insets ->
                 val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
                 view.updatePadding(top = top)
