@@ -111,6 +111,11 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
         if (PreferenceUtil.keepHeaderVisible) {
             binding.appBarLayout.pinWhenScrolled()
         }
+        if (PreferenceUtil.hideHeader) {
+            binding.appBarLayout.visibility = View.GONE
+            val statusBarView = findViewById<View>(R.id.status_bar)
+            statusBarView.setBackgroundColor(surfaceColor())
+        }
         libraryViewModel.getFabMargin().observe(viewLifecycleOwner) {
             binding.shuffleButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = it
