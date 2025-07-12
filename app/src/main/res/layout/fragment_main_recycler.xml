@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/status_bar" />
+    <include layout="@layout/status_bar_noshadow" />
 
     <code.name.monkey.retromusic.views.insets.InsetsRecyclerView
         android:id="@+id/recycler_view"
