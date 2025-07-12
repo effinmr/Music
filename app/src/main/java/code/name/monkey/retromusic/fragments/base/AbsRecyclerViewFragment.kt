@@ -119,6 +119,8 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
             ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { view, insets ->
                 val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
                 view.updatePadding(top = top)
+                statusBarView.translationY = -top.toFloat()
+            }
         }
         libraryViewModel.getFabMargin().observe(viewLifecycleOwner) {
             binding.shuffleButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
