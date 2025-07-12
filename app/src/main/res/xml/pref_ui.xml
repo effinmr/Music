@@ -230,13 +230,6 @@
             android:layout="@layout/list_item_view_switch"
             android:summary="@string/keep_header_visible_summary"
             android:title="@string/keep_header_visible_title" />
-
-        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
-            android:defaultValue="false"
-            android:key="hide_header"
-            android:layout="@layout/list_item_view_switch"
-            android:summary="@string/hide_header_summary"
-            android:title="@string/hide_header_title" />
     </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
 
     <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
