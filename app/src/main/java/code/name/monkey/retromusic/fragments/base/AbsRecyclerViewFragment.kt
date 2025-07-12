@@ -120,6 +120,7 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
                 val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
                 view.updatePadding(top = top)
                 statusBarView.translationY = -top.toFloat()
+                insets
             }
         }
         libraryViewModel.getFabMargin().observe(viewLifecycleOwner) {
