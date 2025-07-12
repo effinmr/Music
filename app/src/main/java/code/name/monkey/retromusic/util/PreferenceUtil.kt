@@ -991,11 +991,6 @@ object PreferenceUtil {
         get() = sharedPreferences.getBoolean(
             KEEP_HEADER_VISIBLE, false // Default to false
         )
-    
-    val hideHeader: Boolean
-        get() = sharedPreferences.getBoolean(
-            HIDE_HEADER, false // Default to false
-        )
 
     const val NOW_PLAYING_METADATA_ORDER = "now_playing_metadata_order"
     const val NOW_PLAYING_METADATA_VISIBILITY = "now_playing_metadata_visibility"
