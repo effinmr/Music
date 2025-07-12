@@ -11,7 +11,7 @@
         android:id="@+id/status_bar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="?attr/colorSurface"
+        android:background="?attr/colorSurface" />
 
     <code.name.monkey.retromusic.views.insets.InsetsRecyclerView
         android:id="@+id/recycler_view"
