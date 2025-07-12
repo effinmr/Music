@@ -980,7 +980,6 @@ object PreferenceUtil {
 
     const val AUTO_HIDE_MINI_PLAYER = "auto_hide_mini_player"
     const val KEEP_HEADER_VISIBLE = "keep_header_visible"
-    const val HIDE_HEADER = "hide_header"
     var autoHideMiniPlayer: Boolean
         get() = sharedPreferences.getBoolean(
             AUTO_HIDE_MINI_PLAYER, false // Default to false
