@@ -113,9 +113,13 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
         }
         if (PreferenceUtil.hideHeader) {
             binding.appBarLayout.visibility = View.GONE
-            ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
-                val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-                view.translationY = statusBarHeight.toFloat()
+            val statusBar = requireView().findViewById<View>(R.id.status_bar)
+            statusBar.visibility = View.VISIBLE
+            statusBar.translationZ = 1f
+            ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { view, insets ->
+                val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+                view.updatePadding(top = top)
+                statusBar.translationY = -top.toFloat()
                 insets
             }
         }
