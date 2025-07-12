@@ -16,6 +16,7 @@ package code.name.monkey.retromusic.fragments.base
 
 import android.os.Bundle
 import android.view.*
+import android.view.View
 import androidx.annotation.NonNull
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
@@ -113,7 +114,7 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
         }
         if (PreferenceUtil.hideHeader) {
             binding.appBarLayout.visibility = View.GONE
-            val statusBarView = findViewById<View>(R.id.status_bar)
+            val statusBarView = requireView().findViewById<View>(R.id.status_bar)
             statusBarView.setBackgroundColor(surfaceColor())
         }
         libraryViewModel.getFabMargin().observe(viewLifecycleOwner) {
