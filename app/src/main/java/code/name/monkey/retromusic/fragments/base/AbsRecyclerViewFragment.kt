@@ -114,20 +114,15 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
         }
         if (PreferenceUtil.hideHeader) {
             binding.appBarLayout.visibility = View.GONE
-            //statusBarView.setBackgroundColor(surfaceColor())
-            
+            val statusBar = requireView().findViewById<View>(R.id.status_bar)
+            statusBar.setBackgroundColor(surfaceColor())
+            statusBar.elevation = 0f
             ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { view, insets ->
                 val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-                val statusBarView = requireView().findViewById<View>(R.id.status_bar)
-                statusBarView.layoutParams = statusBarView.layoutParams.apply {
-                    height = top
-                }
-                statusBarView.requestLayout()
                 view.updatePadding(top = top)
-                //statusBarView.translationY = -top.toFloat()
+                statusBar.translationY = -top.toFloat()
                 insets
             }
-            ViewCompat.requestApplyInsets(binding.recyclerView)
         }
         libraryViewModel.getFabMargin().observe(viewLifecycleOwner) {
             binding.shuffleButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
