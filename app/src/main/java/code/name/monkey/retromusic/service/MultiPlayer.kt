@@ -80,7 +80,13 @@ class MultiPlayer(context: Context) : LocalPlayback(context) {
         val prefs = context.getSharedPreferences("equalizer_prefs", Context.MODE_PRIVATE)
         val isEnabled = prefs.getBoolean("equalizer_enabled", false)
 
-        if (!isEnabled) return
+        if (!isEnabled) {
+            setEqualizerEnabled(false)
+            setBassBoostStrength(0)
+            setVirtualizerStrength(0)
+            setAmplifierStrength(0)
+            return
+        }
         
         setEqualizerEnabled(isEnabled)
         for (i in 0 until (equalizer?.numberOfBands ?: 0)) {
