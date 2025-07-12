@@ -6,12 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <View xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/status_bar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="?attr/colorSurface" />
+    <include layout="@layout/status_bar" />
 
     <code.name.monkey.retromusic.views.insets.InsetsRecyclerView
         android:id="@+id/recycler_view"
