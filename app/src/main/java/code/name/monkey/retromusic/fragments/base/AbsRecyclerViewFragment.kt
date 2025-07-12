@@ -111,6 +111,18 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
         if (PreferenceUtil.keepHeaderVisible) {
             binding.appBarLayout.pinWhenScrolled()
         }
+        if (PreferenceUtil.isFullScreenMode) {
+            ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout) { view, insets ->
+                val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+                view.setPadding(
+                    view.paddingLeft,
+                    top,
+                    view.paddingRight,
+                    view.paddingBottom
+                )
+                insets
+            }
+        }
         if (PreferenceUtil.hideHeader) {
             binding.appBarLayout.visibility = View.GONE
             val statusBar = requireView().findViewById<View>(R.id.status_bar)
