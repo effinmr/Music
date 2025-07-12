@@ -5,5 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:background="?attr/colorSurface"
-    android:elevation="@dimen/toolbar_elevation"
     tools:ignore="UnusedAttribute" />
